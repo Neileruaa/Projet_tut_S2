@@ -1,5 +1,10 @@
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
-        Appli premiereFenetreDeNotreJeu = new Appli("Premier test de fenetre");
+        JPanel pan=new JPanel();
+        JButton b=new JButton("mon bouton test");
+        Fenetre f=new Fenetre(300,300,"Test", pan);
+        f.ajoutBouton(b);
     }
 }
