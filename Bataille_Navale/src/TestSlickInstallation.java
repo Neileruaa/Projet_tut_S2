@@ -15,18 +15,16 @@ public class TestSlickInstallation extends BasicGame
         super("Game");
     }
 
-    public static void main(String[] arguments)
-    {
-        try
-        {
+    public static void main(String[] arguments) {
+        try     {
             AppGameContainer app = new AppGameContainer(new TestSlickInstallation());
-            // app.setDisplayMode(screenSize.width, screenSize.height, true); => Full screen
-            app.setDisplayMode(1600, 900, false);
+             //app.setDisplayMode(screenSize.width, screenSize.height, true); //=> Full screen
+            app.setDisplayMode(1600 , 900, false);
             app.setShowFPS(true); // true for display the numbers of FPS
             app.setVSync(true); // false for disable the FPS synchronize
             app.start();
-        }
-        catch (SlickException e)
+
+        }   catch (SlickException e)
         {
             e.printStackTrace();
         }
