@@ -1,8 +1,7 @@
 # Projet_tut_S2
 
->Si vous voulez modifier ce fichier (README.md), [cliquez ici](https://help.github.com/articles/basic-writing-and-formatting-syntax/#paragraphs-and-line-breaks)
-
-Petites infos concernant les configs du projet: :+1:
+>Si vous voulez des infos pour l'edition de ce fichier (README.md), [cliquez ici](https://help.github.com/articles/basic-writing-and-formatting-syntax/#paragraphs-and-line-breaks)
+##Petites infos concernant les configs du projet: :+1:
 - Ajout du .gitignore permettant d'ignorer les fichiers .idea et .iml
 - Dans le menu 
 	```
@@ -21,4 +20,4 @@ Petites infos concernant les configs du projet: :+1:
 -ajouter tous les jars dans Project Structure/dependancies/ (Selectionner tous les jars du dossier libs)
 
 
-Au fur et à mesure, on completera ce document avec une todo list et en y mettant des infos
+##Au fur et à mesure, on completera ce document avec une todo list et en y mettant des infos
