@@ -2,9 +2,9 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Menu extends BasicGameState{
+public class ScreenPlayer extends BasicGameState{
 
-    public Menu(int state){
+    public ScreenPlayer(int state){
     }
 
     @Override
@@ -24,6 +24,6 @@ public class Menu extends BasicGameState{
 
     @Override
     public int getID() {
-        return 0;
+        return 1;
     }
 }
