@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" source="WaterTile.tsx"/>
- <layer name="Calque de Tile 1" width="10" height="10" offsetx="-3.5" offsety="-61">
-  <data encoding="base64" compression="zlib">
-   eJwNw4c2QgEAANBHIXuvSBq2CCEjK0RmCNnF/3+De8+5TUEQNBsybIutthmx3Q477bLbHnvts98BBx1y2BFHHXPcqBNOGnPKuNMmTJoy7YyzzjnvgosuuWzGFVfNuua6G+bcdMtt8+646577Fjzw0COPPbHoqWeeW/LCS8teee2Nt955b8UHH32y6rMvvlrzzXc//PTLb3+s2/DXP/8BfPYTuw==
+ <layer name="Calque de Tile 1" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAw3DhzZCAQAA0Eche69IGrYIISMrRGYI2cX/f4N7z7lNQRA0GzJsi622GbHdDjvtstsee+2z3wEHHXLYEUcdc9yoE04ac8q40yZMmjLtjLPOOe+Ciy65bMYVV8265rob5tx0y23z7rjrnvsWPPDQI489seipZ55b8sJLy1557Y233nlvxQcffbLqsy++WvPNdz/89Mtvf6zb8Nc//wGfNE9qkAEAAA==
   </data>
  </layer>
 </map>
