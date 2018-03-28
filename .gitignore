@@ -1,10 +1,10 @@
 #Les fichiers ayant ces extensions ne sont pas synchro
 .idea
 *.iml
-.class
+*.class
 .xml
 .classpath
 .project
 .settings
 .xml
-out/
+*out/*
