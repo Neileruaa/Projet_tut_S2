@@ -12,7 +12,6 @@ import java.awt.*;
 public class TestTiledMap extends BasicGame {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private TiledMap map;
-    private Image ij;
 
 
 
@@ -41,24 +40,17 @@ public class TestTiledMap extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException{
 
-
-        try {
-            ij = new Image("/home/aurel/Téléchargements/index.jpeg");
-        } catch (SlickException e) {
-            e.printStackTrace();
-        }
-        map = new TiledMap("/home/aurel/Projet_tut_S2/Bataille_Navale/src/Map/testMap1.tmx");
+        map = new TiledMap("res/Map/Map900x900.tmx");
 
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
-        map.getTileSet(0).setTileSetImage(ij);
 
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        map.render(100,100,0,0,1000,1000);
+        map.render(0,0,0,0,1000,1000);
     }
 }

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" source="WaterTile.tsx"/>
- <layer name="Calque de Tile 1" width="10" height="10">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAw3DhzZCAQAA0Eche69IGrYIISMrRGYI2cX/f4N7z7lNQRA0GzJsi622GbHdDjvtstsee+2z3wEHHXLYEUcdc9yoE04ac8q40yZMmjLtjLPOOe+Ciy65bMYVV8265rob5tx0y23z7rjrnvsWPPDQI489seipZ55b8sJLy1557Y233nlvxQcffbLqsy++WvPNdz/89Mtvf6zb8Nc//wGfNE9qkAEAAA==
-  </data>
- </layer>
-</map>
