@@ -1,6 +1,8 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Image;
+
 
 public class ScreenPlayer extends BasicGameState{
 
@@ -12,8 +14,8 @@ public class ScreenPlayer extends BasicGameState{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        grille=new Image("Img/900.jpg");
-        ctrl=new Image("Img/540.jpg");
+        grille=new Image("res/Images/900.jpg");
+        ctrl=new Image("res/Images/540.jpg");
     }
 
     @Override
