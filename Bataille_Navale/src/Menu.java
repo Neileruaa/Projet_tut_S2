@@ -1,7 +1,10 @@
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import javax.swing.*;
 
 public class Menu extends BasicGameState{
 
@@ -17,6 +20,7 @@ public class Menu extends BasicGameState{
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException { //vous pouvez pour vous rappelez de ce qu'est render, en vous disant que render=afficher
+
         graphics.drawImage(imgMenu, 0, 0);
 
     }
@@ -25,6 +29,7 @@ public class Menu extends BasicGameState{
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         int posX = Mouse.getX();
         int posY = Mouse.getY();
+
 
         //JOUER
         if((posX>600 && posX<838) && (posY>232 && posY<332) ){
@@ -37,6 +42,7 @@ public class Menu extends BasicGameState{
         if((posX>600 && posX<838) && (posY>600 && posY<700) ){
             if (Mouse.isButtonDown(0)){
                 stateBasedGame.enterState(3);
+
             }
         }
     }
