@@ -2,6 +2,7 @@ package Map;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.*;
 public class TestTiledMap extends BasicGame {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private TiledMap map;
+    private Image i;
     public TestTiledMap()
     {
         super("Test de map");
@@ -31,7 +33,8 @@ public class TestTiledMap extends BasicGame {
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException{
-        map = new TiledMap("/home/aurel/Projet_tut_S2/Bataille_Navale/src/Map/testMap1.tmx");
+        map = new TiledMap("/home/aurelien/Projet_tut_S2/Bataille_Navale/src/Map/testMap2.tmx");
+        System.out.println(map.getTileSet(0));
     }
 
     @Override
@@ -41,6 +44,6 @@ public class TestTiledMap extends BasicGame {
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        map.render(0,0,0,0,1000,1000);
+        map.render(100,100,0,0,1000,1000);
     }
 }
