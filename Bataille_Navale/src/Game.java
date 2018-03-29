@@ -1,5 +1,5 @@
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.*;
 
 public class Game extends StateBasedGame {
     public static final String gameName="Bataille Navale";
@@ -8,6 +8,7 @@ public class Game extends StateBasedGame {
     public static final int screenEnemy =2;
     public static final int screenRules=3;
     public static final int screenEnd=4;
+    public static String icon="Img/icon.ico";
 
     public Game(String gameName){
         super(gameName); //définition du titre
@@ -32,7 +33,8 @@ public class Game extends StateBasedGame {
         AppGameContainer appgc; //le conteneur à qui on va dire affiche tel ou tel affichage dans la fenêtre en l'occurrence ici notre jeu
         try{
             appgc=new AppGameContainer(new Game(gameName));
-            appgc.setDisplayMode(640,360, false);
+            appgc.setDisplayMode(1440,900, false);
+            appgc.setIcon(icon);
             appgc.start();
         }catch (SlickException e){
             e.printStackTrace();
