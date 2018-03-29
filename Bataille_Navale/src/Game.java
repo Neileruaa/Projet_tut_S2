@@ -8,7 +8,7 @@ public class Game extends StateBasedGame {
     public static final int screenEnemy =2;
     public static final int screenRules=3;
     public static final int screenEnd=4;
-    public static String icon="Img/icon.ico";
+    public static String icon="res/Images/icon.ico";
 
     public Game(String gameName){
         super(gameName); //définition du titre
