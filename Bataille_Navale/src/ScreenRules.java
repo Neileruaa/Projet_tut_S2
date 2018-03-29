@@ -1,6 +1,11 @@
-import org.newdawn.slick.*;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Image;
+
 
 public class ScreenRules extends BasicGameState{
 
@@ -11,7 +16,7 @@ public class ScreenRules extends BasicGameState{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        imgRegle=new Image("Img/900.jpg");
+        imgRegle=new Image("res/Images/900.jpg");
     }
 
     @Override
