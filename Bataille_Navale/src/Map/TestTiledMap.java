@@ -18,6 +18,7 @@ public class TestTiledMap extends BasicGame {
     private TiledMap map;
     private ArrayList<Tile> tiles;
 
+    private BatoTEST bateau;
     private Image croiseur;
 
     private LETTERS[] lines;
@@ -28,7 +29,6 @@ public class TestTiledMap extends BasicGame {
     }
 
     private int[] space = {90,180,270,360,450,540,630,720,810,900};
-    private int[][] mapTab = {{90,180,270,360,450,540,630,720,810,900},{90,180,270,360,450,540,630,720,810,900}};
 
     public TestTiledMap()
     {
@@ -55,6 +55,7 @@ public class TestTiledMap extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException{
 
+
         map = new TiledMap("res/Map/Map900x900.tmx");
 
     }
@@ -62,13 +63,14 @@ public class TestTiledMap extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
 
-
+        croiseur.destroy();
 
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         croiseur = new Image("res/Images/croiseur.png");
+
 
         int posX = Mouse.getX();
         int posY = 900 - Mouse.getY();
@@ -81,17 +83,32 @@ public class TestTiledMap extends BasicGame {
             graphics.fillRect(caseSup[0]-90, caseSup[1]-90, 90, 90);
 
         }
-        graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);
 
-        croiseur.destroy();
+        /*
         Image croiseurRotated =croiseur;
         croiseurRotated.rotate(90);
 
-        if (Mouse.isButtonDown(0)){
-
-
+        if (Mouse.isButtonDown(1)){
             graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
+        }*/
+
+
+
+        if(Mouse.isButtonDown(0)){
+            int posX1 = Mouse.getX();
+            int posY1 = 900 - Mouse.getY();
+
+            bateau = new BatoTEST(posX1,posY1,croiseur);
+            graphics.drawImage(croiseur, posX1, posY1);
+            System.out.println(bateau.toString());
         }
+
+
+
+
+
+
+
     }
 
     public int[] findIdTile(int posX, int posY){
@@ -108,5 +125,9 @@ public class TestTiledMap extends BasicGame {
             }
         }
         return coord;
+    }
+
+    public void rotationBateau(){
+
     }
 }
