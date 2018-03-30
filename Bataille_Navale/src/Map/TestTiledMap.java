@@ -56,7 +56,6 @@ public class TestTiledMap extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException{
 
         map = new TiledMap("res/Map/Map900x900.tmx");
-        System.out.println(mapTab[1][3]);
 
     }
 
@@ -64,8 +63,6 @@ public class TestTiledMap extends BasicGame {
     public void update(GameContainer gameContainer, int i) throws SlickException {
 
 
-
-        //JOUER
 
     }
 
@@ -76,11 +73,6 @@ public class TestTiledMap extends BasicGame {
         int posX = Mouse.getX();
         int posY = 900 - Mouse.getY();
         map.render(0,0,0,0,900,900);
-        if((posX>0 && posX<90) && (posY>0 && posY<90) ){
-            graphics.setColor(new Color(255,0,255,0.5f));
-            graphics.fillRect(0, 0, 90, 90);
-
-        }
 
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
@@ -91,6 +83,15 @@ public class TestTiledMap extends BasicGame {
         }
         graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);
 
+        croiseur.destroy();
+        Image croiseurRotated =croiseur;
+        croiseurRotated.rotate(90);
+
+        if (Mouse.isButtonDown(0)){
+
+
+            graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
+        }
     }
 
     public int[] findIdTile(int posX, int posY){
