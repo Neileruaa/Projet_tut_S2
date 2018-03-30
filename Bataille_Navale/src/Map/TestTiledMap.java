@@ -18,6 +18,8 @@ public class TestTiledMap extends BasicGame {
     private TiledMap map;
     private ArrayList<Tile> tiles;
 
+    private Image croiseur;
+
     private LETTERS[] lines;
     private int[] columns;
 
@@ -69,6 +71,8 @@ public class TestTiledMap extends BasicGame {
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        croiseur = new Image("res/Images/croiseur.png");
+
         int posX = Mouse.getX();
         int posY = 900 - Mouse.getY();
         map.render(0,0,0,0,900,900);
@@ -85,8 +89,7 @@ public class TestTiledMap extends BasicGame {
             graphics.fillRect(caseSup[0]-90, caseSup[1]-90, 90, 90);
 
         }
-        System.out.println(Arrays.toString(findIdTile(posX, posY)));
-
+        graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);
 
     }
 
