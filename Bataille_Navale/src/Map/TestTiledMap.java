@@ -1,32 +1,17 @@
 package Map;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.util.Display;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class TestTiledMap extends BasicGame {
-    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private TiledMap map;
-    private ArrayList<Tile> tiles;
 
     private BatoTEST bateau;
     private Image croiseur;
-
-    private LETTERS[] lines;
-    private int[] columns;
-
-    private enum LETTERS{
-        A,B,C,D,E,F,G,H,I,J
-    }
 
     private int[] space = {90,180,270,360,450,540,630,720,810,900};
 
@@ -35,12 +20,10 @@ public class TestTiledMap extends BasicGame {
         SM = sous-marin ; Co = corvette
         changera en fonction du bouton sélectionné
     */
-
     public TestTiledMap()
     {
         super("Test de map");
     }
-
     public static void main(String[] arguments) {
         try     {
             AppGameContainer app = new AppGameContainer(new TestTiledMap());
@@ -60,53 +43,37 @@ public class TestTiledMap extends BasicGame {
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException{
-
-
         map = new TiledMap("res/Map/Map900x900.tmx");
-
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
-
         croiseur.destroy();
-
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         croiseur = new Image("res/Images/croiseur.png");
 
-
         int posX = Mouse.getX();
         int posY = 900 - Mouse.getY();
         map.render(0,0,0,0,900,900);
-
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
                 && (posY>caseSup[1]-90 && posY<caseSup[1]) ){
             graphics.setColor(new Color(255,0,255,0.5f));
             graphics.fillRect(caseSup[0]-90, caseSup[1]-90, 90, 90);
-
         }
-
-
-
-
         if (Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
             Image croiseurRotated =croiseur;
             croiseurRotated.rotate(90);
-
             int posX1 = Mouse.getX();
             int posY1 = 900 - Mouse.getY();
-
             bateau = new BatoTEST(posX1,posY1,croiseur);
             //graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
             graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
         }
-
-
         /* Pour apres il faudrait cliquer (gauche) ensuite l'image reste a la case que l'on veut puis avec le clique droit changer
          * de direction. Ou alors on garde le glissement et lors du premier clique Gauche on "valide" la case de depart.
          *
@@ -161,9 +128,6 @@ public class TestTiledMap extends BasicGame {
           *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
           *      variable tailleBateau en fct de la variable depose (expliquee au dessus)
             */
-
-
-
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)){
             int posX1 = Mouse.getX();
             int posY1 = 900 - Mouse.getY();
@@ -172,13 +136,6 @@ public class TestTiledMap extends BasicGame {
             graphics.drawImage(croiseur, posX1, posY1);
             System.out.println(bateau.toString());
         }
-
-
-
-
-
-
-
     }
 
     public int[] findIdTile(int posX, int posY){
@@ -195,9 +152,5 @@ public class TestTiledMap extends BasicGame {
             }
         }
         return coord;
-    }
-
-    public void rotationBateau(){
-
     }
 }
