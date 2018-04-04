@@ -9,7 +9,7 @@ public class ScreenEnd extends BasicGameState{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-
+        System.out.println("Je suis Léa");
     }
 
     @Override
