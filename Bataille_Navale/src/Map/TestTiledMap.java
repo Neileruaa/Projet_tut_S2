@@ -169,7 +169,8 @@ public class TestTiledMap extends BasicGame {
             int posY1 = 900 - Mouse.getY();
 
             bateau = new BatoTEST(posX1,posY1,croiseur);
-            graphics.drawImage(croiseur, posX1, posY1);
+            /*graphics.drawImage(croiseur, posX1, posY1);*/
+            graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
             System.out.println(bateau.toString());
         }
 

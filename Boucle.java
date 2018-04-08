@@ -9,11 +9,11 @@ public class Boucle {
     int x=0;
     int y=0;
     String depose; // variable de l'utilisateur (choix du bateau)
-    String PA; // porte avion
-    String PC; // Croiseur
-    String PCu; // Cuirasse
-    String PS; // Sous-marin
-    String PCo; // Corvette
+    String PA="PA"; // porte avion
+    String PC="PC"; // Croiseur
+    String PCu="PCu"; // Cuirasse
+    String PS="PS"; // Sous-marin
+    String PCo="PCo"; // Corvette
     int colonne=0;
     int ligne=0;
 
@@ -72,8 +72,42 @@ public class Boucle {
     // puis place le bateau que veux poser l utilisateur
     // (choix fait grace a la variable DEPOSE)
 
+    int modulo = nbClic%4;
+    int tailleBateau;
+
+    switch (depose): //rajouter un truc pour test
+    {
+      case "PA":
+        tailleBateau=5;
+        break;
+      case "PCu":
+        tailleBateau=4;
+        break;
+      case "PC":
+        tailleBateau=3;
+        break;
+      case "PS":
+        tailleBateau=3;
+        break;
+      case "PCo":
+        tailleBateau=2;
+        break;
+    }
+
+
+    // switch(modulo)
+    // {
+    //     case 0:
+    //         for(int i=0; i<tailleBateau;i++){
+    //           plateau[colonne+i][ligne]=1;
+    //         }
+    //     case 1:
+    //     case 2:
+    //     case 3:
+    // }
 
 /* -------------------------------HORIZONTAL--------------------------------- */
+
     // PORTE AVION (HORIZONTAL vers la droite)
     if (plateau[colonne][ligne]==0 && plateau[colonne+1][ligne]==0
         && plateau[colonne+2][ligne]==0 && plateau[colonne+3][ligne]==0
@@ -93,21 +127,21 @@ public class Boucle {
     if (plateau[colonne][ligne]==0 && plateau[colonne+1][ligne]==0
         && plateau[colonne+2][ligne]==0 && plateau[colonne+3][ligne]==0) {
 
-          for(int i=0; i<5;i++){
+          for(int i=0; i<4;i++){
             plateau[colonne+i][ligne]=1;
           }
 
-        plateau[colonne][ligne]=1;
-        plateau[colonne+1][ligne]=1;
-        plateau[colonne+2][ligne]=1;
-        plateau[colonne+3][ligne]=1;
+        // plateau[colonne][ligne]=1;
+        // plateau[colonne+1][ligne]=1;
+        // plateau[colonne+2][ligne]=1;
+        // plateau[colonne+3][ligne]=1;
     }
 
     // CROISEUR (HORIZONTAL vers la droite)
     if (plateau[colonne][ligne]==0 && plateau[colonne+1][ligne]==0
         && plateau[colonne+2][ligne]==0) {
-          
-          for(int i=0; i<5;i++){
+
+          for(int i=0; i<3;i++){
             plateau[colonne+i][ligne]=1;
           }
         plateau[colonne][ligne]=1;
