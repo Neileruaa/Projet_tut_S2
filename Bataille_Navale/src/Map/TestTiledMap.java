@@ -35,6 +35,8 @@ public class TestTiledMap extends BasicGame {
         SM = sous-marin ; Co = corvette
         changera en fonction du bouton sélectionné
     */
+    private Image img;
+    private Image imgDefaut;
 
     public TestTiledMap()
     {
@@ -63,24 +65,30 @@ public class TestTiledMap extends BasicGame {
 
 
         map = new TiledMap("res/Map/Map900x900.tmx");
-
+        img = new Image("res/Images/croiseur.png");
+        /*img.draw(500,950,150,150);*/
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
-
+        /*graphics.fillRect(500,500,50,50);*/
         croiseur.destroy();
 
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        croiseur = new Image("res/Images/croiseur.png");
+        depose = "C"; // je simule le fait que le joueur à choisit le croiseur en cliquant sur le bouton "poser le croiseur"
 
+        croiseur = new Image("res/Images/croiseur.png");
+        /* porteAvion = ... */
+        imgDefaut = new Image("res/Images/icon.ico"); // une image par defaut pour init la variable (rend compilable)
 
         int posX = Mouse.getX();
         int posY = 900 - Mouse.getY();
         map.render(0,0,0,0,900,900);
+
+        graphics.drawImage(img,950,90); // image fixe
 
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
@@ -94,17 +102,22 @@ public class TestTiledMap extends BasicGame {
 
 
         if (Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
-            Image croiseurRotated =croiseur;
-            croiseurRotated.rotate(90);
+            Image bateauIm=imgDefaut;
+            /*if(depose.equals("C")) {bateauIm =croiseur;}*/
+
+            bateauIm=switchDepose(depose,bateauIm);
+
+            bateauIm.rotate(90);
 
             int posX1 = Mouse.getX();
             int posY1 = 900 - Mouse.getY();
 
             bateau = new BatoTEST(posX1,posY1,croiseur);
             //graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
-            graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
+            graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
         }
+
 
 
         /* Pour apres il faudrait cliquer (gauche) ensuite l'image reste a la case que l'on veut puis avec le clique droit changer
@@ -165,12 +178,16 @@ public class TestTiledMap extends BasicGame {
 
 
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)){
+            Image bateauIm=imgDefaut;
+            /*if(depose.equals("C")) {bateauNRotated =croiseur;}*/
+
+            bateauIm=switchDepose(depose,bateauIm);
+
             int posX1 = Mouse.getX();
             int posY1 = 900 - Mouse.getY();
 
             bateau = new BatoTEST(posX1,posY1,croiseur);
-            /*graphics.drawImage(croiseur, posX1, posY1);*/
-            graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
+            graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
             System.out.println(bateau.toString());
         }
 
@@ -180,6 +197,28 @@ public class TestTiledMap extends BasicGame {
 
 
 
+    }
+
+    public Image switchDepose(String depose, Image bateauIm){ // pour le choix des bateau il change les images
+        switch (depose)
+        {
+            case "PA":
+                bateauIm =croiseur;
+                break;
+            case "Cu":
+                bateauIm =croiseur;
+                break;
+            case "C":
+                bateauIm =croiseur;
+                break;
+            case "S":
+                bateauIm =croiseur;
+                break;
+            case "Co":
+                bateauIm =croiseur;
+                break;
+        }
+        return bateauIm; // retourne l'image du bateau
     }
 
     public int[] findIdTile(int posX, int posY){

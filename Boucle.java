@@ -75,37 +75,42 @@ public class Boucle {
     int modulo = nbClic%4;
     int tailleBateau;
 
-    switch (depose): //rajouter un truc pour test
-    {
-      case "PA":
-        tailleBateau=5;
-        break;
-      case "PCu":
-        tailleBateau=4;
-        break;
-      case "PC":
-        tailleBateau=3;
-        break;
-      case "PS":
-        tailleBateau=3;
-        break;
-      case "PCo":
-        tailleBateau=2;
-        break;
+    public Image switchDepose(String depose, Image bateauIm){ // pour le choix des bateau il change les images
+        switch (depose)
+        {
+            case "PA":
+                bateauIm =croiseur;
+                break;
+            case "Cu":
+                bateauIm =croiseur;
+                break;
+            case "C":
+                bateauIm =croiseur;
+                break;
+            case "S":
+                bateauIm =croiseur;
+                break;
+            case "Co":
+                bateauIm =croiseur;
+                break;
+        }
+        return bateauIm;
     }
 
 
-    // switch(modulo)
-    // {
-    //     case 0:
-    //         for(int i=0; i<tailleBateau;i++){
-    //           plateau[colonne+i][ligne]=1;
-    //         }
-    //     case 1:
-    //     case 2:
-    //     case 3:
-    // }
+    switch(modulo)
+    {
+        case 0:
+            for(int i=0; i<tailleBateau;i++){
+              plateau[colonne+i][ligne]=bateau.idBateau;
+            }
+        case 1:
+        case 2:
+        case 3:
+    }
 
+/* pour le remplissage de la matrice on remplira avec un numero specifique a chaque
+bateaux (un identifiant donner dans la classe de chaque bateaux)*/
 /* -------------------------------HORIZONTAL--------------------------------- */
 
     // PORTE AVION (HORIZONTAL vers la droite)
