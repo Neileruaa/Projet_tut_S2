@@ -97,17 +97,70 @@ public class Boucle {
         return bateauIm;
     }
 
+    /* on remplis la matrice avec l'id du bateau contenu dans les classes de léa
+       on a :
+       id porte avion = 6
+       id Cuirasse = 5
+       id croiseur = 4
+       id sous marin = 3
+       id Corvette = 2
+    */
 
-    switch(modulo)
-    {
-        case 0:
-            for(int i=0; i<tailleBateau;i++){
-              plateau[colonne+i][ligne]=bateau.idBateau;
-            }
-        case 1:
-        case 2:
-        case 3:
+    public void switchRempli(int modulo, BatoTEST bateau ) { // mise dans la matrice du bateau qui vient d'etre posé
+        switch(modulo)
+        {
+            case 0: // vertical vers le bas
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne][ligne+i]=bateau.idBateau;
+                }
+            case 1: // horizontal vers la gauche
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne-i][ligne]=bateau.idBateau;
+                }
+            case 2: // vertical vers le haut
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne][ligne-i]=bateau.idBateau;
+                }
+            case 3: // vertical vers la droite
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne+i][ligne]=bateau.idBateau;
+                }
+        }
     }
+
+    /* regarde dans la matrice si le bateau est deja dans la matrice ou non et si il n'y a rien
+       qui gene pour le placé (bord ou autre bateaux) */
+    public boolean switchLook(int modulo, BatoTEST bateau ) {
+        switch(modulo)
+        {
+            case 0: // vertical vers le bas
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne][ligne+i]!=0){return false;}
+                }
+            case 1: // horizontal vers la gauche
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne-i][ligne]!=0){return false;}
+                }
+            case 2: // vertical vers le haut
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne][ligne-i]!=0){return false;}
+                }
+            case 3: // vertical vers la droite
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne+i][ligne]!=0){return false;}
+                }
+        }
+        return true;
+    }
+
+    public boolean look(BatoTEST bateau ) {
+        for(int i=0; i<plateau.length;i++){
+          for(int j=0; j<plateau[i].length;j++) {
+            if (plateau[i][j]==bateau.idBateau){return false;}
+          }
+        }
+    }
+
 
 /* pour le remplissage de la matrice on remplira avec un numero specifique a chaque
 bateaux (un identifiant donner dans la classe de chaque bateaux)*/

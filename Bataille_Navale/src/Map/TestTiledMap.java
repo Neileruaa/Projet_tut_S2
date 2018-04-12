@@ -38,6 +38,22 @@ public class TestTiledMap extends BasicGame {
     private Image img;
     private Image imgDefaut;
 
+    /* matrice vide ou l'on met les bateaux */
+    int plateau[][] = {
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1}
+    };
+
+
     public TestTiledMap()
     {
         super("Test de map");
@@ -197,6 +213,71 @@ public class TestTiledMap extends BasicGame {
 
 
 
+    }
+
+
+    /* regarde dans la matrice si le bateau est déjà dans la matrice ou non si il est DEJA DEDANS renvoie FALSE*/
+    public boolean look(BatoTEST bateau) {
+        /*for(int i=0; i<plateau.length;i++){
+            for(int j=0; j<plateau[i].length;j++) {
+                if (plateau[i][j]==bateau.idBateau){return false;}
+            }
+        }*/
+        return true; // true car pret a etre placé (il n'est pas dans la matrice)
+    }
+
+    /* si il n'y a rien qui gene pour le placer (bord ou autres bateaux) retourne true */
+    public boolean switchLook(int modulo, BatoTEST bateau ) {
+        /* switch(modulo)
+        {
+            case 0: // vertical vers le bas
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne][ligne+i]!=0){return false;}
+                }
+            case 1: // horizontal vers la gauche
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne-i][ligne]!=0){return false;}
+                }
+            case 2: // vertical vers le haut
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne][ligne-i]!=0){return false;}
+                }
+            case 3: // vertical vers la droite
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne+i][ligne]!=0){return false;}
+                }
+        }*/
+        return true;
+    }
+
+    /* on remplis la matrice avec l'id du bateau contenu dans les classes de léa
+       on a :
+       id porte avion = 6
+       id Cuirasse = 5
+       id croiseur = 4
+       id sous marin = 3
+       id Corvette = 2
+    */
+    public void switchRempli(int modulo, BatoTEST bateau ) { // mise dans la matrice du bateau qui vient d'etre posé
+        /*switch(modulo)
+        {
+            case 0: // vertical vers le bas
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne][ligne+i]=bateau.idBateau;
+                }
+            case 1: // horizontal vers la gauche
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne-i][ligne]=bateau.idBateau;
+                }
+            case 2: // vertical vers le haut
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne][ligne-i]=bateau.idBateau;
+                }
+            case 3: // vertical vers la droite
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    plateau[colonne+i][ligne]=bateau.idBateau;
+                }
+        }*/
     }
 
     public Image switchDepose(String depose, Image bateauIm){ // pour le choix des bateau il change les images
