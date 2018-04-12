@@ -8,7 +8,7 @@ public class Game extends StateBasedGame {
     public static final int screenEnemy =2;
     public static final int screenRules=3;
     public static final int screenEnd=4;
-    public static String icon="res/Images/ICONE.png";
+//    public static String icon="res/Images/ICONE.png";
 
     public Game(String gameName){
         super(gameName); //définition du titre
@@ -34,7 +34,7 @@ public class Game extends StateBasedGame {
         try{
             appgc=new AppGameContainer(new Game(gameName));
             appgc.setDisplayMode(1440,900, false);
-            appgc.setIcon(icon);
+//            appgc.setIcon(icon);
             appgc.start();
         }catch (SlickException e){
             e.printStackTrace();
