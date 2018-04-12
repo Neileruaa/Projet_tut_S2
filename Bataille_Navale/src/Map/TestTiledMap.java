@@ -19,6 +19,10 @@ public class TestTiledMap extends BasicGame {
     private BatoTEST bateau;
     private Image croiseur;
 
+    private int posX;
+    private int posY;
+
+
     private int[] space = {90,180,270,360,450,540,630,720,810,900};
 
     private String depose;
@@ -87,8 +91,7 @@ public class TestTiledMap extends BasicGame {
         /* porteAvion = ... */
         imgDefaut = new Image("res/Images/icon.ico"); // une image par defaut pour init la variable (rend compilable)
 
-        int posX = Mouse.getX();
-        int posY = 900 - Mouse.getY();
+
         map.render(0,0,0,0,900,900);
 
         graphics.drawImage(img,950,90); // image fixe
@@ -100,6 +103,15 @@ public class TestTiledMap extends BasicGame {
             graphics.fillRect(caseSup[0]-90, caseSup[1]-90, 90, 90);
         }
         if (Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
+
+        }
+        if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)){
+            posX = Mouse.getX();
+            posY = 900 - Mouse.getY();
+            bateau = new BatoTEST(0,0,croiseur);
+            bateau.setX(posX);
+            bateau.setY(posY);
+            bateau.drawImage(graphics);
             Image bateauIm=imgDefaut;
             /*if(depose.equals("C")) {bateauIm =croiseur;}*/
 

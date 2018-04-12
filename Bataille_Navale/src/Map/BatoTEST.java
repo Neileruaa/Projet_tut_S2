@@ -1,5 +1,6 @@
 package Map;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class BatoTEST {
@@ -36,6 +37,10 @@ public class BatoTEST {
 
     public Image getImg() {
         return img;
+    }
+
+    public void drawImage(Graphics g){
+        g.drawImage(img, x, y);
     }
 
     @Override
