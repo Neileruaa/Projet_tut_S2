@@ -75,6 +75,7 @@ public class TestTiledMap extends BasicGame {
         map = new TiledMap("res/Map/Map900x900.tmx");
         img = new Image("res/Images/croiseur.png");
         /*img.draw(500,950,150,150);*/
+        img.rotate(90);
     }
 
     @Override
@@ -85,6 +86,10 @@ public class TestTiledMap extends BasicGame {
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        int posX=Mouse.getX();
+        int posY=900-Mouse.getY();
+//        switchDepose(choixBateau(posX,posY));
+
         depose = "C"; // je simule le fait que le joueur à choisit le croiseur en cliquant sur le bouton "poser le croiseur"
 
         croiseur = new Image("res/Images/croiseur.png");
@@ -93,8 +98,12 @@ public class TestTiledMap extends BasicGame {
 
 
         map.render(0,0,0,0,900,900);
-
-        graphics.drawImage(img,950,90); // image fixe test
+//        img.rotate(90);
+        graphics.drawImage(img,990,90); // images des bateaux pour leur placement (à gauche de la fenêtre)
+        graphics.drawImage(img,990,175);
+        graphics.drawImage(img,990,255);
+        graphics.drawImage(img,990,335);
+        graphics.drawImage(img,990,415);
 
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
@@ -105,15 +114,13 @@ public class TestTiledMap extends BasicGame {
 
 
         if(Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
-            posX = Mouse.getX();
-            posY = 900 - Mouse.getY();
             /*bateau.setX(posX);
             bateau.setY(posY);
             bateau.drawImage(graphics);*/
             Image bateauIm=imgDefaut;
             /*if(depose.equals("C")) {bateauIm =croiseur;}*/
 
-            bateauIm=switchDepose(depose,bateauIm);
+            bateauIm=switchDepose(depose);
             bateauIm.rotate(90);
 
             /*int posX1 = Mouse.getX();
@@ -184,7 +191,7 @@ public class TestTiledMap extends BasicGame {
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
-            bateauIm=switchDepose(depose,bateauIm);
+            bateauIm=switchDepose(depose);
 
            /* int posX1 = Mouse.getX();
             int posY1 = 900 - Mouse.getY();*/
@@ -260,8 +267,43 @@ public class TestTiledMap extends BasicGame {
                 }
         }*/
     }
+    public String choixBateau(int posX, int posY){
+          String depose="";
+          if ((posX>918 && posX<184) && (posY>1166 && posY<258)){
+              if (Mouse.isButtonDown(0)){
+                  depose="C";
+                  return depose;
+              }
+          }
+          if ((posX>918 && posX<275) && (posY>1166 && posY<343)){
+              if (Mouse.isButtonDown(0)){
+                  depose="PA";
+                  return depose;
+              }
+          }
+          if ((posX>918 && posX<352) && (posY>1166 && posY<424)){
+              if (Mouse.isButtonDown(0)){
+                  depose="Cu";
+                  return depose;
+              }
+          }
+          if ((posX>918 && posX<438) && (posY>1166 && posY<503)){
+              if (Mouse.isButtonDown(0)){
+                  depose="S";
+                  return depose;
+              }
+          }
+          if ((posX>918 && posX<515) && (posY>1166 && posY<584)){
+              if (Mouse.isButtonDown(0)){
+                  depose="Co";
+                  return depose;
+              }
+          }
+          return depose;
+    }
 
-    public Image switchDepose(String depose, Image bateauIm){ // pour le choix des bateau il change les images
+    public Image switchDepose(String depose){ // pour le choix des bateau il change les images A REVOIR : ne pas donner en paramètre l'image mais changer l'image direct dans les cases
+        Image bateauIm=croiseur;
         switch (depose)
         {
             case "PA":
