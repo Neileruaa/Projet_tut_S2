@@ -80,7 +80,7 @@ public class TestTiledMap extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
         /*graphics.fillRect(500,500,50,50);*/
-        croiseur.destroy();
+        croiseur.destroy(); // sert à rien j'ai l'impression
     }
 
     @Override
@@ -94,7 +94,7 @@ public class TestTiledMap extends BasicGame {
 
         map.render(0,0,0,0,900,900);
 
-        graphics.drawImage(img,950,90); // image fixe
+        graphics.drawImage(img,950,90); // image fixe test
 
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
@@ -102,27 +102,24 @@ public class TestTiledMap extends BasicGame {
             graphics.setColor(new Color(255,0,255,0.5f));
             graphics.fillRect(caseSup[0]-90, caseSup[1]-90, 90, 90);
         }
-        if (Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
 
-        }
-        if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)){
+
+        if(Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
-            bateau = new BatoTEST(0,0,croiseur);
-            bateau.setX(posX);
+            /*bateau.setX(posX);
             bateau.setY(posY);
-            bateau.drawImage(graphics);
+            bateau.drawImage(graphics);*/
             Image bateauIm=imgDefaut;
             /*if(depose.equals("C")) {bateauIm =croiseur;}*/
 
             bateauIm=switchDepose(depose,bateauIm);
-
             bateauIm.rotate(90);
 
-            int posX1 = Mouse.getX();
-            int posY1 = 900 - Mouse.getY();
-            bateau = new BatoTEST(posX1,posY1,croiseur);
-            //graphics.drawImage(croiseurRotated,caseSup[0]-180, caseSup[1]-180);
+            /*int posX1 = Mouse.getX();
+            int posY1 = 900 - Mouse.getY();*/
+            /*bateau = new BatoTEST(posX1,posY1,croiseur);*/
+            bateau = new BatoTEST(caseSup[0]-180,caseSup[1]-180,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
         }
@@ -134,65 +131,66 @@ public class TestTiledMap extends BasicGame {
          *
          * DANS TT LES CAS :
          * -------> utilisation des modulo avec une variable qui compte le nombre de clique droit :
-          * par ex: au depart on a :
-          *             int nbClicD=0;
-          *             si on a un nb impaire (modulo 2 different de 0) on aura forcement une position horizontal
-          *             on suppose que la pos de depart c'est la vertical vers le bas (celle faite par aurel)
-          *             et que le bateau tourne dans le sens des aiguilles d'une montre
-          *
-          *             on part de ce principe donc :
-          *             ++
-          *             nbClicD=1 --> position horizontal : 1[2] != 0
-          *             en revanche avec modulo 2 on a que 2 valeur possible : 0 (vertical) et 1 (horizontal)
-          *             ds le mm principe : x modulo 3 --> modulo 3 = 3 valeur possible 0 , 1 , 2
-          *             or nous a 4 position possible donc :
-          *             x[4] --> 4 valeur possibles --> 0, 1, 2, 3
-          *             si 0 = position de base (vertical vers le bas)
-          *             si 1 = position horizontal vers la gauche
-          *             si 2 = position vertical vers le haut
-          *             si 3 = position horizontal vers la droite
-          *             apres retour à 0 donc position de base et ainsi de suite
-          *
-          *             -----------------------------------------------------------------------
-          *             il reste à savoir la modification des coordonnées (en terme de grille) :
-          *
-          *             pos de base = (baseX , baseY) (ici c'est uniquement le "deuxieme" points qui nous interesse
-          *                                          car le premier point (ou case) c'est celle ou clique l'utilisateur
-          *                                          "l'origine" )
-          *             tailleBateau = c'est la taille du bateau en nb de cases
-          *             tCase = ici 90 UTILISE UNIQUEMENT POUR LES COORD PAS DANS LA MATRICE CAR INUTILE
-          *
-          *             -> pour la matrice c'est le mm principe sans les *tCase)
-          *             -> pour les coord pas besoin de for donc on remplace le i par le tailleBateau mais on garde le *tCase
-          *                     comme ca on obtient uniquement le "deuxieme" point
-          *
-          *             switch {
-          *                 case 0 : (for i allant de 0 à tailleBateau) : baseX=baseX         ; baseY=baseY+i*tCase
-          *                 case 1 : (for i allant de 0 à tailleBateau) : baseX=baseX-i*tCase ; baseY=baseY
-          *                 case 2 : (for i allant de 0 à tailleBateau) : baseX=baseX         ; baseY=baseY-i*tCase
-          *                 case 3 : (for i allant de 0 à tailleBateau) : baseX=baseX+i*tCase ; baseY=baseY
-          *             ]
-          *
-          *
-          * PS : Aurel explique vite fait ton caseSup stp que je puisse le reutilisé pcq il est bien fait comme la position est fixe
-          *                 par rapport a la case et pas par rapport au clique de l'utilisateur ;
-          *                 sinon mon switch de au dessus (ou je calcule le "deuxieme" point est ambigue dans le sens
-          *                 ou avec le rotate on en aura peut etre pas besoin mais ca peut etre utile pour des eventuels
-          *                 remplissement de case (matrice graphique ou de la grille etc) enfin j'expliquerai ca plus tard
-          *      je vais mettre mes boucles NON MODIFIE (je dois modif les tailles des cases des grilles etc dans les boucles).
-          *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
-          *      variable tailleBateau en fct de la variable depose (expliquee au dessus)
-            */
+         * par ex: au depart on a :
+         *             int nbClicD=0;
+         *             si on a un nb impaire (modulo 2 different de 0) on aura forcement une position horizontal
+         *             on suppose que la pos de depart c'est la vertical vers le bas (celle faite par aurel)
+         *             et que le bateau tourne dans le sens des aiguilles d'une montre
+         *
+         *             on part de ce principe donc :
+         *             ++
+         *             nbClicD=1 --> position horizontal : 1[2] != 0
+         *             en revanche avec modulo 2 on a que 2 valeur possible : 0 (vertical) et 1 (horizontal)
+         *             ds le mm principe : x modulo 3 --> modulo 3 = 3 valeur possible 0 , 1 , 2
+         *             or nous a 4 position possible donc :
+         *             x[4] --> 4 valeur possibles --> 0, 1, 2, 3
+         *             si 0 = position de base (vertical vers le bas)
+         *             si 1 = position horizontal vers la gauche
+         *             si 2 = position vertical vers le haut
+         *             si 3 = position horizontal vers la droite
+         *             apres retour à 0 donc position de base et ainsi de suite
+         *
+         *             -----------------------------------------------------------------------
+         *             il reste à savoir la modification des coordonnées (en terme de grille) :
+         *
+         *             pos de base = (baseX , baseY) (ici c'est uniquement le "deuxieme" points qui nous interesse
+         *                                          car le premier point (ou case) c'est celle ou clique l'utilisateur
+         *                                          "l'origine" )
+         *             tailleBateau = c'est la taille du bateau en nb de cases
+         *             tCase = ici 90 UTILISE UNIQUEMENT POUR LES COORD PAS DANS LA MATRICE CAR INUTILE
+         *
+         *             -> pour la matrice c'est le mm principe sans les *tCase)
+         *             -> pour les coord pas besoin de for donc on remplace le i par le tailleBateau mais on garde le *tCase
+         *                     comme ca on obtient uniquement le "deuxieme" point
+         *
+         *             switch {
+         *                 case 0 : (for i allant de 0 à tailleBateau) : baseX=baseX         ; baseY=baseY+i*tCase
+         *                 case 1 : (for i allant de 0 à tailleBateau) : baseX=baseX-i*tCase ; baseY=baseY
+         *                 case 2 : (for i allant de 0 à tailleBateau) : baseX=baseX         ; baseY=baseY-i*tCase
+         *                 case 3 : (for i allant de 0 à tailleBateau) : baseX=baseX+i*tCase ; baseY=baseY
+         *             ]
+         *
+         *
+         * PS : Aurel explique vite fait ton caseSup stp que je puisse le reutilisé pcq il est bien fait comme la position est fixe
+         *                 par rapport a la case et pas par rapport au clique de l'utilisateur ;
+         *                 sinon mon switch de au dessus (ou je calcule le "deuxieme" point est ambigue dans le sens
+         *                 ou avec le rotate on en aura peut etre pas besoin mais ca peut etre utile pour des eventuels
+         *                 remplissement de case (matrice graphique ou de la grille etc) enfin j'expliquerai ca plus tard
+         *      je vais mettre mes boucles NON MODIFIE (je dois modif les tailles des cases des grilles etc dans les boucles).
+         *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
+         *      variable tailleBateau en fct de la variable depose (expliquee au dessus)
+         */
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)){
+            posX = Mouse.getX();
+            posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
-            /*if(depose.equals("C")) {bateauNRotated =croiseur;}*/
-
             bateauIm=switchDepose(depose,bateauIm);
 
-            int posX1 = Mouse.getX();
-            int posY1 = 900 - Mouse.getY();
+           /* int posX1 = Mouse.getX();
+            int posY1 = 900 - Mouse.getY();*/
+            /*bateau = new BatoTEST(posX1,posY1,croiseur);*/
 
-            bateau = new BatoTEST(posX1,posY1,croiseur);
+            bateau = new BatoTEST(caseSup[0]-90,caseSup[1]-90,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
             System.out.println(bateau.toString());
         }
