@@ -8,8 +8,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
+
+
 
 public class TestTiledMap extends BasicGame {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -48,12 +52,15 @@ public class TestTiledMap extends BasicGame {
             {1,1,1,1,1,1,1,1,1,1,1}
     };
 
+    boolean movePlayer= false;
+
 
     public TestTiledMap()
     {
         super("Test de map");
     }
     public static void main(String[] arguments) {
+
         try     {
             AppGameContainer app = new AppGameContainer(new TestTiledMap());
             //app.setDisplayMode(screenSize.width, screenSize.height, true); //=> Full screen
@@ -130,6 +137,10 @@ public class TestTiledMap extends BasicGame {
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
         }
+
+
+        /*mouseClicked(0,200,300,2);*/
+        if (movePlayer==true) {System.out.println("double clic");}
 
 
 
@@ -340,4 +351,18 @@ public class TestTiledMap extends BasicGame {
         }
         return coord;
     }
+
+    public void mouseClicked(int button, int x, int y, int clickCount) { //detecte le double clic on redefini la methode de slick2D ici
+        int mouseX = x;
+        int mouseY = y;
+        if (clickCount==2){
+            movePlayer = true;
+        }
+    }
+    public void mousePressed(int button, int x, int y) { //detecte le simple clic on redefini la methode de slick2D ici aussi
+        int mouseX = x;
+        int mouseY = y;
+        movePlayer = false;
+    }
+
 }
