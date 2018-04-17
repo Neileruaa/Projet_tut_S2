@@ -162,14 +162,15 @@ public class TestTiledMap extends BasicGame {
                 final int sauvX=posX;
                 posY=900-Mouse.getY();
                 final int sauvY=posY;*/
-                /*caseSup = findIdTile(posX, posY);
-                switchView(modulo,bateau,graphics,caseSup);*/
+                caseSup = findIdTile(posX, posY);
+                switchView(modulo,bateau,graphics,caseSup);
 
-                Image bateauIm=switchDepose(depose);
+                /*Image bateauIm=switchDepose(depose);
                 switch(modulo)
                 {
                     case 0: // vertical vers le bas
                         graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+                        break;
                     case 1: // horizontal vers la gauche
                         bateauIm.rotate(90);
                         graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
@@ -179,7 +180,7 @@ public class TestTiledMap extends BasicGame {
                     case 3: // vertical vers la droite
                         bateauIm.rotate(270);
                         graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-                }
+                }*/
             }
         }
 
@@ -274,18 +275,22 @@ public class TestTiledMap extends BasicGame {
                 for(int i=0; i<bateau.tailleBateau;i++){
                     if (plateau[colonne][ligne+i]!=0){return false;}
                 }
+                break;
             case 1: // horizontal vers la gauche
                 for(int i=0; i<bateau.tailleBateau;i++){
                     if (plateau[colonne-i][ligne]!=0){return false;}
                 }
+                break;
             case 2: // vertical vers le haut
                 for(int i=0; i<bateau.tailleBateau;i++){
                     if (plateau[colonne][ligne-i]!=0){return false;}
                 }
+                break;
             case 3: // vertical vers la droite
                 for(int i=0; i<bateau.tailleBateau;i++){
                     if (plateau[colonne+i][ligne]!=0){return false;}
                 }
+                break;
         }*/
         return true;
     }
@@ -305,18 +310,22 @@ public class TestTiledMap extends BasicGame {
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne][ligne+i]=bateau.idBateau;
                 }
+                break;
             case 1: // horizontal vers la gauche
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne-i][ligne]=bateau.idBateau;
                 }
+                break;
             case 2: // vertical vers le haut
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne][ligne-i]=bateau.idBateau;
                 }
+                break;
             case 3: // vertical vers la droite
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne+i][ligne]=bateau.idBateau;
                 }
+                break;
         }*/
     }
 
@@ -328,16 +337,20 @@ public class TestTiledMap extends BasicGame {
         switch(modulo)
         {
             case 0: // vertical vers le bas
-                graphics.drawImage(bateauIm,caseSup[0]+90, caseSup[1]+90);
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+                break;
             case 1: // horizontal vers la gauche
                 bateauIm.rotate(90);
                 graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                break;
             case 2: // vertical vers le haut
-                /*bateauIm.rotate(180);*/
+                bateauIm.rotate(180);
                 graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+                break;
             case 3: // vertical vers la droite
-                /*bateauIm.rotate(270);*/
+                bateauIm.rotate(270);
                 graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                break;
         }
     }
 
