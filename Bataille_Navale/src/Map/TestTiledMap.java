@@ -52,8 +52,10 @@ public class TestTiledMap extends BasicGame {
             {1,1,1,1,1,1,1,1,1,1,1}
     };
 
-    boolean movePlayer= false;
-
+    boolean doubleClic= false;
+    int nbDoubleClic=0;
+    int modulo;
+    int nbClicDroit;
 
     public TestTiledMap()
     {
@@ -89,10 +91,13 @@ public class TestTiledMap extends BasicGame {
     public void update(GameContainer gameContainer, int i) throws SlickException {
         /*graphics.fillRect(500,500,50,50);*/
         croiseur.destroy(); // sert à rien j'ai l'impression
+        /*modulo=nbClicDroit%4;*/
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        Input input = gameContainer.getInput(); // pour le clic
+
         int posX=Mouse.getX();
         int posY=900-Mouse.getY();
 //        switchDepose(choixBateau(posX,posY));
@@ -124,6 +129,9 @@ public class TestTiledMap extends BasicGame {
             /*bateau.setX(posX);
             bateau.setY(posY);
             bateau.drawImage(graphics);*/
+
+            posX = Mouse.getX();
+            posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
             /*if(depose.equals("C")) {bateauIm =croiseur;}*/
 
@@ -131,8 +139,8 @@ public class TestTiledMap extends BasicGame {
             bateauIm.rotate(90);
 
             /*int posX1 = Mouse.getX();
-            int posY1 = 900 - Mouse.getY();*/
-            /*bateau = new BatoTEST(posX1,posY1,croiseur);*/
+            int posY1 = 900 - Mouse.getY();
+            bateau = new BatoTEST(posX1,posY1,croiseur);*/
             bateau = new BatoTEST(caseSup[0]-180,caseSup[1]-180,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
@@ -140,7 +148,40 @@ public class TestTiledMap extends BasicGame {
 
 
         /*mouseClicked(0,200,300,2);*/
-        if (movePlayer==true) {System.out.println("double clic");}
+        if (doubleClic==true) { // si on fait un double clic
+            /*System.out.println("double clic");*/
+            /*doubleClic=true;*/
+            if(input.isMousePressed(input.MOUSE_RIGHT_BUTTON)) {
+                System.out.println("bouton droit");
+                nbClicDroit++;
+                modulo=nbClicDroit%4;
+            }
+            if (switchLook(modulo,bateau) && look(bateau)){ //si pas 2 fois le mm bateau et que rien ne gene
+                /*System.out.println("vous pouvez placer le bateau");
+                posX=Mouse.getX();
+                final int sauvX=posX;
+                posY=900-Mouse.getY();
+                final int sauvY=posY;*/
+                /*caseSup = findIdTile(posX, posY);
+                switchView(modulo,bateau,graphics,caseSup);*/
+
+                Image bateauIm=switchDepose(depose);
+                switch(modulo)
+                {
+                    case 0: // vertical vers le bas
+                        graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+                    case 1: // horizontal vers la gauche
+                        bateauIm.rotate(90);
+                        graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                    case 2: // vertical vers le haut
+                        bateauIm.rotate(180);
+                        graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+                    case 3: // vertical vers la droite
+                        bateauIm.rotate(270);
+                        graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                }
+            }
+        }
 
 
 
@@ -204,9 +245,9 @@ public class TestTiledMap extends BasicGame {
             Image bateauIm=imgDefaut;
             bateauIm=switchDepose(depose);
 
-           /* int posX1 = Mouse.getX();
-            int posY1 = 900 - Mouse.getY();*/
-            /*bateau = new BatoTEST(posX1,posY1,croiseur);*/
+            int posX1 = Mouse.getX();
+            int posY1 = 900 - Mouse.getY();
+            bateau = new BatoTEST(posX1,posY1,croiseur);
 
             bateau = new BatoTEST(caseSup[0]-90,caseSup[1]-90,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
@@ -278,6 +319,28 @@ public class TestTiledMap extends BasicGame {
                 }
         }*/
     }
+
+    public void switchView(int modulo, BatoTEST bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
+        /*posX=Mouse.getX();
+        posY=900-Mouse.getY();
+        int[] caseSup = findIdTile(posX, posY);*/
+        Image bateauIm=switchDepose(depose);
+        switch(modulo)
+        {
+            case 0: // vertical vers le bas
+                graphics.drawImage(bateauIm,caseSup[0]+90, caseSup[1]+90);
+            case 1: // horizontal vers la gauche
+                bateauIm.rotate(90);
+                graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+            case 2: // vertical vers le haut
+                /*bateauIm.rotate(180);*/
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+            case 3: // vertical vers la droite
+                /*bateauIm.rotate(270);*/
+                graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+        }
+    }
+
     public String choixBateau(int posX, int posY){
           String depose="";
           if ((posX>918 && posX<184) && (posY>1166 && posY<258)){
@@ -349,20 +412,21 @@ public class TestTiledMap extends BasicGame {
                 }
             }
         }
-        return coord;
+        return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
     }
 
     public void mouseClicked(int button, int x, int y, int clickCount) { //detecte le double clic on redefini la methode de slick2D ici
         int mouseX = x;
         int mouseY = y;
         if (clickCount==2){
-            movePlayer = true;
+            doubleClic = true;
+            nbDoubleClic++;
         }
     }
     public void mousePressed(int button, int x, int y) { //detecte le simple clic on redefini la methode de slick2D ici aussi
         int mouseX = x;
         int mouseY = y;
-        movePlayer = false;
+        /*nbDoubleClic=0;*/
     }
 
 }
