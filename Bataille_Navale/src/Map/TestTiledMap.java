@@ -38,22 +38,22 @@ public class TestTiledMap extends BasicGame {
     private Image imgDefaut;
 
     /* matrice vide ou l'on met les bateaux */
-    int plateau[][] = {
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {0,0,0,0,0,0,0,0,0,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1}
+    int plateau[][] = {     // j'ai rajouter des 1 pour l'utilisation du switchLook
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1}
     };
 
     boolean doubleClic= false;
-    int nbDoubleClic=0;
     int modulo;
     int nbClicDroit;
 
@@ -83,7 +83,7 @@ public class TestTiledMap extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException{
         map = new TiledMap("res/Map/Map900x900.tmx");
         img = new Image("res/Images/croiseur.png");
-        /*img.draw(500,950,150,150);*/
+        img.draw(500,950,150,150);
         img.rotate(90);
     }
 
@@ -125,62 +125,51 @@ public class TestTiledMap extends BasicGame {
         }
 
 
-        if(Mouse.isButtonDown(1) && !Mouse.isButtonDown(0)){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
-            /*bateau.setX(posX);
-            bateau.setY(posY);
-            bateau.drawImage(graphics);*/
-
+        if(Mouse.isButtonDown(1) && !Mouse.isButtonDown(0) && doubleClic==false){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
-            /*if(depose.equals("C")) {bateauIm =croiseur;}*/
 
             bateauIm=switchDepose(depose);
             bateauIm.rotate(90);
 
-            /*int posX1 = Mouse.getX();
-            int posY1 = 900 - Mouse.getY();
-            bateau = new BatoTEST(posX1,posY1,croiseur);*/
             bateau = new BatoTEST(caseSup[0]-180,caseSup[1]-180,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
+            /*System.out.println(caseSup[0]);
+            System.out.println(caseSup[1]);*/
+
         }
 
 
         /*mouseClicked(0,200,300,2);*/
         if (doubleClic==true) { // si on fait un double clic
             /*System.out.println("double clic");*/
-            /*doubleClic=true;*/
-            if(input.isMousePressed(input.MOUSE_RIGHT_BUTTON)) {
+            if(input.isMousePressed(input.MOUSE_RIGHT_BUTTON) && posX>0 && posX<900 && posY>0 && posY<900) { // si on fait un click DROIT dans la grille
                 System.out.println("bouton droit");
                 nbClicDroit++;
                 modulo=nbClicDroit%4;
             }
-            if (switchLook(modulo,bateau) && look(bateau)){ //si pas 2 fois le mm bateau et que rien ne gene
-                /*System.out.println("vous pouvez placer le bateau");
-                posX=Mouse.getX();
-                final int sauvX=posX;
-                posY=900-Mouse.getY();
-                final int sauvY=posY;*/
+            if (switchLook(modulo,bateau,caseSup) && look(bateau)){ //si pas 2 fois le mm bateau et que rien ne gene
+                /*System.out.println("vous pouvez placer le bateau");*/
                 caseSup = findIdTile(posX, posY);
                 switchView(modulo,bateau,graphics,caseSup);
+                if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) && posX>0 && posX<900 && posY>0 && posY<900){ // si on fait un click GAUCHE dans la grille
+                    System.out.println("bouton gauche");
+                    switchRempli(modulo, bateau,caseSup); // on rempli la matrice
 
-                /*Image bateauIm=switchDepose(depose);
-                switch(modulo)
-                {
-                    case 0: // vertical vers le bas
-                        graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
-                        break;
-                    case 1: // horizontal vers la gauche
-                        bateauIm.rotate(90);
-                        graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-                    case 2: // vertical vers le haut
-                        bateauIm.rotate(180);
-                        graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
-                    case 3: // vertical vers la droite
-                        bateauIm.rotate(270);
-                        graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-                }*/
+                    nbClicDroit=0; // on remet tt à zero
+                    modulo=0;
+                    doubleClic=false;
+                }
+            } else {
+                if (look(bateau)==false){
+                    System.out.println("Se bateau est deja posé");
+                    doubleClic=false;
+                }
+                if (switchLook(modulo,bateau,caseSup)==false){
+                    System.out.println("quelque chose gene le placement de bateau (un bord ou un autre bateau)");
+                }
             }
         }
 
@@ -240,36 +229,42 @@ public class TestTiledMap extends BasicGame {
          *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
          *      variable tailleBateau en fct de la variable depose (expliquee au dessus)
          */
-        if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)){
+        if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && doubleClic==false){
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
             bateauIm=switchDepose(depose);
 
-            int posX1 = Mouse.getX();
-            int posY1 = 900 - Mouse.getY();
-            bateau = new BatoTEST(posX1,posY1,croiseur);
-
             bateau = new BatoTEST(caseSup[0]-90,caseSup[1]-90,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
             System.out.println(bateau.toString());
         }
+
+
+        pose(graphics); // pose les bateaux
+
+
     }
 
 
     /* regarde dans la matrice si le bateau est déjà dans la matrice ou non si il est DEJA DEDANS renvoie FALSE*/
     public boolean look(BatoTEST bateau) {
-        /*for(int i=0; i<plateau.length;i++){
+        for(int i=0; i<plateau.length;i++){
             for(int j=0; j<plateau[i].length;j++) {
                 if (plateau[i][j]==bateau.idBateau){return false;}
             }
-        }*/
+        }
         return true; // true car pret a etre placé (il n'est pas dans la matrice)
     }
 
     /* si il n'y a rien qui gene pour le placer (bord ou autres bateaux) retourne true */
-    public boolean switchLook(int modulo, BatoTEST bateau ) {
-        /* switch(modulo)
+    public boolean switchLook(int modulo, BatoTEST bateau,int[] caseSup) {
+        int colonne=caseSup[0]/90; // ici on calcule les indices en fct des coordonnées pour pouvoir les réutilisés dans la matrice
+        int ligne=caseSup[1]/90;
+        /*System.out.println(colonne);
+        System.out.println(ligne);*/
+
+        /*switch(modulo)
         {
             case 0: // vertical vers le bas
                 for(int i=0; i<bateau.tailleBateau;i++){
@@ -292,6 +287,29 @@ public class TestTiledMap extends BasicGame {
                 }
                 break;
         }*/
+        switch(modulo) // pour le moment comme on a que le croiseur
+        {
+            case 0: // vertical vers le bas
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne][ligne+i]!=0){return false;}
+                }
+                break;
+            case 1: // horizontal vers la gauche
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne-i][ligne]!=0){return false;}
+                }
+                break;
+            case 2: // vertical vers le haut
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne][ligne-i]!=0){return false;}
+                }
+                break;
+            case 3: // vertical vers la droite
+                for(int i=0; i<bateau.tailleBateau;i++){
+                    if (plateau[colonne+i][ligne]!=0){return false;}
+                }
+                break;
+        }
         return true;
     }
 
@@ -303,30 +321,138 @@ public class TestTiledMap extends BasicGame {
        id sous marin = 3
        id Corvette = 2
     */
-    public void switchRempli(int modulo, BatoTEST bateau ) { // mise dans la matrice du bateau qui vient d'etre posé
-        /*switch(modulo)
+    public void switchRempli(int modulo, BatoTEST bateau, int[] caseSup ) { // mise dans la matrice du bateau qui vient d'etre posé
+        int colonne=caseSup[0]/90; // ici on calcule les indices en fct des coordonnées pour pouvoir les réutilisés dans la matrice
+        int ligne=caseSup[1]/90;
+
+        switch(modulo)
         {
             case 0: // vertical vers le bas
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne][ligne+i]=bateau.idBateau;
+                    System.out.println(plateau[colonne][ligne+i]);
                 }
                 break;
             case 1: // horizontal vers la gauche
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne-i][ligne]=bateau.idBateau;
+                    System.out.println(plateau[colonne-i][ligne]);
                 }
                 break;
             case 2: // vertical vers le haut
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne][ligne-i]=bateau.idBateau;
+                    System.out.println(plateau[colonne][ligne-i]);
                 }
                 break;
             case 3: // vertical vers la droite
                 for(int i=0; i<bateau.tailleBateau;i++){
                     plateau[colonne+i][ligne]=bateau.idBateau;
+                    System.out.println(plateau[colonne+i][ligne]);
                 }
                 break;
-        }*/
+        }
+
+    }
+
+    /* on lit la matrice a chaque fois comme ca on peut mettre le pose dans le render c'est plus facile.
+     * En fct de l'idBateau trouvé dans la matrice on pose le/les bateaux (sa se refresh a chaque fois donc dés que l'on pose un bateau
+      * on le verra apparaitre sur la grille).
+      *
+      * un peu compliqué en faite je pense
+      */
+
+    /* pour corriger je doit add un break qq part + modif mon if(k!=i) */
+    public void pose(Graphics graphics) { // pour POSER LE BATEAU EN FIXE
+        int idSauv;
+        /*System.out.println("test0"); // celui la s'affiche*/
+        for(int i=0; i<plateau.length;i++){ // on parcours le plateau
+            for(int j=0; j<plateau[i].length;j++) {
+                if (plateau[i][j]!=0 && plateau[i][j]!=1){ // si on trouve un bateau
+                    idSauv=plateau[i][j]; // on sauvegarde l'id du bateau trouvé
+                    /*System.out.println("test4"); // celui la s'affiche aussi*/
+                    for(int k=i; k<plateau.length;k++) { // on cherche UN AUTRE MORCEAU du bateau à partir de ou on a trouver le premier
+                        for (int l = j+1; l < plateau[k].length; l++) {
+                            /*System.out.println("test5"); // s'affiche aussi*/
+                            if(plateau[k][l]==idSauv){ //qd on a trouvé cette autre morceau
+                                /*System.out.println("test4"); // s'affiche*/
+                                switchIdSauv(idSauv,l,i,j,graphics);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void switchIdSauv(int idSauv, int l, int i,int j, Graphics graphics) { // pour que l'on voit le bateau
+        switch(idSauv){ // en fct du bateau
+            case 2: //corvette
+                // en fct de ou ce situais le 2e morceau du bateau on met l'image dans la position adéquate
+
+                // POUR COMPRENDRE LA SUITE FAITE LE PLATEAU EN DESSIN
+                // ici A est le premier "morceau" de bateau et B le deuxieme
+                // il faut bien avoir en tête que l'on parcours le plateau de GAUCHE à DROITE
+                // --- donc :
+                // if(k!=i)  si B se trouve sur une colonne d'indice different de celle de A
+                // ------------> on dessine le bateau à l'horizontal vers la droite
+                // SINON c'est que B se trouve sur une ligne d'indice different de celle de A donc
+                // ------------> on dessine le bateau à la vertical vers le bas
+                // ici pas besoin de placement à l'horizontal vers la gauche et de placement
+                // à la vertical vers le haut vue comme nous parcourons le plateau.
+
+                if(l!=j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                }else{     // bateau à la vertical vers le bas
+                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
+                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                }
+                break;
+            case 3: // sous-marin
+                if(l!=j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                }else{     // bateau à la vertical vers le bas
+                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
+                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                }
+                break;
+            case 4: // croiseur
+                if(l!=j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    System.out.println("test");
+                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                }else{     // bateau à la vertical vers le bas
+                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
+                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                    System.out.println("test1");
+                }
+                break;
+            case 5: // cuirassé
+                if(l!=j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                }else{     // bateau à la vertical vers le bas
+                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
+                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                }
+                break;
+            case 6: // porte avion
+                if(l!=j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                }else{     // bateau à la vertical vers le bas
+                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
+                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                }
+                break;
+        }
     }
 
     public void switchView(int modulo, BatoTEST bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
@@ -345,11 +471,11 @@ public class TestTiledMap extends BasicGame {
                 break;
             case 2: // vertical vers le haut
                 bateauIm.rotate(180);
-                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270);
                 break;
             case 3: // vertical vers la droite
                 bateauIm.rotate(270);
-                graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                graphics.drawImage(bateauIm,caseSup[0], caseSup[1]-180);
                 break;
         }
     }
@@ -431,9 +557,9 @@ public class TestTiledMap extends BasicGame {
     public void mouseClicked(int button, int x, int y, int clickCount) { //detecte le double clic on redefini la methode de slick2D ici
         int mouseX = x;
         int mouseY = y;
-        if (clickCount==2){
+
+        if (clickCount==2 && mouseX>0 && mouseX<900 && mouseY>0 && mouseY<900){ // si on double click dans la grille
             doubleClic = true;
-            nbDoubleClic++;
         }
     }
     public void mousePressed(int button, int x, int y) { //detecte le simple clic on redefini la methode de slick2D ici aussi
