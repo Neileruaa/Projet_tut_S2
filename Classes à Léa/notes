@@ -1,0 +1,82 @@
+Classe Batch : Pour dessiner des rectangles à utiliser avec Texture
+
+Classe Sprite : A utilisé pour les rotations de bateaux, toujours rectangulaire utilisé avec Batch
+              L'origine de l'image(x,y) est donnée par rapport au coin inférieur gauche.
+
+Classe Point : Un point représentant un emplacement dans l'espace de coordonnées (x, y), spécifié en précision d'entier.
+
+Classe Texture : Permet de mettre une image dans les rectangles et de les changer (apparement assez fluide), on peut utiliser Pixmap
+
+Classe Grille :
+
+  Objectif :
+    Mettre le placement des bateaux;
+    Tirer sur un bateau;
+    Placer au hasard sur le plateau; (on verra)
+
+  Instances :
+    Une grille 10/10 carreaux
+    Les lettres et les chiffres ayant une taille de 64 pixels
+    Une image de fond + une image de bateau avant après
+    Une liste (Array) de bateau
+    Une liste " de Point (cases dévoilés ou détruites)
+
+    Méthodes :
+
+    reset() : réinitialisé la map (void)
+    draw() : mettre les différentes images (void)
+    grille effacé() : regarder si les bateaux sont coulés (boolean, utilisé méthode isSunk())
+    bateauxRestants() : retourne le nombre de bateaux restants (int, utilisé méthode isSunk())
+    placerBateauAléa():
+    dejàTirerIci(int x, int y):
+      pour tout les Point regarder sur la position du Point, si le x du point est = à x et idem pour y
+      pour tout les Bateaux regarder si il est dejà touché avec alreadyHit() de la Classe Bateau
+      (boolean)
+    fireAtPos(int x, int y): retourne le nom du bateau touché ou un tir manqué
+
+Classe GrilleJoueur :
+
+  Objectif :
+    Faire tourner le bateau et faciliter le placement
+
+  Instances :
+    Point : emplacement du bateau
+    int : numéro du bateau qu'on place
+
+  Méthodes :
+    placeShip(int x, int y): regarder si le bateau a placer existe et qu'il est dans la liste
+      alors on bouge le bateau (moveShip(x,y)), regarder que les bateaux ne se chevauchent pas
+    moveShip(int x, int y):
+      Point.x = x; Point.y = y;
+      Bateau placeBateau = listeBateau.get(numeroBateau);
+      si il est Horizontal() alors si il déborde pas du tableau : x = taille de la grille - taille du Bateau
+      sinon si il est vertical() alors idem pour y
+      listeBateau.get(numéroBateau).setPosition(x,y);
+    rotateShip()
+      si numeroBateau existe et numéro compris dans le tableau alors
+      Bateau placeBateau = listeBateau.get(numéroBateau);
+      placeBateau.setHorizontal(placeBateau.isVertical());
+      moveShip(point.x,point.y);
+
+Classe Bateau :
+
+  Instances :
+    Une image (Sprite) avant et après touché
+    Un boolean pour la position Horizontal ou Vertical
+    Position x et y
+    Liste de Integer (sa vie)
+    Types Bateaux / Tailles Bateaux / Noms Bateaux
+
+  Getter()/Setter() :
+    setHorizontal(boolean b){rotation = b;}
+    isHorizontal(){return rotation;}
+    isVertical(){return !rotation;}
+    setPosition(x,y){x=x; y=y}
+    isSunk(){return vie.size == getSize()}
+
+  Méthodes :
+    fireAtShip(): retourne vrai ou faux si touché
+    alreadyHit(): si une vie à false alors return true
+    estTouché(): si Bateau horizontal alors si bonne position return true idem Vertical
+    draw():
+    checkOverLap():
