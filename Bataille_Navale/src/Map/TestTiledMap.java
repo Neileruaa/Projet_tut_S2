@@ -11,8 +11,7 @@ import java.awt.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-
+import java.util.List;
 
 
 public class TestTiledMap extends BasicGame {
@@ -83,7 +82,7 @@ public class TestTiledMap extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException{
         map = new TiledMap("res/Map/Map900x900.tmx");
         img = new Image("res/Images/croiseur.png");
-        img.draw(500,950,150,150);
+
         img.rotate(90);
     }
 
@@ -131,13 +130,14 @@ public class TestTiledMap extends BasicGame {
             Image bateauIm=imgDefaut;
 
             bateauIm=switchDepose(depose);
-            bateauIm.rotate(90);
+            bateauIm.rotate(90); // BOGUE QD ON PLACE LE BATEAU CELA ROTATE AUSSI LE BATEAU DEJA POSE
+            // CAR CELA ROTATE AUSSI L'image du switchDepose(depose) donc croiseur
 
             bateau = new BatoTEST(caseSup[0]-180,caseSup[1]-180,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
-            /*System.out.println(caseSup[0]);
-            System.out.println(caseSup[1]);*/
+            System.out.println(caseSup[0]);
+            System.out.println(caseSup[1]);
 
         }
 
@@ -229,6 +229,7 @@ public class TestTiledMap extends BasicGame {
          *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
          *      variable tailleBateau en fct de la variable depose (expliquee au dessus)
          */
+
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && doubleClic==false){
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
@@ -264,29 +265,6 @@ public class TestTiledMap extends BasicGame {
         /*System.out.println(colonne);
         System.out.println(ligne);*/
 
-        /*switch(modulo)
-        {
-            case 0: // vertical vers le bas
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    if (plateau[colonne][ligne+i]!=0){return false;}
-                }
-                break;
-            case 1: // horizontal vers la gauche
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    if (plateau[colonne-i][ligne]!=0){return false;}
-                }
-                break;
-            case 2: // vertical vers le haut
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    if (plateau[colonne][ligne-i]!=0){return false;}
-                }
-                break;
-            case 3: // vertical vers la droite
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    if (plateau[colonne+i][ligne]!=0){return false;}
-                }
-                break;
-        }*/
         switch(modulo) // pour le moment comme on a que le croiseur
         {
             case 0: // vertical vers le bas
@@ -364,25 +342,42 @@ public class TestTiledMap extends BasicGame {
 
     /* pour corriger je doit add un break qq part + modif mon if(k!=i) */
     public void pose(Graphics graphics) { // pour POSER LE BATEAU EN FIXE
-        int idSauv;
+        int idSauv=0;
+        List<Integer> sauv = new ArrayList<>(); //sauvegarde les bateaux déjà mis sur le plateu
         /*System.out.println("test0"); // celui la s'affiche*/
         for(int i=0; i<plateau.length;i++){ // on parcours le plateau
             for(int j=0; j<plateau[i].length;j++) {
-                if (plateau[i][j]!=0 && plateau[i][j]!=1){ // si on trouve un bateau
+                if (plateau[i][j]!=0 && plateau[i][j]!=1 && testPlateau(sauv,plateau[i][j])){ // si on trouve un bateau (different des precedents)
                     idSauv=plateau[i][j]; // on sauvegarde l'id du bateau trouvé
-                    /*System.out.println("test4"); // celui la s'affiche aussi*/
-                    for(int k=i; k<plateau.length;k++) { // on cherche UN AUTRE MORCEAU du bateau à partir de ou on a trouver le premier
-                        for (int l = j+1; l < plateau[k].length; l++) {
+                    sauv.add(idSauv);
+                    for(int k=i; k<plateau.length;k++) { // on cherche UN AUTRE MORCEAU du bateau à partir de ou on a trouver le premier morceau
+                        for (int l = j; l < plateau[k].length; l++) {
                             /*System.out.println("test5"); // s'affiche aussi*/
-                            if(plateau[k][l]==idSauv){ //qd on a trouvé cette autre morceau
+                            if(plateau[k][l]==idSauv && idSauv!=0 //qd on a trouvé cette autre morceau
+                                    && (k!=i || l!=j)){ // et que celui-ci n'est pas le meme que le premier
                                 /*System.out.println("test4"); // s'affiche*/
                                 switchIdSauv(idSauv,l,i,j,graphics);
+                                idSauv=0; // on remet a zero pour eviter de refaire d'autre bateaux
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    /* Cette fonction parcours la list de int (qui sont les idBateaux) et regarde si le bateau
+    * avec un identifiant id à été posé sur le plateau ou non
+    * si deja posé retourne FALSE car deja dans la liste
+    * si non posé retourne TRUE
+    * */
+    public boolean testPlateau(List<Integer> l,int id){
+        for(int i=0;i<l.size();i++){
+            if(l.get(i)==id){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void switchIdSauv(int idSauv, int l, int i,int j, Graphics graphics) { // pour que l'on voit le bateau
@@ -393,63 +388,65 @@ public class TestTiledMap extends BasicGame {
                 // POUR COMPRENDRE LA SUITE FAITE LE PLATEAU EN DESSIN
                 // ici A est le premier "morceau" de bateau et B le deuxieme
                 // il faut bien avoir en tête que l'on parcours le plateau de GAUCHE à DROITE
+                // le plateau est en "miroir" (en java l'origine est en haut à gauche)
                 // --- donc :
-                // if(k!=i)  si B se trouve sur une colonne d'indice different de celle de A
+                // if(l==j)  si B se trouve sur une colonne d'indice different de celle de A
+                //              JE CROIS que l'on met pas de different mais == pcq les y vont vers le
+                //              bas (symetrie par rapport à l'axe des x du plan que l'on connait)
+                //              (ou alors du au fait qu'on a le posY=900-Mouse.getY();)
                 // ------------> on dessine le bateau à l'horizontal vers la droite
                 // SINON c'est que B se trouve sur une ligne d'indice different de celle de A donc
                 // ------------> on dessine le bateau à la vertical vers le bas
                 // ici pas besoin de placement à l'horizontal vers la gauche et de placement
                 // à la vertical vers le haut vue comme nous parcourons le plateau.
 
-                if(l!=j){  // bateau à l'horizontal vers la droite
-                    croiseur.rotate(270);
-                    graphics.drawImage(croiseur,i*90,j*90-180);
-                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
-                }else{     // bateau à la vertical vers le bas
-                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
-                    graphics.drawImage(croiseur,i*90-90,j*90-180);
-                }
-                break;
-            case 3: // sous-marin
-                if(l!=j){  // bateau à l'horizontal vers la droite
-                    croiseur.rotate(270);
-                    graphics.drawImage(croiseur,i*90,j*90-180);
-                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
-                }else{     // bateau à la vertical vers le bas
-                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
-                    graphics.drawImage(croiseur,i*90-90,j*90-180);
-                }
-                break;
-            case 4: // croiseur
-                if(l!=j){  // bateau à l'horizontal vers la droite
+                if(l==j){  // bateau à l'horizontal vers la droite
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
                     System.out.println("test");
-                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
                 }else{     // bateau à la vertical vers le bas
-                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
-                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                    graphics.drawImage(croiseur,i*90-90,j*90-90);
                     System.out.println("test1");
                 }
                 break;
-            case 5: // cuirassé
-                if(l!=j){  // bateau à l'horizontal vers la droite
+            case 3: // sous-marin
+                if(l==j){  // bateau à l'horizontal vers la droite
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
-                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                    System.out.println("test");
                 }else{     // bateau à la vertical vers le bas
-                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
-                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                    graphics.drawImage(croiseur,i*90-90,j*90-90);
+                    System.out.println("test1");
+                }
+                break;
+            case 4: // croiseur
+                if(l==j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    /*System.out.println("test");*/
+                }else{     // bateau à la vertical vers le bas
+                    graphics.drawImage(croiseur,i*90-90,j*90-90);
+                    /*System.out.println("test1");*/
+                }
+                break;
+            case 5: // cuirassé
+                if(l==j){  // bateau à l'horizontal vers la droite
+                    croiseur.rotate(270);
+                    graphics.drawImage(croiseur,i*90,j*90-180);
+                    System.out.println("test");
+                }else{     // bateau à la vertical vers le bas
+                    graphics.drawImage(croiseur,i*90-90,j*90-90);
+                    System.out.println("test1");
                 }
                 break;
             case 6: // porte avion
-                if(l!=j){  // bateau à l'horizontal vers la droite
+                if(l==j){  // bateau à l'horizontal vers la droite
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
-                    /*graphics.drawImage(croiseur,caseSup[0], caseSup[1]-180);*/
+                    System.out.println("test");
                 }else{     // bateau à la vertical vers le bas
-                    /*graphics.drawImage(croiseur,caseSup[0]-90, caseSup[1]-90);*/
-                    graphics.drawImage(croiseur,i*90-90,j*90-180);
+                    graphics.drawImage(croiseur,i*90-90,j*90-90);
+                    System.out.println("test1");
                 }
                 break;
         }
