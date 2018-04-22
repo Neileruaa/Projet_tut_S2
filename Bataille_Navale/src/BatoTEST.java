@@ -8,8 +8,8 @@ public class BatoTEST {
     private int y;
     private Image img;
 
-    protected int tailleBateau=3; // pour le test
-    protected int idBateau=4; // pour le test
+    public int tailleBateau=3; // pour le test
+    public int idBateau=4; // pour le test
 
     public BatoTEST(Image img) {
         this.img = img;
