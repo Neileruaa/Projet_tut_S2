@@ -90,12 +90,13 @@ public class ScreenPlayer extends BasicGameState{
 
         map.render(0,0,0,0,900,900);
 //        img.rotate(90);
-        graphics.drawImage(img,990,90); // images des bateaux pour leur placement (à gauche de la fenêtre)
-        graphics.drawImage(img,990,175);
-        graphics.drawImage(img,990,255);
-        graphics.drawImage(img,990,335);
-        graphics.drawImage(img,990,415);
-
+        if (bateauPose()==false) {
+            graphics.drawImage(img, 990, 90); // images des bateaux pour leur placement (à gauche de la fenêtre)
+            graphics.drawImage(img, 990, 175);
+            graphics.drawImage(img, 990, 255);
+            graphics.drawImage(img, 990, 335);
+            graphics.drawImage(img, 990, 415);
+        }
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
                 && (posY>caseSup[1]-90 && posY<caseSup[1]) ){
@@ -480,30 +481,35 @@ public boolean look(BatoTEST bateau) {
         if ((posX>918 && posX<184) && (posY>1166 && posY<258)){
             if (Mouse.isButtonDown(0)){
                 depose="C";
+                System.out.println("test1");
                 return depose;
             }
         }
         if ((posX>918 && posX<275) && (posY>1166 && posY<343)){
             if (Mouse.isButtonDown(0)){
                 depose="PA";
+                System.out.println("test2");
                 return depose;
             }
         }
         if ((posX>918 && posX<352) && (posY>1166 && posY<424)){
             if (Mouse.isButtonDown(0)){
                 depose="Cu";
+                System.out.println("test3");
                 return depose;
             }
         }
         if ((posX>918 && posX<438) && (posY>1166 && posY<503)){
             if (Mouse.isButtonDown(0)){
                 depose="S";
+                System.out.println("test4");
                 return depose;
             }
         }
         if ((posX>918 && posX<515) && (posY>1166 && posY<584)){
             if (Mouse.isButtonDown(0)){
                 depose="Co";
+                System.out.println("test5");
                 return depose;
             }
         }
@@ -561,5 +567,32 @@ public boolean look(BatoTEST bateau) {
         int mouseX = x;
         int mouseY = y;
         /*nbDoubleClic=0;*/
+    }
+    public boolean bateauPose(){
+        boolean tousBateauxPoses=false;
+        boolean[] tabId=new boolean[5];
+        for (int i=0; i<10;i++){
+            for (int j=0;j<10;j++){
+                switch (plateau[i][j]){
+                    case 2: tabId[0]=true;
+                    break;
+                    case 3: tabId[1]=true;
+                    break;
+                    case 4: tabId[2]=true;
+                    break;
+                    case 5: tabId[3]=true;
+                    break;
+                    case 6: tabId[4]=true;
+                    break;
+                }
+            }
+        }
+        for (int i=0; i<tabId.length;i++){
+            if (tabId[i]==false){
+                return tousBateauxPoses;
+            }
+        }
+        tousBateauxPoses=true;
+        return tousBateauxPoses;
     }
 }
