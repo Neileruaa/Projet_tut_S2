@@ -3,12 +3,15 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.opengl.ImageData;
+import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +90,6 @@ public class ScreenPlayer extends BasicGameState{
         /* porteAvion = ... */
         imgDefaut = new Image("res/Images/icon.ico"); // une image par defaut pour init la variable (rend compilable)
 
-
         map.render(0,0,0,0,900,900);
 //        img.rotate(90);
         if (bateauPose()==false) {
@@ -119,6 +121,8 @@ public class ScreenPlayer extends BasicGameState{
             System.out.println(bateau.toString());
             System.out.println(caseSup[0]);
             System.out.println(caseSup[1]);
+
+            bateauIm.rotate(-90); // retour à la normal comme ca CORRIGE le BOGUE
 
         }
 
