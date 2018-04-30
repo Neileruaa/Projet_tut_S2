@@ -92,7 +92,7 @@ public class ScreenPlayer extends BasicGameState{
 
         map.render(0,0,0,0,900,900);
 //        img.rotate(90);
-        if (bateauPose()==false) {
+        if (bateauPose()==false) { //fait apparaître ou non les bateaux à gauche pour le placement
             graphics.drawImage(img, 990, 90); // images des bateaux pour leur placement (à gauche de la fenêtre)
             graphics.drawImage(img, 990, 175);
             graphics.drawImage(img, 990, 255);
@@ -480,7 +480,7 @@ public boolean look(BatoTEST bateau) {
         }
     }
 
-    public String choixBateau(int posX, int posY){
+    public String choixBateau(int posX, int posY){ // permet de choisir un bateau pour le placer
         String depose="";
         if ((posX>918 && posX<184) && (posY>1166 && posY<258)){
             if (Mouse.isButtonDown(0)){
@@ -572,12 +572,12 @@ public boolean look(BatoTEST bateau) {
         int mouseY = y;
         /*nbDoubleClic=0;*/
     }
-    public boolean bateauPose(){
+    public boolean bateauPose(){ // retourne true si tous les bateaux sont posés sinon false
         boolean tousBateauxPoses=false;
         boolean[] tabId=new boolean[5];
         for (int i=0; i<10;i++){
             for (int j=0;j<10;j++){
-                switch (plateau[i][j]){
+                switch (plateau[i][j]){ //si dans le plateau il y a la présence d'un bateau alors on passe à true la case de tabId
                     case 2: tabId[0]=true;
                     break;
                     case 3: tabId[1]=true;
@@ -591,7 +591,7 @@ public boolean look(BatoTEST bateau) {
                 }
             }
         }
-        for (int i=0; i<tabId.length;i++){
+        for (int i=0; i<tabId.length;i++){ //on s'assure que tabId est à true ou false puis on retourne si oui ou non tous les bateaux sont posés
             if (tabId[i]==false){
                 return tousBateauxPoses;
             }
