@@ -1,4 +1,3 @@
-import Map.BatoTEST;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
@@ -23,7 +22,7 @@ public class ScreenPlayer extends BasicGameState{
     private TiledMap map;
 //    private ArrayList<Tile> tiles;
 
-    private BatoTEST bateau;
+    private Bateau bateau;
     private Image croiseur;
 
     private int posX;
@@ -116,7 +115,7 @@ public class ScreenPlayer extends BasicGameState{
             bateauIm.rotate(90); // BOGUE QD ON PLACE LE BATEAU CELA ROTATE AUSSI LE BATEAU DEJA POSE
             // CAR CELA ROTATE AUSSI L'image du switchDepose(depose) donc croiseur
 
-            bateau = new BatoTEST(caseSup[0]-180,caseSup[1]-180,croiseur);
+            bateau = new Bateau(4,3,caseSup[0]-180,caseSup[1]-180,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
             System.out.println(bateau.toString());
             System.out.println(caseSup[0]);
@@ -190,18 +189,18 @@ public class ScreenPlayer extends BasicGameState{
          *             pos de base = (baseX , baseY) (ici c'est uniquement le "deuxieme" points qui nous interesse
          *                                          car le premier point (ou case) c'est celle ou clique l'utilisateur
          *                                          "l'origine" )
-         *             tailleBateau = c'est la taille du bateau en nb de cases
+         *             getTaille() = c'est la taille du bateau en nb de cases
          *             tCase = ici 90 UTILISE UNIQUEMENT POUR LES COORD PAS DANS LA MATRICE CAR INUTILE
          *
          *             -> pour la matrice c'est le mm principe sans les *tCase)
-         *             -> pour les coord pas besoin de for donc on remplace le i par le tailleBateau mais on garde le *tCase
+         *             -> pour les coord pas besoin de for donc on remplace le i par le getTaille() mais on garde le *tCase
          *                     comme ca on obtient uniquement le "deuxieme" point
          *
          *             switch {
-         *                 case 0 : (for i allant de 0 à tailleBateau) : baseX=baseX         ; baseY=baseY+i*tCase
-         *                 case 1 : (for i allant de 0 à tailleBateau) : baseX=baseX-i*tCase ; baseY=baseY
-         *                 case 2 : (for i allant de 0 à tailleBateau) : baseX=baseX         ; baseY=baseY-i*tCase
-         *                 case 3 : (for i allant de 0 à tailleBateau) : baseX=baseX+i*tCase ; baseY=baseY
+         *                 case 0 : (for i allant de 0 à getTaille()) : baseX=baseX         ; baseY=baseY+i*tCase
+         *                 case 1 : (for i allant de 0 à getTaille()) : baseX=baseX-i*tCase ; baseY=baseY
+         *                 case 2 : (for i allant de 0 à getTaille()) : baseX=baseX         ; baseY=baseY-i*tCase
+         *                 case 3 : (for i allant de 0 à getTaille()) : baseX=baseX+i*tCase ; baseY=baseY
          *             ]
          *
          *
@@ -212,7 +211,7 @@ public class ScreenPlayer extends BasicGameState{
          *                 remplissement de case (matrice graphique ou de la grille etc) enfin j'expliquerai ca plus tard
          *      je vais mettre mes boucles NON MODIFIE (je dois modif les tailles des cases des grilles etc dans les boucles).
          *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
-         *      variable tailleBateau en fct de la variable depose (expliquee au dessus)
+         *      variable getTaille() en fct de la variable depose (expliquee au dessus)
          */
 
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && doubleClic==false){
@@ -221,7 +220,7 @@ public class ScreenPlayer extends BasicGameState{
             Image bateauIm=imgDefaut;
             bateauIm=switchDepose(depose);
 
-            bateau = new BatoTEST(caseSup[0]-90,caseSup[1]-90,croiseur);
+            bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
             System.out.println(bateau.toString());
         }
@@ -252,17 +251,17 @@ public class ScreenPlayer extends BasicGameState{
 //        else return false;
 //    }
 /* regarde dans la matrice si le bateau est déjà dans la matrice ou non si il est DEJA DEDANS renvoie FALSE*/
-public boolean look(BatoTEST bateau) {
+public boolean look(Bateau bateau) {
     for(int i=0; i<plateau.length;i++){
         for(int j=0; j<plateau[i].length;j++) {
-            if (plateau[i][j]==bateau.idBateau){return false;}
+            if (plateau[i][j]==bateau.getType()){return false;}
         }
     }
     return true; // true car pret a etre placé (il n'est pas dans la matrice)
 }
 
     /* si il n'y a rien qui gene pour le placer (bord ou autres bateaux) retourne true */
-    public boolean switchLook(int modulo, BatoTEST bateau,int[] caseSup) {
+    public boolean switchLook(int modulo, Bateau bateau,int[] caseSup) {
         int colonne=caseSup[0]/90; // ici on calcule les indices en fct des coordonnées pour pouvoir les réutilisés dans la matrice
         int ligne=caseSup[1]/90;
         /*System.out.println(colonne);
@@ -271,22 +270,22 @@ public boolean look(BatoTEST bateau) {
         switch(modulo) // pour le moment comme on a que le croiseur
         {
             case 0: // vertical vers le bas
-                for(int i=0; i<bateau.tailleBateau;i++){
+                for(int i=0; i<bateau.getTaille();i++){
                     if (plateau[colonne][ligne+i]!=0){return false;}
                 }
                 break;
             case 1: // horizontal vers la gauche
-                for(int i=0; i<bateau.tailleBateau;i++){
+                for(int i=0; i<bateau.getTaille();i++){
                     if (plateau[colonne-i][ligne]!=0){return false;}
                 }
                 break;
             case 2: // vertical vers le haut
-                for(int i=0; i<bateau.tailleBateau;i++){
+                for(int i=0; i<bateau.getTaille();i++){
                     if (plateau[colonne][ligne-i]!=0){return false;}
                 }
                 break;
             case 3: // vertical vers la droite
-                for(int i=0; i<bateau.tailleBateau;i++){
+                for(int i=0; i<bateau.getTaille();i++){
                     if (plateau[colonne+i][ligne]!=0){return false;}
                 }
                 break;
@@ -302,33 +301,33 @@ public boolean look(BatoTEST bateau) {
        id sous marin = 3
        id Corvette = 2
     */
-    public void switchRempli(int modulo, BatoTEST bateau, int[] caseSup ) { // mise dans la matrice du bateau qui vient d'etre posé
+    public void switchRempli(int modulo, Bateau bateau, int[] caseSup ) { // mise dans la matrice du bateau qui vient d'etre posé
         int colonne=caseSup[0]/90; // ici on calcule les indices en fct des coordonnées pour pouvoir les réutilisés dans la matrice
         int ligne=caseSup[1]/90;
 
         switch(modulo)
         {
             case 0: // vertical vers le bas
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    plateau[colonne][ligne+i]=bateau.idBateau;
+                for(int i=0; i<bateau.getTaille();i++){
+                    plateau[colonne][ligne+i]=bateau.getType();
                     System.out.println(plateau[colonne][ligne+i]);
                 }
                 break;
             case 1: // horizontal vers la gauche
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    plateau[colonne-i][ligne]=bateau.idBateau;
+                for(int i=0; i<bateau.getTaille();i++){
+                    plateau[colonne-i][ligne]=bateau.getType();
                     System.out.println(plateau[colonne-i][ligne]);
                 }
                 break;
             case 2: // vertical vers le haut
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    plateau[colonne][ligne-i]=bateau.idBateau;
+                for(int i=0; i<bateau.getTaille();i++){
+                    plateau[colonne][ligne-i]=bateau.getType();
                     System.out.println(plateau[colonne][ligne-i]);
                 }
                 break;
             case 3: // vertical vers la droite
-                for(int i=0; i<bateau.tailleBateau;i++){
-                    plateau[colonne+i][ligne]=bateau.idBateau;
+                for(int i=0; i<bateau.getTaille();i++){
+                    plateau[colonne+i][ligne]=bateau.getType();
                     System.out.println(plateau[colonne+i][ligne]);
                 }
                 break;
@@ -337,7 +336,7 @@ public boolean look(BatoTEST bateau) {
     }
 
     /* on lit la matrice a chaque fois comme ca on peut mettre le pose dans le render c'est plus facile.
-     * En fct de l'idBateau trouvé dans la matrice on pose le/les bateaux (sa se refresh a chaque fois donc dés que l'on pose un bateau
+     * En fct de l'getType( trouvé dans la matrice on pose le/les bateaux (sa se refresh a chaque fois donc dés que l'on pose un bateau
      * on le verra apparaitre sur la grille).
      *
      * un peu compliqué en faite je pense
@@ -369,7 +368,7 @@ public boolean look(BatoTEST bateau) {
         }
     }
 
-    /* Cette fonction parcours la list de int (qui sont les idBateaux) et regarde si le bateau
+    /* Cette fonction parcours la list de int (qui sont les getType(x) et regarde si le bateau
      * avec un identifiant id à été posé sur le plateau ou non
      * si deja posé retourne FALSE car deja dans la liste
      * si non posé retourne TRUE
@@ -455,7 +454,7 @@ public boolean look(BatoTEST bateau) {
         }
     }
 
-    public void switchView(int modulo, BatoTEST bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
+    public void switchView(int modulo, Bateau bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
         /*posX=Mouse.getX();
         posY=900-Mouse.getY();
         int[] caseSup = findIdTile(posX, posY);*/

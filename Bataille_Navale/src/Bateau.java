@@ -1,3 +1,5 @@
+import org.newdawn.slick.Image;
+
 import java.awt.*;
 
 public class Bateau {
@@ -12,16 +14,16 @@ public class Bateau {
     private Image imgApres;
     private boolean rotation;
 
-    public Bateau(int type, int taille, String nom, boolean[] vie, Bonus bonus, int x, int y, Image img1, Image img2) {
+    public Bateau(int type, int taille, int x, int y, Image img1) { //String nom, boolean[] vie, Bonus bonus, ... , Image img2 ICI TOUT EST A REMETTRE DANS LA SIGNATURE DE LA METHODE APRES QUE TOUS LES ELEMENTS MARCHENT
         this.type = type;
         this.taille = taille;
-        this.nom=nom;
-        this.vie = vie;
-        this.bonus = bonus;
+//        this.nom=nom;
+//        this.vie = vie;
+//        this.bonus = bonus;
         this.xPosB=x;
         this.yPosB=y;
         this.imgAvant = img1;
-        this.imgApres = img2;
+//        this.imgApres = img2;
     }
 
     public int getType() {
