@@ -81,9 +81,9 @@ public class ScreenPlayer extends BasicGameState{
 
         int posX= Mouse.getX();
         int posY=900-Mouse.getY();
-//        switchDepose(choixBateau(posX,posY));
 
-        depose = "C"; // je simule le fait que le joueur à choisit le croiseur en cliquant sur le bouton "poser le croiseur"
+        depose=choixBateau(Mouse.getX(),900-Mouse.getY());
+        //depose = "C"; // je simule le fait que le joueur à choisit le croiseur en cliquant sur le bouton "poser le croiseur"
 
         croiseur = new Image("res/Images/croiseur.png");
         /* porteAvion = ... */
@@ -98,6 +98,7 @@ public class ScreenPlayer extends BasicGameState{
             graphics.drawImage(img, 990, 335);
             graphics.drawImage(img, 990, 415);
         }
+
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
                 && (posY>caseSup[1]-90 && posY<caseSup[1]) ){
@@ -117,9 +118,9 @@ public class ScreenPlayer extends BasicGameState{
 
             bateau = new Bateau(4,3,caseSup[0]-180,caseSup[1]-180,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-            System.out.println(bateau.toString());
-            System.out.println(caseSup[0]);
-            System.out.println(caseSup[1]);
+//            System.out.println(bateau.toString());
+//            System.out.println(caseSup[0]);
+//            System.out.println(caseSup[1]);
 
             bateauIm.rotate(-90); // retour à la normal comme ca CORRIGE le BOGUE
 
@@ -222,7 +223,7 @@ public class ScreenPlayer extends BasicGameState{
 
             bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
-            System.out.println(bateau.toString());
+//            System.out.println(bateau.toString());
         }
 
 
@@ -310,25 +311,25 @@ public boolean look(Bateau bateau) {
             case 0: // vertical vers le bas
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne][ligne+i]=bateau.getType();
-                    System.out.println(plateau[colonne][ligne+i]);
+//                    System.out.println(plateau[colonne][ligne+i]);
                 }
                 break;
             case 1: // horizontal vers la gauche
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne-i][ligne]=bateau.getType();
-                    System.out.println(plateau[colonne-i][ligne]);
+//                    System.out.println(plateau[colonne-i][ligne]);
                 }
                 break;
             case 2: // vertical vers le haut
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne][ligne-i]=bateau.getType();
-                    System.out.println(plateau[colonne][ligne-i]);
+//                    System.out.println(plateau[colonne][ligne-i]);
                 }
                 break;
             case 3: // vertical vers la droite
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne+i][ligne]=bateau.getType();
-                    System.out.println(plateau[colonne+i][ligne]);
+//                    System.out.println(plateau[colonne+i][ligne]);
                 }
                 break;
         }
@@ -480,63 +481,63 @@ public boolean look(Bateau bateau) {
     }
 
     public String choixBateau(int posX, int posY){ // permet de choisir un bateau pour le placer
-        String depose="";
-        if ((posX>918 && posX<184) && (posY>1166 && posY<258)){
+        depose="";
+        if ((posX>918 && posX<1166) && (posY>184 && posY<258)){
             if (Mouse.isButtonDown(0)){
                 depose="C";
-                System.out.println("test1");
                 return depose;
             }
         }
-        if ((posX>918 && posX<275) && (posY>1166 && posY<343)){
+        if ((posX>918 && posX<1166) && (posY>275 && posY<343)){
             if (Mouse.isButtonDown(0)){
                 depose="PA";
-                System.out.println("test2");
                 return depose;
             }
         }
-        if ((posX>918 && posX<352) && (posY>1166 && posY<424)){
+        if ((posX>918 && posX<1166) && (posY>352 && posY<424)){
             if (Mouse.isButtonDown(0)){
                 depose="Cu";
-                System.out.println("test3");
                 return depose;
             }
         }
-        if ((posX>918 && posX<438) && (posY>1166 && posY<503)){
+        if ((posX>918 && posX<1166) && (posY>438 && posY<503)){
             if (Mouse.isButtonDown(0)){
                 depose="S";
-                System.out.println("test4");
                 return depose;
             }
         }
-        if ((posX>918 && posX<515) && (posY>1166 && posY<584)){
+        if ((posX>918 && posX<1166) && (posY>515 && posY<584)){
             if (Mouse.isButtonDown(0)){
                 depose="Co";
-                System.out.println("test5");
                 return depose;
             }
         }
         return depose;
     }
 
-    public Image switchDepose(String depose){ // pour le choix des bateau il change les images A REVOIR : ne pas donner en paramètre l'image mais changer l'image direct dans les cases
+    public Image switchDepose(String depose){
         Image bateauIm=croiseur;
         switch (depose)
         {
             case "PA":
                 bateauIm =croiseur;
+                System.out.println("PA");
                 break;
             case "Cu":
                 bateauIm =croiseur;
+                System.out.println("Cu");
                 break;
             case "C":
                 bateauIm =croiseur;
+                System.out.println("C");
                 break;
             case "S":
                 bateauIm =croiseur;
+                System.out.println("S");
                 break;
             case "Co":
                 bateauIm =croiseur;
+                System.out.println("Co");
                 break;
         }
         return bateauIm; // retourne l'image du bateau
