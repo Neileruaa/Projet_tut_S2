@@ -24,6 +24,7 @@ public class ScreenPlayer extends BasicGameState{
 
     private Bateau bateau;
     private Image croiseur;
+    private Image sousMarin;
 
     private int posX;
     private int posY;
@@ -59,6 +60,9 @@ public class ScreenPlayer extends BasicGameState{
     int modulo;
     int nbClicDroit;
 
+    // test
+    private Image sousMarinView;
+
     public ScreenPlayer(int state){
     }
 
@@ -69,6 +73,9 @@ public class ScreenPlayer extends BasicGameState{
         map = new TiledMap("res/Map/Map900x900.tmx");
         img = new Image("res/Images/croiseur.png");
 
+
+        sousMarinView=new Image("res/Images/sous_marin.png");
+        sousMarinView.rotate(90);
         img.rotate(90);
 
     }
@@ -83,9 +90,20 @@ public class ScreenPlayer extends BasicGameState{
         int posY=900-Mouse.getY();
 
         depose=choixBateau(Mouse.getX(),900-Mouse.getY());
+
+        /* ------------------------------- IMPORTANT ---------------------------- */
+        //je met une valeur par default a bateau qd on a pas choisit un bateau (evite les nullpointerexception)
+        // les coord nous servent A RIEN dans les CLASSES (du moins pour le placement)
+        // ils nous serviront PEUT ETRE pour le touché coulé (qu'on pourra init en regardant dans la matrice)
+        // on initera d'ailleurs tout le bateau BEAUCOUP plus simple
+
+        if(depose.equals("")){
+            bateau=new Bateau(4,3,0,0,croiseur);
+        }
         //depose = "C"; // je simule le fait que le joueur à choisit le croiseur en cliquant sur le bouton "poser le croiseur"
 
         croiseur = new Image("res/Images/croiseur.png");
+        sousMarin = new Image("res/Images/sous_marin.png");
         /* porteAvion = ... */
         imgDefaut = new Image("res/Images/icon.ico"); // une image par defaut pour init la variable (rend compilable)
 
@@ -95,7 +113,7 @@ public class ScreenPlayer extends BasicGameState{
             graphics.drawImage(img, 990, 90); // images des bateaux pour leur placement (à gauche de la fenêtre)
             graphics.drawImage(img, 990, 175);
             graphics.drawImage(img, 990, 255);
-            graphics.drawImage(img, 990, 335);
+            graphics.drawImage(sousMarinView, 990, 335);
             graphics.drawImage(img, 990, 415);
         }
 
@@ -112,11 +130,11 @@ public class ScreenPlayer extends BasicGameState{
             posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
 
-            bateauIm=switchDepose(depose);
+            bateauIm=switchDepose(depose).getImgAvant();
             bateauIm.rotate(90); // BOGUE QD ON PLACE LE BATEAU CELA ROTATE AUSSI LE BATEAU DEJA POSE
             // CAR CELA ROTATE AUSSI L'image du switchDepose(depose) donc croiseur
 
-            bateau = new Bateau(4,3,caseSup[0]-180,caseSup[1]-180,croiseur);
+            //bateau = new Bateau(4,3,caseSup[0]-180,caseSup[1]-180,switchDepose(depose));
             graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
 //            System.out.println(bateau.toString());
 //            System.out.println(caseSup[0]);
@@ -125,6 +143,7 @@ public class ScreenPlayer extends BasicGameState{
             bateauIm.rotate(-90); // retour à la normal comme ca CORRIGE le BOGUE
 
         }
+
 
 
         /*mouseClicked(0,200,300,2);*/
@@ -219,9 +238,9 @@ public class ScreenPlayer extends BasicGameState{
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
             Image bateauIm=imgDefaut;
-            bateauIm=switchDepose(depose);
+            bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
 
-            bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
+            //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
             graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
 //            System.out.println(bateau.toString());
         }
@@ -414,12 +433,12 @@ public boolean look(Bateau bateau) {
                 break;
             case 3: // sous-marin
                 if(l==j){  // bateau à l'horizontal vers la droite
-                    croiseur.rotate(270);
-                    graphics.drawImage(croiseur,i*90,j*90-180);
-                    System.out.println("test");
+                    sousMarin.rotate(270);
+                    graphics.drawImage(sousMarin,i*90,j*90-180);
+                    //System.out.println("test2");
                 }else{     // bateau à la vertical vers le bas
-                    graphics.drawImage(croiseur,i*90-90,j*90-90);
-                    System.out.println("test1");
+                    graphics.drawImage(sousMarin,i*90-90,j*90-90);
+                    //System.out.println("test3");
                 }
                 break;
             case 4: // croiseur
@@ -455,11 +474,12 @@ public boolean look(Bateau bateau) {
         }
     }
 
+    // pb switch view affiche que croiseur
     public void switchView(int modulo, Bateau bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
         /*posX=Mouse.getX();
         posY=900-Mouse.getY();
         int[] caseSup = findIdTile(posX, posY);*/
-        Image bateauIm=switchDepose(depose);
+        Image bateauIm=bateau.getImgAvant();
         switch(modulo)
         {
             case 0: // vertical vers le bas
@@ -515,32 +535,33 @@ public boolean look(Bateau bateau) {
         return depose;
     }
 
-    public Image switchDepose(String depose){
-        Image bateauIm=croiseur;
+    //CHANGEMENT ON RETOURNE LE TYPE DU BATEAU
+    public Bateau switchDepose(String depose){
+        /*Image bateauIm=croiseur;*/
         switch (depose)
         {
             case "PA":
-                bateauIm =croiseur;
+                bateau = new Bateau(4,3,0,0,croiseur);
                 System.out.println("PA");
                 break;
             case "Cu":
-                bateauIm =croiseur;
+                bateau = new Bateau(4,3,0,0,croiseur);
                 System.out.println("Cu");
                 break;
             case "C":
-                bateauIm =croiseur;
+                bateau = new Bateau(4,3,0,0,croiseur);
                 System.out.println("C");
                 break;
             case "S":
-                bateauIm =croiseur;
+                bateau = new Bateau(3,3,0,0,sousMarin);
                 System.out.println("S");
                 break;
             case "Co":
-                bateauIm =croiseur;
+                bateau = new Bateau(4,3,0,0,croiseur);
                 System.out.println("Co");
                 break;
         }
-        return bateauIm; // retourne l'image du bateau
+        return bateau; // retourne le bateau
     }
 
     public int[] findIdTile(int posX, int posY){
