@@ -4,8 +4,8 @@ class BateauLeurre extends Bateau{
     boolean[] vie;
     vie = new boolean[]{true, true};
     Bonus bonus = new Bonus();
-    // Coordonnee position = new Coordonnee(placeBateau);
-    Image img = new Image();
-    super(5, vie, bonus, position, img);
+    Image imgAvant = new Image();
+    Image imgApres = new Image();
+    super(6,2,"Bateau leurre", vie, bonus,0,0, imgAvant, imgApres, true);
   }
 }

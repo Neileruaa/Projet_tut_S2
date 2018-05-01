@@ -3,8 +3,8 @@ public class ContreTorpilleur extends Bateau{
         boolean[] vie;
         vie = new boolean[]{true, true, true};
         Bonus bonus = new LeurreBonus();
-        // Coordonnee position = new Coordonnee(placeBateau);
-        Image img = new Image();
-        super(5, vie, bonus, position, img);
+        Image imgAvant = new Image();
+        Image imgApres = new Image();
+        super(3,3,"Contre torpilleur", vie, bonus,0,0, imgAvant, imgApres, true);
     }
 }
