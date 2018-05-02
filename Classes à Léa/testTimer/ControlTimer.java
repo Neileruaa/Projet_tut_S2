@@ -17,11 +17,16 @@ class ControlTimer implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==f.bTimer){
+        if (e.getSource()==f.bTimer){ // bouton start
             timer.start();
         }
         f.temps.setText("Temps restants : "+temps+ "s");
         temps--;
+        /*
+            Si le temps arrive à -1 (sinon on voit pas le 0) ou si le bouton fin du tour est activé alors on stop le timer,
+            on regarde si le timer est bien stop,
+            dans ce cas on change de joueur, on repasse le temps à 60 puis on restart
+         */
         if (temps<=-1 || e.getSource()==f.finTour) {
             timer.stop();
             if (!timer.isRunning()){
@@ -34,6 +39,9 @@ class ControlTimer implements ActionListener {
                 timer.restart();
             }
         }
+        /*
+        Si le bouton Bonus est activé le temps passe à 10 (faudra mettre pour le joueur d'après)
+         */
         if (e.getSource()==f.bBonusTimer){
             temps=10;
         }
