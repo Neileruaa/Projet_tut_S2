@@ -63,6 +63,8 @@ public class ScreenPlayer extends BasicGameState{
     // test
     private Image sousMarinView;
 
+    private boolean modif=false;
+
     public ScreenPlayer(int state){
     }
 
@@ -74,9 +76,14 @@ public class ScreenPlayer extends BasicGameState{
         img = new Image("res/Images/croiseur.png");
 
 
+
         sousMarinView=new Image("res/Images/sous_marin.png");
         sousMarinView.rotate(90);
         img.rotate(90);
+
+        /* important pour eviter les Nullpointerexception quand on lance le jeu */
+        modif=false;
+        depose="";
 
     }
 
@@ -89,7 +96,7 @@ public class ScreenPlayer extends BasicGameState{
         int posX= Mouse.getX();
         int posY=900-Mouse.getY();
 
-        depose=choixBateau(Mouse.getX(),900-Mouse.getY());
+
 
         /* ------------------------------- IMPORTANT ---------------------------- */
         //je met une valeur par default a bateau qd on a pas choisit un bateau (evite les nullpointerexception)
@@ -97,10 +104,12 @@ public class ScreenPlayer extends BasicGameState{
         // ils nous serviront PEUT ETRE pour le touché coulé (qu'on pourra init en regardant dans la matrice)
         // on initera d'ailleurs tout le bateau BEAUCOUP plus simple
 
-        if(depose.equals("")){
+        if(depose.equals("") && modif==false){ //si on a pas cliquer sur un bouton pour changer les bateaux on prend le croiseur par defaut
             bateau=new Bateau(4,3,0,0,croiseur);
         }
-        //depose = "C"; // je simule le fait que le joueur à choisit le croiseur en cliquant sur le bouton "poser le croiseur"
+
+        depose=choixBateau(Mouse.getX(),900-Mouse.getY()); // on regarde le choix de l'utilisateur
+
 
         croiseur = new Image("res/Images/croiseur.png");
         sousMarin = new Image("res/Images/sous_marin.png");
@@ -287,7 +296,7 @@ public boolean look(Bateau bateau) {
         /*System.out.println(colonne);
         System.out.println(ligne);*/
 
-        switch(modulo) // pour le moment comme on a que le croiseur
+        switch(modulo)
         {
             case 0: // vertical vers le bas
                 for(int i=0; i<bateau.getTaille();i++){
@@ -426,6 +435,7 @@ public boolean look(Bateau bateau) {
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
                     System.out.println("test");
+                    croiseur.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(croiseur,i*90-90,j*90-90);
                     System.out.println("test1");
@@ -435,20 +445,22 @@ public boolean look(Bateau bateau) {
                 if(l==j){  // bateau à l'horizontal vers la droite
                     sousMarin.rotate(270);
                     graphics.drawImage(sousMarin,i*90,j*90-180);
-                    //System.out.println("test2");
+                    System.out.println("test2");
+                    sousMarin.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(sousMarin,i*90-90,j*90-90);
-                    //System.out.println("test3");
+                    System.out.println("test3");
                 }
                 break;
             case 4: // croiseur
                 if(l==j){  // bateau à l'horizontal vers la droite
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
-                    /*System.out.println("test");*/
+                    System.out.println("test");
+                    croiseur.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(croiseur,i*90-90,j*90-90);
-                    /*System.out.println("test1");*/
+                    System.out.println("test1");
                 }
                 break;
             case 5: // cuirassé
@@ -456,6 +468,7 @@ public boolean look(Bateau bateau) {
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
                     System.out.println("test");
+                    croiseur.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(croiseur,i*90-90,j*90-90);
                     System.out.println("test1");
@@ -466,6 +479,7 @@ public boolean look(Bateau bateau) {
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
                     System.out.println("test");
+                    croiseur.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(croiseur,i*90-90,j*90-90);
                     System.out.println("test1");
@@ -488,47 +502,55 @@ public boolean look(Bateau bateau) {
             case 1: // horizontal vers la gauche
                 bateauIm.rotate(90);
                 graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                bateauIm.rotate(-90);
                 break;
             case 2: // vertical vers le haut
                 bateauIm.rotate(180);
                 graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270);
+                bateauIm.rotate(-180);
                 break;
             case 3: // vertical vers la droite
                 bateauIm.rotate(270);
                 graphics.drawImage(bateauIm,caseSup[0], caseSup[1]-180);
+                bateauIm.rotate(-270);
                 break;
         }
     }
 
     public String choixBateau(int posX, int posY){ // permet de choisir un bateau pour le placer
-        depose="";
+
         if ((posX>918 && posX<1166) && (posY>184 && posY<258)){
             if (Mouse.isButtonDown(0)){
                 depose="C";
+                modif=true;
                 return depose;
             }
         }
         if ((posX>918 && posX<1166) && (posY>275 && posY<343)){
             if (Mouse.isButtonDown(0)){
                 depose="PA";
+                modif=true;
                 return depose;
             }
         }
         if ((posX>918 && posX<1166) && (posY>352 && posY<424)){
             if (Mouse.isButtonDown(0)){
                 depose="Cu";
+                modif=true;
                 return depose;
             }
         }
         if ((posX>918 && posX<1166) && (posY>438 && posY<503)){
             if (Mouse.isButtonDown(0)){
                 depose="S";
+                modif=true;
                 return depose;
             }
         }
         if ((posX>918 && posX<1166) && (posY>515 && posY<584)){
             if (Mouse.isButtonDown(0)){
                 depose="Co";
+                modif=true;
                 return depose;
             }
         }
