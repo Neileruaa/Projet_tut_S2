@@ -118,13 +118,8 @@ public class ScreenPlayer extends BasicGameState{
 
         map.render(0,0,0,0,900,900);
 //        img.rotate(90);
-        if (bateauPose()==false) { //fait apparaître ou non les bateaux à gauche pour le placement
-            graphics.drawImage(img, 990, 90); // images des bateaux pour leur placement (à gauche de la fenêtre)
-            graphics.drawImage(img, 990, 175);
-            graphics.drawImage(img, 990, 255);
-            graphics.drawImage(sousMarinView, 990, 335);
-            graphics.drawImage(img, 990, 415);
-        }
+
+        visiblePlacementBateau(graphics);
 
         int[] caseSup = findIdTile(posX, posY);
         if((posX>caseSup[0]-90 && posX<caseSup[0])
@@ -641,5 +636,14 @@ public boolean look(Bateau bateau) {
         }
         tousBateauxPoses=true;
         return tousBateauxPoses;
+    }
+    public void visiblePlacementBateau(Graphics graphics){
+        if (bateauPose()==false) { //fait apparaître ou non les bateaux à gauche pour le placement
+            graphics.drawImage(img, 990, 90); // images des bateaux pour leur placement (à gauche de la fenêtre)
+            graphics.drawImage(img, 990, 175);
+            graphics.drawImage(img, 990, 255);
+            graphics.drawImage(sousMarinView, 990, 335);
+            graphics.drawImage(img, 990, 415);
+        }
     }
 }
