@@ -25,6 +25,9 @@ public class ScreenPlayer extends BasicGameState{
     private Bateau bateau;
     private Image croiseur;
     private Image sousMarin;
+    private Image porteAvion;
+    private Image cuirasse;
+    private Image corvette;
 
     private int posX;
     private int posY;
@@ -62,6 +65,12 @@ public class ScreenPlayer extends BasicGameState{
 
     // test
     private Image sousMarinView;
+    private Image porteAvionView;
+    private Image cuirasseView;
+    private Image corvetteView;
+
+
+
 
     private boolean modif=false;
 
@@ -78,8 +87,16 @@ public class ScreenPlayer extends BasicGameState{
 
 
         sousMarinView=new Image("res/Images/sous_marin.png");
-        sousMarinView.rotate(90);
+        porteAvionView=new Image("res/Images/porteAvion.png");
+        cuirasseView=new Image("res/Images/cuirasse.png");
+        corvetteView=new Image("res/Images/corvette.png");
+
+
         img.rotate(90);
+        sousMarinView.rotate(90);
+        porteAvionView.rotate(90);
+        cuirasseView.rotate(90);
+        corvetteView.rotate(90);
 
         /* important pour eviter les Nullpointerexception quand on lance le jeu */
         modif=false;
@@ -99,7 +116,7 @@ public class ScreenPlayer extends BasicGameState{
 
 
         /* ------------------------------- IMPORTANT ---------------------------- */
-        //je met une valeur par default a bateau qd on a pas choisit un bateau (evite les nullpointerexception)
+        // je met une valeur par default a bateau qd on a pas choisit un bateau (evite les nullpointerexception)
         // les coord nous servent A RIEN dans les CLASSES (du moins pour le placement)
         // ils nous serviront PEUT ETRE pour le touché coulé (qu'on pourra init en regardant dans la matrice)
         // on initera d'ailleurs tout le bateau BEAUCOUP plus simple
@@ -113,7 +130,10 @@ public class ScreenPlayer extends BasicGameState{
 
         croiseur = new Image("res/Images/croiseur.png");
         sousMarin = new Image("res/Images/sous_marin.png");
-        /* porteAvion = ... */
+        porteAvion=new Image("res/Images/porteAvion.png");
+        cuirasse=new Image("res/Images/cuirasse.png");
+        corvette=new Image("res/Images/corvette.png");
+
         imgDefaut = new Image("res/Images/icon.ico"); // une image par defaut pour init la variable (rend compilable)
 
         map.render(0,0,0,0,900,900);
@@ -132,23 +152,30 @@ public class ScreenPlayer extends BasicGameState{
         if(Mouse.isButtonDown(1) && !Mouse.isButtonDown(0) && doubleClic==false){ // empeche l'apparition de 2 bateaux lorsque l'on clique sur le bouton droit et gauche
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
-            Image bateauIm=imgDefaut;
 
-            bateauIm=switchDepose(depose).getImgAvant();
-            bateauIm.rotate(90); // BOGUE QD ON PLACE LE BATEAU CELA ROTATE AUSSI LE BATEAU DEJA POSE
-            // CAR CELA ROTATE AUSSI L'image du switchDepose(depose) donc croiseur
+            Bateau renderBateau;
+            renderBateau = switchDepose(depose);
+            drawImageViewHorizGauche(renderBateau,graphics,caseSup);
 
-            //bateau = new Bateau(4,3,caseSup[0]-180,caseSup[1]-180,switchDepose(depose));
-            graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-//            System.out.println(bateau.toString());
-//            System.out.println(caseSup[0]);
-//            System.out.println(caseSup[1]);
-
-            bateauIm.rotate(-90); // retour à la normal comme ca CORRIGE le BOGUE
+            /* acienne methode avt chgt bateau */
+//            Image bateauIm;
+//            bateauIm=switchDepose(depose).getImgAvant();
+//            bateauIm.rotate(90);
+//            graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+//            bateauIm.rotate(-90); // retour à la normal comme ca CORRIGE le BOGUE
 
         }
 
+        if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && doubleClic==false){
+            posX = Mouse.getX();
+            posY = 900 - Mouse.getY();
+            Image bateauIm=imgDefaut;
+            bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
 
+            //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
+            graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
+//            System.out.println(bateau.toString());
+        }
 
         /*mouseClicked(0,200,300,2);*/
         if (doubleClic==true) { // si on fait un double clic
@@ -181,6 +208,8 @@ public class ScreenPlayer extends BasicGameState{
             }
         }
 
+
+        pose(graphics); // pose les bateaux
 
 
         /* Pour apres il faudrait cliquer (gauche) ensuite l'image reste a la case que l'on veut puis avec le clique droit changer
@@ -237,21 +266,6 @@ public class ScreenPlayer extends BasicGameState{
          *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
          *      variable getTaille() en fct de la variable depose (expliquee au dessus)
          */
-
-        if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && doubleClic==false){
-            posX = Mouse.getX();
-            posY = 900 - Mouse.getY();
-            Image bateauIm=imgDefaut;
-            bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
-
-            //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
-            graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
-//            System.out.println(bateau.toString());
-        }
-
-
-        pose(graphics); // pose les bateaux
-
 
     }
 
@@ -427,63 +441,57 @@ public boolean look(Bateau bateau) {
                 // à la vertical vers le haut vue comme nous parcourons le plateau.
 
                 if(l==j){  // bateau à l'horizontal vers la droite
-                    croiseur.rotate(270);
-                    graphics.drawImage(croiseur,i*90,j*90-180);
-                    System.out.println("test");
-                    croiseur.rotate(-270);
+                    corvette.rotate(270);
+                    graphics.drawImage(corvette,i*90-45,j*90-180+45);
+                    corvette.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
-                    graphics.drawImage(croiseur,i*90-90,j*90-90);
-                    System.out.println("test1");
+                    graphics.drawImage(corvette,i*90-90,j*90-90);
                 }
                 break;
             case 3: // sous-marin
                 if(l==j){  // bateau à l'horizontal vers la droite
                     sousMarin.rotate(270);
                     graphics.drawImage(sousMarin,i*90,j*90-180);
-                    System.out.println("test2");
+
                     sousMarin.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(sousMarin,i*90-90,j*90-90);
-                    System.out.println("test3");
+
                 }
                 break;
             case 4: // croiseur
                 if(l==j){  // bateau à l'horizontal vers la droite
                     croiseur.rotate(270);
                     graphics.drawImage(croiseur,i*90,j*90-180);
-                    System.out.println("test");
+
                     croiseur.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
                     graphics.drawImage(croiseur,i*90-90,j*90-90);
-                    System.out.println("test1");
+
                 }
                 break;
             case 5: // cuirassé
                 if(l==j){  // bateau à l'horizontal vers la droite
-                    croiseur.rotate(270);
-                    graphics.drawImage(croiseur,i*90,j*90-180);
-                    System.out.println("test");
-                    croiseur.rotate(-270);
+                    cuirasse.rotate(270);
+                    graphics.drawImage(cuirasse,i*90+45,j*90-180-45);
+                    cuirasse.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
-                    graphics.drawImage(croiseur,i*90-90,j*90-90);
-                    System.out.println("test1");
+                    graphics.drawImage(cuirasse,i*90-90,j*90-90);
                 }
                 break;
             case 6: // porte avion
                 if(l==j){  // bateau à l'horizontal vers la droite
-                    croiseur.rotate(270);
-                    graphics.drawImage(croiseur,i*90,j*90-180);
-                    System.out.println("test");
-                    croiseur.rotate(-270);
+                    porteAvion.rotate(270);
+                    graphics.drawImage(porteAvion,i*90+90,j*90-180-90);
+                    porteAvion.rotate(-270);
                 }else{     // bateau à la vertical vers le bas
-                    graphics.drawImage(croiseur,i*90-90,j*90-90);
-                    System.out.println("test1");
+                    graphics.drawImage(porteAvion,i*90-90,j*90-90);
                 }
                 break;
         }
     }
 
-    // pb switch view affiche que croiseur
+    // Corriger relou mais OK
     public void switchView(int modulo, Bateau bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
         /*posX=Mouse.getX();
         posY=900-Mouse.getY();
@@ -495,22 +503,108 @@ public boolean look(Bateau bateau) {
                 graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
                 break;
             case 1: // horizontal vers la gauche
+                //bateauIm.rotate(90);
+                //graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
+                //bateauIm.rotate(-90);
+                drawImageViewHorizGauche(bateau,graphics,caseSup);
+                break;
+            case 2: // vertical vers le haut
+                //bateauIm.rotate(180);
+                //graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270);
+                //bateauIm.rotate(-180);
+                drawImageViewVertiHaut(bateau,graphics,caseSup);
+                break;
+            case 3: // horizontal vers la droite
+                //bateauIm.rotate(270);
+                //graphics.drawImage(bateauIm,caseSup[0], caseSup[1]-180);
+                //bateauIm.rotate(-270);
+                drawImageViewHorizDroite(bateau,graphics,caseSup);
+                break;
+        }
+    }
+
+    public void drawImageViewHorizGauche(Bateau bateau,Graphics graphics,int[] caseSup){
+        Image bateauIm=bateau.getImgAvant();
+        switch(bateau.getTaille())
+        {
+            case 2: // corvette
+                bateauIm.rotate(90);
+                graphics.drawImage(bateauIm,caseSup[0]-180+45, caseSup[1]-180+45);
+                bateauIm.rotate(-90);
+                break;
+            case 3: // croiseur et sous-marin
                 bateauIm.rotate(90);
                 graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
                 bateauIm.rotate(-90);
                 break;
-            case 2: // vertical vers le haut
-                bateauIm.rotate(180);
-                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270);
-                bateauIm.rotate(-180);
+            case 4: // cuirasse
+                bateauIm.rotate(90);
+                graphics.drawImage(bateauIm,caseSup[0]-180-45, caseSup[1]-180-45);
+                bateauIm.rotate(-90);
                 break;
-            case 3: // vertical vers la droite
+            case 5: // porte avion
+                bateauIm.rotate(90);
+                graphics.drawImage(bateauIm,caseSup[0]-180-90, caseSup[1]-180-90);
+                bateauIm.rotate(-90);
+                break;
+        }
+    }
+
+    public void drawImageViewHorizDroite(Bateau bateau,Graphics graphics,int[] caseSup){
+        Image bateauIm=bateau.getImgAvant();
+        switch(bateau.getTaille())
+        {
+            case 2: // corvette --> correcte
+                bateauIm.rotate(270);
+                graphics.drawImage(bateauIm,caseSup[0]-45, caseSup[1]-180+45);
+                bateauIm.rotate(-270);
+                break;
+            case 3: // croiseur et sous-marin
                 bateauIm.rotate(270);
                 graphics.drawImage(bateauIm,caseSup[0], caseSup[1]-180);
                 bateauIm.rotate(-270);
                 break;
+            case 4: // cuirasse  --> correcte
+                bateauIm.rotate(270);
+                graphics.drawImage(bateauIm,caseSup[0]+45, caseSup[1]-180-45);
+                bateauIm.rotate(-270);
+                break;
+            case 5: // porte avion
+                bateauIm.rotate(270);
+                graphics.drawImage(bateauIm,caseSup[0]+90, caseSup[1]-180-90);
+                bateauIm.rotate(-270);
+                break;
         }
     }
+
+    public void drawImageViewVertiHaut(Bateau bateau,Graphics graphics,int[] caseSup){
+        Image bateauIm=bateau.getImgAvant();
+        switch(bateau.getTaille())
+        {
+            case 2: // corvette --> correcte
+                bateauIm.rotate(180);
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270+90);
+                bateauIm.rotate(-180);
+                break;
+            case 3: // croiseur et sous-marin
+                bateauIm.rotate(180);
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270);
+                bateauIm.rotate(-180);
+                break;
+            case 4: // cuirasse  --> correcte
+                bateauIm.rotate(180);
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270-90);
+                bateauIm.rotate(-180);
+                break;
+            case 5: // porte avion
+                bateauIm.rotate(180);
+                graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270-180);
+                bateauIm.rotate(-180);
+                break;
+        }
+    }
+
+
 
     public String choixBateau(int posX, int posY){ // permet de choisir un bateau pour le placer
 
@@ -558,11 +652,11 @@ public boolean look(Bateau bateau) {
         switch (depose)
         {
             case "PA":
-                bateau = new Bateau(4,3,0,0,croiseur);
+                bateau = new Bateau(6,5,0,0,porteAvion);
                 System.out.println("PA");
                 break;
             case "Cu":
-                bateau = new Bateau(4,3,0,0,croiseur);
+                bateau = new Bateau(5,4,0,0,cuirasse);
                 System.out.println("Cu");
                 break;
             case "C":
@@ -574,7 +668,7 @@ public boolean look(Bateau bateau) {
                 System.out.println("S");
                 break;
             case "Co":
-                bateau = new Bateau(4,3,0,0,croiseur);
+                bateau = new Bateau(2,2,0,0,corvette);
                 System.out.println("Co");
                 break;
         }
