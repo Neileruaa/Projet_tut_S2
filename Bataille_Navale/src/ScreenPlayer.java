@@ -29,6 +29,7 @@ public class ScreenPlayer extends BasicGameState{
     private Image porteAvion;
     private Image cuirasse;
     private Image corvette;
+    private Image passeT;
 
     private int posX;
     private int posY;
@@ -93,6 +94,8 @@ public class ScreenPlayer extends BasicGameState{
         cuirasseView=new Image("res/Images/cuirasse.png");
         corvetteView=new Image("res/Images/corvette.png");
 
+        passeT=new Image("res/Images/passerTour.png");
+
 
         croiseurView.rotate(90);
         sousMarinView.rotate(90);
@@ -110,6 +113,8 @@ public class ScreenPlayer extends BasicGameState{
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 //        graphics.drawImage(grille, 0,0);
         graphics.drawImage(ctrl,900,0);
+
+        graphics.drawImage(passeT, 900,810);
         Input input = gameContainer.getInput(); // pour le clic
 
         int posX= Mouse.getX();
