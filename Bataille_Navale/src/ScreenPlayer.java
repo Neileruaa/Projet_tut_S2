@@ -739,7 +739,7 @@ public class ScreenPlayer extends BasicGameState{
     public void passerTour(StateBasedGame stateBasedGame){
         int posX = Mouse.getX();
         int posY = Mouse.getY();
-        if(bateauxPoses && (posX>900 && posX<1440) && (posY>0 && posY<100) ){
+        if(bateauxPoses && (posX>900 && posX<1170) && (posY>0 && posY<100) ){
             if (Mouse.isButtonDown(0)){
                 stateBasedGame.enterState(2);
 

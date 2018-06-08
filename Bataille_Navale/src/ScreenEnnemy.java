@@ -13,7 +13,7 @@ public class ScreenEnnemy extends ScreenPlayer{
     public void passerTour(StateBasedGame stateBasedGame){
         int posX = Mouse.getX();
         int posY = Mouse.getY();
-        if(isBateauxPoses() && (posX>900 && posX<1440) && (posY>0 && posY<100) ){
+        if(isBateauxPoses() && (posX>1170 && posX<1440) && (posY>0 && posY<100) ){
             if (Mouse.isButtonDown(0)){
                 stateBasedGame.enterState(1);
 
