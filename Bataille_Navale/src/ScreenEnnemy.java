@@ -5,7 +5,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class ScreenEnnemy extends ScreenPlayer{
 
-
     public ScreenEnnemy(int state) {
         super(state);
     }
