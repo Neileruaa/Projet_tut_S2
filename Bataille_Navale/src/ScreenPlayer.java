@@ -333,6 +333,8 @@ public class ScreenPlayer extends BasicGameState{
 
     /* on remplis la matrice avec l'id du bateau contenu dans les classes de léa
        on a :
+       id tir deja touche = 0+[idBateau]
+       id tir raté = 7
        id porte avion = 6
        id Cuirasse = 5
        id croiseur = 4

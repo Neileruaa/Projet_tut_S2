@@ -24,6 +24,7 @@ public class SaverReaderTest {
         };
 
         saverReader.savePlateau(1,plateau);
+        saverReader.savePlateau(2,plateau);
 
 
         Assert.assertArrayEquals(plateau,saverReader.readPlateau(1));
