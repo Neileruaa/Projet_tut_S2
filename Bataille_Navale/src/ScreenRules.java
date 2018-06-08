@@ -16,7 +16,7 @@ public class ScreenRules extends BasicGameState{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        imgRegle=new Image("res/Images/900.jpg");
+        imgRegle=new Image("res/Images/Regles.png");
     }
 
     @Override

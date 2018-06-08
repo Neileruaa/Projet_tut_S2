@@ -8,6 +8,7 @@ public class Game extends StateBasedGame {
     public static final int screenEnemy =2;
     public static final int screenRules=3;
     public static final int screenEnd=4;
+    public static final int screenShoot=5;
 //    public static String icon="res/Images/ICONE.png";
 
     public Game(String gameName){
@@ -18,6 +19,7 @@ public class Game extends StateBasedGame {
         this.addState(new ScreenEnnemy(screenEnemy));
         this.addState(new ScreenRules(screenRules));
         this.addState(new ScreenEnd(screenEnd));
+        this.addState(new ScreenShoot(screenShoot));
     }
 
     public void initStatesList(GameContainer gc) throws SlickException{
@@ -26,6 +28,7 @@ public class Game extends StateBasedGame {
         this.getState(screenEnemy).init(gc, this);
         this.getState(screenRules).init(gc, this);
         this.getState(screenEnd).init(gc, this);
+        this.getState(screenShoot).init(gc, this);
         this.enterState(menu);
     }
 
