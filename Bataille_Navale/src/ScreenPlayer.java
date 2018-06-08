@@ -16,6 +16,7 @@ import java.util.List;
 
 
 public class ScreenPlayer extends BasicGameState{
+    private boolean bateauxPoses=false;
     private boolean finPartie;
     private Image ctrl;
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -174,7 +175,7 @@ public class ScreenPlayer extends BasicGameState{
             bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
 
             //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
-            graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
+//            graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
 //            System.out.println(bateau.toString());
         }
 
@@ -277,6 +278,7 @@ public class ScreenPlayer extends BasicGameState{
             //besoin de créer une méthode pour savoir si le joueur à gagner ou non (pour l'écran de fin
             stateBasedGame.enterState(4);
         }
+        passerTour(stateBasedGame);
     }
 
     @Override
@@ -734,6 +736,16 @@ public class ScreenPlayer extends BasicGameState{
         tousBateauxPoses=true;
         return tousBateauxPoses;
     }
+    public void passerTour(StateBasedGame stateBasedGame){
+        int posX = Mouse.getX();
+        int posY = Mouse.getY();
+        if(bateauxPoses && (posX>900 && posX<1440) && (posY>0 && posY<100) ){
+            if (Mouse.isButtonDown(0)){
+                stateBasedGame.enterState(2);
+
+            }
+        }
+    }
     public void visiblePlacementBateau(Graphics graphics){
         if (bateauPose()==false) { //fait apparaître ou non les bateaux à gauche pour le placement
             // images des bateaux pour leur placement (à gauche de la fenêtre)
@@ -743,5 +755,12 @@ public class ScreenPlayer extends BasicGameState{
             graphics.drawImage(sousMarinView, 990, 360); //sous marin
             graphics.drawImage(corvetteView, 945, 495); // corvette
         }
+        else{
+            bateauxPoses=true;
+        }
+    }
+
+    public boolean isBateauxPoses() {
+        return bateauxPoses;
     }
 }
