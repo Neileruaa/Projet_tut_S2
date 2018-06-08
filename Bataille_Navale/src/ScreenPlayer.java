@@ -40,7 +40,7 @@ public class ScreenPlayer extends BasicGameState{
         SM = sous-marin ; Co = corvette
         changera en fonction du bouton sélectionné
     */
-    private Image img;
+
     private Image imgDefaut;
 
     /* matrice vide ou l'on met les bateaux */
@@ -64,6 +64,7 @@ public class ScreenPlayer extends BasicGameState{
     int nbClicDroit;
 
     // test
+    private Image croiseurView;
     private Image sousMarinView;
     private Image porteAvionView;
     private Image cuirasseView;
@@ -82,7 +83,7 @@ public class ScreenPlayer extends BasicGameState{
 //        grille=new Image("res/Images/900.jpg");
         ctrl=new Image("res/Images/540.jpg");
         map = new TiledMap("res/Map/Map900x900.tmx");
-        img = new Image("res/Images/croiseur.png");
+        croiseurView = new Image("res/Images/croiseur.png");
 
 
 
@@ -92,7 +93,7 @@ public class ScreenPlayer extends BasicGameState{
         corvetteView=new Image("res/Images/corvette.png");
 
 
-        img.rotate(90);
+        croiseurView.rotate(90);
         sousMarinView.rotate(90);
         porteAvionView.rotate(90);
         cuirasseView.rotate(90);
@@ -735,11 +736,12 @@ public class ScreenPlayer extends BasicGameState{
     }
     public void visiblePlacementBateau(Graphics graphics){
         if (bateauPose()==false) { //fait apparaître ou non les bateaux à gauche pour le placement
-            graphics.drawImage(img, 990, 90); // images des bateaux pour leur placement (à gauche de la fenêtre)
-            graphics.drawImage(img, 990, 175);
-            graphics.drawImage(img, 990, 255);
-            graphics.drawImage(sousMarinView, 990, 335);
-            graphics.drawImage(img, 990, 415);
+            // images des bateaux pour leur placement (à gauche de la fenêtre)
+            graphics.drawImage(croiseurView, 990, 90); // croiseur
+            graphics.drawImage(porteAvionView, 1080, 90); // porte avion
+            graphics.drawImage(cuirasseView, 1035, 225); // cuirasse
+            graphics.drawImage(sousMarinView, 990, 360); //sous marin
+            graphics.drawImage(corvetteView, 945, 495); // corvette
         }
     }
 }
