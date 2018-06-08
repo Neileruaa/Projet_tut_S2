@@ -282,21 +282,21 @@ public class ScreenPlayer extends BasicGameState{
     public int getID() {
         return 1;
     }
-//    public boolean verifGagne(){
+    //    public boolean verifGagne(){
 //        if (/** ici : si il un des joueurs n'a plus de bateaux alors true**/){
 //            return true;
 //        }
 //        else return false;
 //    }
-/* regarde dans la matrice si le bateau est déjà dans la matrice ou non si il est DEJA DEDANS renvoie FALSE*/
-public boolean look(Bateau bateau) {
-    for(int i=0; i<plateau.length;i++){
-        for(int j=0; j<plateau[i].length;j++) {
-            if (plateau[i][j]==bateau.getType()){return false;}
+    /* regarde dans la matrice si le bateau est déjà dans la matrice ou non si il est DEJA DEDANS renvoie FALSE*/
+    public boolean look(Bateau bateau) {
+        for(int i=0; i<plateau.length;i++){
+            for(int j=0; j<plateau[i].length;j++) {
+                if (plateau[i][j]==bateau.getType()){return false;}
+            }
         }
+        return true; // true car pret a etre placé (il n'est pas dans la matrice)
     }
-    return true; // true car pret a etre placé (il n'est pas dans la matrice)
-}
 
     /* si il n'y a rien qui gene pour le placer (bord ou autres bateaux) retourne true */
     public boolean switchLook(int modulo, Bateau bateau,int[] caseSup) {
@@ -711,15 +711,15 @@ public boolean look(Bateau bateau) {
             for (int j=0;j<10;j++){
                 switch (plateau[i][j]){ //si dans le plateau il y a la présence d'un bateau alors on passe à true la case de tabId
                     case 2: tabId[0]=true;
-                    break;
+                        break;
                     case 3: tabId[1]=true;
-                    break;
+                        break;
                     case 4: tabId[2]=true;
-                    break;
+                        break;
                     case 5: tabId[3]=true;
-                    break;
+                        break;
                     case 6: tabId[4]=true;
-                    break;
+                        break;
                 }
             }
         }
