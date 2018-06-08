@@ -34,7 +34,7 @@ public class SaverReader {
         //on ajoute la tableau ligne par ligne
         for(int i = 0 ; i<plateau.length; i++){
             for(int j=0; j<plateau.length; j++){
-                writer.append(""+plateau[i][j]);
+                writer.append(""+plateau[j][i]);
             }
             writer.newLine();
         }

@@ -87,17 +87,14 @@ public class ScreenPlayer extends BasicGameState{
 //        grille=new Image("res/Images/900.jpg");
         ctrl=new Image("res/Images/540.jpg");
         map = new TiledMap("res/Map/Map900x900.tmx");
+
         croiseurView = new Image("res/Images/croiseur.png");
-
-
-
         sousMarinView=new Image("res/Images/sous_marin.png");
         porteAvionView=new Image("res/Images/porteAvion.png");
         cuirasseView=new Image("res/Images/cuirasse.png");
         corvetteView=new Image("res/Images/corvette.png");
 
         passeT=new Image("res/Images/passerTour.png");
-
 
         croiseurView.rotate(90);
         sousMarinView.rotate(90);
@@ -108,7 +105,6 @@ public class ScreenPlayer extends BasicGameState{
         /* important pour eviter les Nullpointerexception quand on lance le jeu */
         modif=false;
         depose="";
-
 
         saverReader = new SaverReader();
     }
@@ -180,24 +176,23 @@ public class ScreenPlayer extends BasicGameState{
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && doubleClic==false){
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
-            Image bateauIm=imgDefaut;
-            bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
+            switchDepose(depose);
+            //Image bateauIm=imgDefaut;
+            //bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
 
             //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
-//            graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
+            //graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
 //            System.out.println(bateau.toString());
+            System.out.println("X : "+posX+", Y : "+posY);
         }
 
-        /*mouseClicked(0,200,300,2);*/
-        if (doubleClic==true) { // si on fait un double clic
-            /*System.out.println("double clic");*/
+        if (doubleClic) { // si on fait un double clic
             if(input.isMousePressed(input.MOUSE_RIGHT_BUTTON) && posX>0 && posX<900 && posY>0 && posY<900) { // si on fait un click DROIT dans la grille
                 System.out.println("bouton droit");
                 nbClicDroit++;
                 modulo=nbClicDroit%4;
             }
             if (switchLook(modulo,bateau,caseSup) && look(bateau)){ //si pas 2 fois le mm bateau et que rien ne gene
-                /*System.out.println("vous pouvez placer le bateau");*/
                 caseSup = findIdTile(posX, posY);
                 switchView(modulo,bateau,graphics,caseSup);
                 if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) && posX>0 && posX<900 && posY>0 && posY<900){ // si on fait un click GAUCHE dans la grille
@@ -209,11 +204,11 @@ public class ScreenPlayer extends BasicGameState{
                     doubleClic=false;
                 }
             } else {
-                if (look(bateau)==false){
+                if (!look(bateau)){
                     System.out.println("Se bateau est deja posé");
                     doubleClic=false;
                 }
-                if (switchLook(modulo,bateau,caseSup)==false){
+                if (!switchLook(modulo,bateau,caseSup)){
                     System.out.println("quelque chose gene le placement de bateau (un bord ou un autre bateau)");
                 }
             }
@@ -254,7 +249,7 @@ public class ScreenPlayer extends BasicGameState{
          *                                          car le premier point (ou case) c'est celle ou clique l'utilisateur
          *                                          "l'origine" )
          *             getTaille() = c'est la taille du bateau en nb de cases
-         *             tCase = ici 90 UTILISE UNIQUEMENT POUR LES COORD PAS DANS LA MATRICE CAR INUTILE
+         *             tCase = 90 ici, UTILISE UNIQUEMENT POUR LES COORD PAS DANS LA MATRICE CAR INUTILE
          *
          *             -> pour la matrice c'est le mm principe sans les *tCase)
          *             -> pour les coord pas besoin de for donc on remplace le i par le getTaille() mais on garde le *tCase
@@ -265,17 +260,7 @@ public class ScreenPlayer extends BasicGameState{
          *                 case 1 : (for i allant de 0 à getTaille()) : baseX=baseX-i*tCase ; baseY=baseY
          *                 case 2 : (for i allant de 0 à getTaille()) : baseX=baseX         ; baseY=baseY-i*tCase
          *                 case 3 : (for i allant de 0 à getTaille()) : baseX=baseX+i*tCase ; baseY=baseY
-         *             ]
-         *
-         *
-         * PS : Aurel explique vite fait ton caseSup stp que je puisse le reutilisé pcq il est bien fait comme la position est fixe
-         *                 par rapport a la case et pas par rapport au clique de l'utilisateur ;
-         *                 sinon mon switch de au dessus (ou je calcule le "deuxieme" point est ambigue dans le sens
-         *                 ou avec le rotate on en aura peut etre pas besoin mais ca peut etre utile pour des eventuels
-         *                 remplissement de case (matrice graphique ou de la grille etc) enfin j'expliquerai ca plus tard
-         *      je vais mettre mes boucles NON MODIFIE (je dois modif les tailles des cases des grilles etc dans les boucles).
-         *      je dois faire le switch aussi du coup ca serai mieux je pense (moin de boucle en modifiant la
-         *      variable getTaille() en fct de la variable depose (expliquee au dessus)
+         *             }
          */
 
     }
@@ -353,6 +338,11 @@ public class ScreenPlayer extends BasicGameState{
        id sous marin = 3
        id Corvette = 2
     */
+    // IMPORTANT
+    // ICI JE M ETAIS TROMPE
+    // j'ai inverser colonne et ligne et ne trouvant pas d'ou venais mes problèmes j'avais fait
+    // tout le code comme cela. Le remarquant trop tard je laisse comme ceci et quand on lira la matrice
+    // pour le mettre dans le fichier on a inverser les colonnes et lignes et le tour est joué.
     public void switchRempli(int modulo, Bateau bateau, int[] caseSup ) { // mise dans la matrice du bateau qui vient d'etre posé
         int colonne=caseSup[0]/90; // ici on calcule les indices en fct des coordonnées pour pouvoir les réutilisés dans la matrice
         int ligne=caseSup[1]/90;
@@ -391,14 +381,10 @@ public class ScreenPlayer extends BasicGameState{
      * En fct de l'getType( trouvé dans la matrice on pose le/les bateaux (sa se refresh a chaque fois donc dés que l'on pose un bateau
      * on le verra apparaitre sur la grille).
      *
-     * un peu compliqué en faite je pense
      */
-
-    /* pour corriger je doit add un break qq part + modif mon if(k!=i) */
     public void pose(Graphics graphics) { // pour POSER LE BATEAU EN FIXE
         int idSauv=0;
         java.util.List<Integer> sauv = new ArrayList<>(); //sauvegarde les bateaux déjà mis sur le plateu
-        /*System.out.println("test0"); // celui la s'affiche*/
         for(int i=0; i<plateau.length;i++){ // on parcours le plateau
             for(int j=0; j<plateau[i].length;j++) {
                 if (plateau[i][j]!=0 && plateau[i][j]!=1 && testPlateau(sauv,plateau[i][j])){ // si on trouve un bateau (different des precedents)
@@ -406,10 +392,8 @@ public class ScreenPlayer extends BasicGameState{
                     sauv.add(idSauv);
                     for(int k=i; k<plateau.length;k++) { // on cherche UN AUTRE MORCEAU du bateau à partir de ou on a trouver le premier morceau
                         for (int l = j; l < plateau[k].length; l++) {
-                            /*System.out.println("test5"); // s'affiche aussi*/
                             if(plateau[k][l]==idSauv && idSauv!=0 //qd on a trouvé cette autre morceau
                                     && (k!=i || l!=j)){ // et que celui-ci n'est pas le meme que le premier
-                                /*System.out.println("test4"); // s'affiche*/
                                 switchIdSauv(idSauv,l,i,j,graphics);
                                 idSauv=0; // on remet a zero pour eviter de refaire d'autre bateaux
                             }
@@ -442,12 +426,12 @@ public class ScreenPlayer extends BasicGameState{
                 // POUR COMPRENDRE LA SUITE FAITE LE PLATEAU EN DESSIN
                 // ici A est le premier "morceau" de bateau et B le deuxieme
                 // il faut bien avoir en tête que l'on parcours le plateau de GAUCHE à DROITE
-                // le plateau est en "miroir" (en java l'origine est en haut à gauche)
+                // le plateau est en "miroir" car j'avais eue un problème que j'ai expliquer
+                // plus haut pour le switchRempli (j'avais inverser les colonnes et les lignes)
                 // --- donc :
                 // if(l==j)  si B se trouve sur une colonne d'indice different de celle de A
-                //              JE CROIS que l'on met pas de different mais == pcq les y vont vers le
-                //              bas (symetrie par rapport à l'axe des x du plan que l'on connait)
-                //              (ou alors du au fait qu'on a le posY=900-Mouse.getY();)
+                //              j'ai du mettre == au lieu de !=
+                //              car j'ai inverser colonne et ligne mais le principe reste le meme
                 // ------------> on dessine le bateau à l'horizontal vers la droite
                 // SINON c'est que B se trouve sur une ligne d'indice different de celle de A donc
                 // ------------> on dessine le bateau à la vertical vers le bas
@@ -507,9 +491,6 @@ public class ScreenPlayer extends BasicGameState{
 
     // Corriger relou mais OK
     public void switchView(int modulo, Bateau bateau,Graphics graphics,int[] caseSup) { // pour que l'on voit le bateau
-        /*posX=Mouse.getX();
-        posY=900-Mouse.getY();
-        int[] caseSup = findIdTile(posX, posY);*/
         Image bateauIm=bateau.getImgAvant();
         switch(modulo)
         {
@@ -517,21 +498,12 @@ public class ScreenPlayer extends BasicGameState{
                 graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);
                 break;
             case 1: // horizontal vers la gauche
-                //bateauIm.rotate(90);
-                //graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-                //bateauIm.rotate(-90);
                 drawImageViewHorizGauche(bateau,graphics,caseSup);
                 break;
             case 2: // vertical vers le haut
-                //bateauIm.rotate(180);
-                //graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-270);
-                //bateauIm.rotate(-180);
                 drawImageViewVertiHaut(bateau,graphics,caseSup);
                 break;
             case 3: // horizontal vers la droite
-                //bateauIm.rotate(270);
-                //graphics.drawImage(bateauIm,caseSup[0], caseSup[1]-180);
-                //bateauIm.rotate(-270);
                 drawImageViewHorizDroite(bateau,graphics,caseSup);
                 break;
         }
@@ -622,35 +594,35 @@ public class ScreenPlayer extends BasicGameState{
 
     public String choixBateau(int posX, int posY){ // permet de choisir un bateau pour le placer
 
-        if ((posX>918 && posX<1166) && (posY>184 && posY<258)){
+        if ((posX>925 && posX<1164) && (posY>196 && posY<258)){
             if (Mouse.isButtonDown(0)){
                 depose="C";
                 modif=true;
                 return depose;
             }
         }
-        if ((posX>918 && posX<1166) && (posY>275 && posY<343)){
+        if ((posX>910 && posX<1328) && (posY>275 && posY<352)){
             if (Mouse.isButtonDown(0)){
                 depose="PA";
                 modif=true;
                 return depose;
             }
         }
-        if ((posX>918 && posX<1166) && (posY>352 && posY<424)){
+        if ((posX>918 && posX<1259) && (posY>365 && posY<445)){
             if (Mouse.isButtonDown(0)){
                 depose="Cu";
                 modif=true;
                 return depose;
             }
         }
-        if ((posX>918 && posX<1166) && (posY>438 && posY<503)){
+        if ((posX>901 && posX<1171) && (posY>454 && posY<536)){
             if (Mouse.isButtonDown(0)){
                 depose="S";
                 modif=true;
                 return depose;
             }
         }
-        if ((posX>918 && posX<1166) && (posY>515 && posY<584)){
+        if ((posX>910 && posX<1080) && (posY>548 && posY<626)){
             if (Mouse.isButtonDown(0)){
                 depose="Co";
                 modif=true;
@@ -662,7 +634,6 @@ public class ScreenPlayer extends BasicGameState{
 
     //CHANGEMENT ON RETOURNE LE TYPE DU BATEAU
     public Bateau switchDepose(String depose){
-        /*Image bateauIm=croiseur;*/
         switch (depose)
         {
             case "PA":
@@ -716,13 +687,12 @@ public class ScreenPlayer extends BasicGameState{
     public void mousePressed(int button, int x, int y) { //detecte le simple clic on redefini la methode de slick2D ici aussi
         int mouseX = x;
         int mouseY = y;
-        /*nbDoubleClic=0;*/
     }
     public boolean bateauPose(){ // retourne true si tous les bateaux sont posés sinon false
         boolean tousBateauxPoses=false;
         boolean[] tabId=new boolean[5];
-        for (int i=0; i<10;i++){
-            for (int j=0;j<10;j++){
+        for (int i=0; i<plateau.length;i++){
+            for (int j=0;j<plateau[i].length;j++){
                 switch (plateau[i][j]){ //si dans le plateau il y a la présence d'un bateau alors on passe à true la case de tabId
                     case 2: tabId[0]=true;
                         break;
@@ -756,7 +726,7 @@ public class ScreenPlayer extends BasicGameState{
         }
     }
     public void visiblePlacementBateau(Graphics graphics){
-        if (bateauPose()==false) { //fait apparaître ou non les bateaux à gauche pour le placement
+        if (!bateauPose()) { //fait apparaître ou non les bateaux à gauche pour le placement
             // images des bateaux pour leur placement (à gauche de la fenêtre)
             graphics.drawImage(croiseurView, 990, 90); // croiseur
             graphics.drawImage(porteAvionView, 1080, 90); // porte avion
