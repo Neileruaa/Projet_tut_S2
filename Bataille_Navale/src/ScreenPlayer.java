@@ -31,6 +31,8 @@ public class ScreenPlayer extends BasicGameState{
     private Image corvette;
     private Image passeT;
 
+    SaverReader saverReader;
+
     private int posX;
     private int posY;
 
@@ -107,6 +109,8 @@ public class ScreenPlayer extends BasicGameState{
         modif=false;
         depose="";
 
+
+        saverReader = new SaverReader();
     }
 
     @Override
@@ -746,8 +750,8 @@ public class ScreenPlayer extends BasicGameState{
         int posY = Mouse.getY();
         if(bateauxPoses && (posX>900 && posX<1170) && (posY>0 && posY<100) ){
             if (Mouse.isButtonDown(0)){
+                saverReader.savePlateau(1, plateau);
                 stateBasedGame.enterState(2);
-
             }
         }
     }

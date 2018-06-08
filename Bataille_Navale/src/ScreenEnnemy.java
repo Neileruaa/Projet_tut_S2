@@ -15,7 +15,7 @@ public class ScreenEnnemy extends ScreenPlayer{
         if(isBateauxPoses() && (posX>1170 && posX<1440) && (posY>0 && posY<100) ){
             if (Mouse.isButtonDown(0)){
                 stateBasedGame.enterState(1);
-
+                saverReader.savePlateau(2, plateau);
             }
         }
     }
