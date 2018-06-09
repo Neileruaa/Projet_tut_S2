@@ -65,9 +65,7 @@ public class ScreenShoot extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 //           map = new TiledMap("res/Map/Map900x900.tmx");
-        plateauPlacement = saverReader.readPlateau(1);
 
-        plateauEcranTir = saverReader.readEcranTir(1);
 
         //Affichage du curseur en mire
         gameContainer.setMouseCursor("res/Images/mire.png", 0, 0);
@@ -130,7 +128,6 @@ public class ScreenShoot extends BasicGameState {
                     ligne = caseSup[1]/90-1;
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
                     comparePlateauAndShoot(ligne,colonne);
-                    saverReader.saveEcranTir(1, plateauEcranTir);
                     dejaTire=false;
                 }
             }
@@ -143,7 +140,7 @@ public class ScreenShoot extends BasicGameState {
             if (Mouse.isButtonDown(0)){
                 System.out.println("vous avez choisit le tire normal");
                 choix="tire normal";
-                }
+            }
         }
     }
 
@@ -160,12 +157,12 @@ public class ScreenShoot extends BasicGameState {
                 }
             }
         }
-            return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
+        return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
     }
 
     private void afficherAnimationExplosion(int x, int y) {
         //Animation de l'explosion
-        explosionAnimation.setSpeed(33);
+        explosionAnimation.setSpeed(27);
         explosionAnimation.draw(x,y);
 
 //        //Animation de l'eau
@@ -267,8 +264,11 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-            waterAnimation.update(100);
-            passerTour(stateBasedGame);
+        waterAnimation.update(100);
+        plateauPlacement = saverReader.readPlateau(1);
+        plateauEcranTir = saverReader.readEcranTir(1);
+
+        passerTour(stateBasedGame);
     }
 
     public void passerTour(StateBasedGame stateBasedGame) {

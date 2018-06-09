@@ -128,14 +128,7 @@ public class SaverReader {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-            //on ajoute la tableau ligne par ligne
-            for(int i = 0 ; i<ecranTir.length; i++){
-                for(int j=0; j<ecranTir.length; j++){
-                    writer.append(""+ecranTir[j][i]);
-                }
-                writer.newLine();
-            }
-            writer.close();
+            addArrayToFile(ecranTir, writer);
 
             //on ferme le writer
         } catch (IOException e) {
