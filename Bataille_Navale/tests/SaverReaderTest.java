@@ -29,4 +29,26 @@ public class SaverReaderTest {
 
         Assert.assertArrayEquals(plateau,saverReader.readPlateau(1));
     }
+
+    @Test
+    public void readEcranTir(int idJoueur){
+        SaverReader saverReader = new SaverReader();
+
+        //tab test
+        int plateau[][] = {
+                {9,9,9,9,9,9,9,9,9,9},
+                {9,9,9,9,9,9,9,9,9,9},
+                {9,9,9,9,10,10,10,10,9,9},
+                {9,9,9,9,9,9,9,9,9,9},
+                {9,9,9,9,9,9,9,9,9,9},
+                {9,9,9,8,9,9,9,9,9,9},
+                {9,9,9,8,9,9,9,9,9,9},
+                {9,9,9,8,9,9,9,9,9,9},
+                {9,9,9,9,9,9,9,9,9,9},
+                {9,9,9,9,9,9,9,9,9,9}
+        };
+
+
+
+    }
 }

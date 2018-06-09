@@ -721,6 +721,7 @@ public class ScreenPlayer extends BasicGameState{
         if(bateauxPoses && (posX>900 && posX<1170) && (posY>0 && posY<100) ){
             if (Mouse.isButtonDown(0)){
                 saverReader.savePlateau(1, plateau);
+                saverReader.initEcranTir(1);
                 stateBasedGame.enterState(2);
             }
         }
