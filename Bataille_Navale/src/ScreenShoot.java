@@ -127,7 +127,7 @@ public class ScreenShoot extends BasicGameState {
                     ligne = caseSup[1]/90-1;
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
                     comparePlateauAndShoot(ligne,colonne);
-                    dejaTire=true;
+                    dejaTire=false;
                 }
             }
             System.out.println("X : "+posX+", Y : "+posY);
@@ -272,8 +272,7 @@ public class ScreenShoot extends BasicGameState {
         if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100)) {
             if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
-                //saverReader.saveEcranTir(1, plateau);
-                //saverReader.initEcranTir(1);
+                //saverReader.saveEcranTir(1, plateauEcranTir);
                 //stateBasedGame.enterState(2);
             }
         }
