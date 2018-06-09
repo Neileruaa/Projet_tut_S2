@@ -5,7 +5,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.lwjgl.input.Mouse;
 
 public class ScreenShoot extends BasicGameState {
-//    private TiledMap map;
 
     final int CASE_NON_CHECK = 9;
     final int COULE = 8;
@@ -25,8 +24,13 @@ public class ScreenShoot extends BasicGameState {
     SpriteSheet explosionSheet;
     Animation explosionAnimation;
 
+    //Animation de l'eau
     SpriteSheet waterSheet;
     Animation waterAnimation;
+
+    //Animation de la fumee
+    SpriteSheet fumeeSheet;
+    Animation fumeeAnimation;
 
     // image
     private Image tire;
@@ -68,8 +72,13 @@ public class ScreenShoot extends BasicGameState {
         //Animation de l'explosion
         explosionSheet = new SpriteSheet("res/Images/explosion.png", 90,90);
         explosionAnimation = new Animation(explosionSheet,42);
+        //Animation de l'eau
         waterSheet = new SpriteSheet("res/Images/water.png", 90,90);
         waterAnimation = new Animation(waterSheet, 100);
+        //Animation de la fumée
+        fumeeSheet = new SpriteSheet("res/Images/fumee.png", 90,90);
+        fumeeAnimation = new Animation(fumeeSheet, 160);
+
 
         // image bouton
         tire=new Image("res/Images/tire.png");
@@ -88,7 +97,6 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-//        map.render(0,0,0,0,900,900);
         afficherMap(graphics);
 
         int colonne = 0;
@@ -124,7 +132,6 @@ public class ScreenShoot extends BasicGameState {
             System.out.println("X : "+posX+", Y : "+posY);
         }
 
-        afficherAnimation();
 
         comparePlateauAndShoot(ligne,colonne);
     }
@@ -154,12 +161,20 @@ public class ScreenShoot extends BasicGameState {
             return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
     }
 
-    private void afficherAnimation() {
+    private void afficherAnimationExplosion(int x, int y) {
         //Animation de l'explosion
-        explosionAnimation.draw(10,10);
+        explosionAnimation.draw(x,y);
 
-        //Animation de l'eau
-        waterAnimation.draw(110,110);
+//        //Animation de l'eau
+//        waterAnimation.draw(110,110);
+    }
+
+    private void afficherAnimationfumee(int x, int y) {
+        //Animation de l'explosion
+        fumeeAnimation.draw(x,y);
+
+//        //Animation de l'eau
+//        waterAnimation.draw(110,110);
     }
 
     private void afficherMap(Graphics graphics) throws SlickException {
@@ -168,7 +183,8 @@ public class ScreenShoot extends BasicGameState {
                 //Inversion de i et de j afin d'avoir la meme reprensation que dans le tableau
                 // ecranTirJ(1 ou 2), sans l'effet de miroir.
                 if (plateauEcranTir[j][i] == 8){
-                    graphics.drawImage(new Image("res/Images/fire.jpg"),i*90,j*90);
+                    graphics.drawImage(new Image("res/Images/tile#1.png"),i*90,j*90);
+                    afficherAnimationfumee(i*90, j*90);
                 }
                 if (plateauEcranTir[j][i] == 9){
                     graphics.drawImage(new Image("res/Images/guess.jpeg"),i*90,j*90);
@@ -206,7 +222,9 @@ public class ScreenShoot extends BasicGameState {
                     if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] != COULE){
                         System.out.println("Il y a un bateau en : " + j + ";" + i + " -> coulé");
                         changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
-                        // METTRE ANIMATION EXPLOSION
+
+                        afficherAnimationExplosion(x,y);
+
                         // METTRE SON EXPLOSION
                         return true;
                     }
