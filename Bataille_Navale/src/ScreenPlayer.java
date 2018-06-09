@@ -101,7 +101,7 @@ public class ScreenPlayer extends BasicGameState{
         passeT=new Image("res/Images/passerTour.png");
 
         // popup
-        gene=new Image("res/Images/gene.png");
+        gene=new Image("res/Images/Gene.png");
         dejaPose=new Image("res/Images/DejaPose.png");
         infoPlace=new Image("res/Images/infoPlace.png");
 
