@@ -744,6 +744,7 @@ public class ScreenPlayer extends BasicGameState{
             }
         }
     }
+
     public void visiblePlacementBateau(Graphics graphics){
         if (!bateauPose()) { //fait apparaître ou non les bateaux à gauche pour le placement
             // images des bateaux pour leur placement (à gauche de la fenêtre)
