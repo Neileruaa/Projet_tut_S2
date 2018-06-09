@@ -126,14 +126,12 @@ public class ScreenShoot extends BasicGameState {
                     colonne =caseSup[0]/90-1;
                     ligne = caseSup[1]/90-1;
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
+                    comparePlateauAndShoot(ligne,colonne);
                     dejaTire=true;
                 }
             }
             System.out.println("X : "+posX+", Y : "+posY);
         }
-
-
-        comparePlateauAndShoot(ligne,colonne);
     }
 
     public void choixDeTire(int posX, int posY){

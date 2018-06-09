@@ -88,29 +88,9 @@ public class SaverReader {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-//            for(int i = 0; i<(TAILLEPLATEAU-2); i++){
-//                for(int j = 0; j<(TAILLEPLATEAU-2); j++){
-//                    writer.append(""+9);
-//                }
-//                writer.newLine();
-//            }
-
-            //Test d'un affichage à enlever une fois que ca marche
-            int plateau[][] = {
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,7,7,7,7,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,8,9,9,9,9,9,9},
-                    {9,9,9,8,9,9,9,9,9,9},
-                    {9,9,9,8,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9}
-            };
-            for (int i = 0; i < plateau.length; i++) {
-                for (int j = 0; j < plateau.length ; j++) {
-                    writer.append(""+plateau[i][j]);
+            for(int i = 0; i<(TAILLEPLATEAU-2); i++){
+                for(int j = 0; j<(TAILLEPLATEAU-2); j++){
+                    writer.append(""+9);
                 }
                 writer.newLine();
             }
