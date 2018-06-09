@@ -74,7 +74,11 @@ public class ScreenPlayer extends BasicGameState{
     private Image cuirasseView;
     private Image corvetteView;
 
-
+    // popup
+    private Image gene;
+    private Image dejaPose;
+    private boolean affiche;
+    private Image infoPlace;
 
 
     private boolean modif=false;
@@ -96,6 +100,11 @@ public class ScreenPlayer extends BasicGameState{
 
         passeT=new Image("res/Images/passerTour.png");
 
+        // popup
+        gene=new Image("res/Images/gene.png");
+        dejaPose=new Image("res/Images/DejaPose.png");
+        infoPlace=new Image("res/Images/infoPlace.png");
+
         croiseurView.rotate(90);
         sousMarinView.rotate(90);
         porteAvionView.rotate(90);
@@ -115,6 +124,8 @@ public class ScreenPlayer extends BasicGameState{
         graphics.drawImage(ctrl,900,0);
 
         graphics.drawImage(passeT, 900,810);
+        graphics.drawImage(infoPlace,900,50);
+
         Input input = gameContainer.getInput(); // pour le clic
 
         int posX= Mouse.getX();
@@ -163,7 +174,7 @@ public class ScreenPlayer extends BasicGameState{
             Bateau renderBateau;
             renderBateau = switchDepose(depose);
             drawImageViewHorizGauche(renderBateau,graphics,caseSup);
-
+            affiche=false;
             /* acienne methode avt chgt bateau */
 //            Image bateauIm;
 //            bateauIm=switchDepose(depose).getImgAvant();
@@ -177,18 +188,18 @@ public class ScreenPlayer extends BasicGameState{
             posX = Mouse.getX();
             posY = 900 - Mouse.getY();
             switchDepose(depose);
+            affiche=false;
             //Image bateauIm=imgDefaut;
             //bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
 
             //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
             //graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
 //            System.out.println(bateau.toString());
-            System.out.println("X : "+posX+", Y : "+posY);
+            //System.out.println("X : "+posX+", Y : "+posY);
         }
 
         if (doubleClic) { // si on fait un double clic
             if(input.isMousePressed(input.MOUSE_RIGHT_BUTTON) && posX>0 && posX<900 && posY>0 && posY<900) { // si on fait un click DROIT dans la grille
-                System.out.println("bouton droit");
                 nbClicDroit++;
                 modulo=nbClicDroit%4;
             }
@@ -196,7 +207,6 @@ public class ScreenPlayer extends BasicGameState{
                 caseSup = findIdTile(posX, posY);
                 switchView(modulo,bateau,graphics,caseSup);
                 if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) && posX>0 && posX<900 && posY>0 && posY<900){ // si on fait un click GAUCHE dans la grille
-                    System.out.println("bouton gauche");
                     switchRempli(modulo, bateau,caseSup); // on rempli la matrice
 
                     nbClicDroit=0; // on remet tt à zero
@@ -205,13 +215,19 @@ public class ScreenPlayer extends BasicGameState{
                 }
             } else {
                 if (!look(bateau)){
-                    System.out.println("Se bateau est deja posé");
+                    //System.out.println("Se bateau est deja posé");
+                    affiche=true; // pour la popup
                     doubleClic=false;
                 }
                 if (!switchLook(modulo,bateau,caseSup)){
-                    System.out.println("quelque chose gene le placement de bateau (un bord ou un autre bateau)");
+                    //System.out.println("quelque chose gene le placement de bateau (un bord ou un autre bateau)");
+                    graphics.drawImage(gene, 945, 650);
                 }
             }
+        }
+
+        if(affiche){
+            graphics.drawImage(dejaPose, 945, 650);
         }
 
 
@@ -638,23 +654,23 @@ public class ScreenPlayer extends BasicGameState{
         {
             case "PA":
                 bateau = new Bateau(6,5,0,0,porteAvion);
-                System.out.println("PA");
+                //System.out.println("PA");
                 break;
             case "Cu":
                 bateau = new Bateau(5,4,0,0,cuirasse);
-                System.out.println("Cu");
+                //System.out.println("Cu");
                 break;
             case "C":
                 bateau = new Bateau(4,3,0,0,croiseur);
-                System.out.println("C");
+                //System.out.println("C");
                 break;
             case "S":
                 bateau = new Bateau(3,3,0,0,sousMarin);
-                System.out.println("S");
+                //System.out.println("S");
                 break;
             case "Co":
                 bateau = new Bateau(2,2,0,0,corvette);
-                System.out.println("Co");
+                //System.out.println("Co");
                 break;
         }
         return bateau; // retourne le bateau
