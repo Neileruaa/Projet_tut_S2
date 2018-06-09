@@ -112,9 +112,11 @@ public class ScreenShoot extends BasicGameState {
                 System.out.println(choix);
                 if(choix.equals("tire normal")){
                     // tire matrice avec en parametre posX et posY
-                    System.out.println("vous effectuez un tire normal à la position X : "+posX+", Y : "+posY);
+                    int colonne =caseSup[0]/90-1;
+                    int ligne = caseSup[1]/90-1;
+                    System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
                     dejaTire=true;
-                    }
+                }
             }
             System.out.println("X : "+posX+", Y : "+posY);
         }
