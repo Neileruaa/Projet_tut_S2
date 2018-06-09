@@ -202,13 +202,6 @@ public class ScreenShoot extends BasicGameState {
 
         for (int i = 0; i < plateauPlacement.length; i++) {
             for (int j = 0; j < plateauPlacement.length; j++) {
-                System.out.print(plateauPlacement[j][i]);
-            }
-            System.out.println();
-        }
-
-        for (int i = 0; i < plateauPlacement.length; i++) {
-            for (int j = 0; j < plateauPlacement.length; j++) {
                 if (x==i && y==j) {
                     if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] != COULE){
                         System.out.println("Il y a un bateau en : " + j + ";" + i + " -> coulé");
