@@ -51,6 +51,9 @@ public class ScreenShoot extends BasicGameState {
     private boolean dejaTire=false;
     private String choix="";
 
+    boolean EcranTirDejaCharge = false;
+
+
 
     public ScreenShoot(int state){
     }
@@ -95,6 +98,12 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException{
+        if (!EcranTirDejaCharge) {
+            plateauEcranTir = saverReader.readEcranTir(1);
+            EcranTirDejaCharge = true;
+        }
+
+
         afficherMap(graphics);
 
         int colonne = 0;
@@ -252,7 +261,6 @@ public class ScreenShoot extends BasicGameState {
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         plateauPlacement = saverReader.readPlateau(1);
 
-        plateauEcranTir = saverReader.readEcranTir(1);
 
         waterAnimation.update(100);
         passerTour(stateBasedGame);
