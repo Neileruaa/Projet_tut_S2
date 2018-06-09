@@ -154,7 +154,6 @@ public class ScreenShoot extends BasicGameState {
             return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
     }
 
-
     private void afficherAnimation() {
         //Animation de l'explosion
         explosionAnimation.draw(10,10);
@@ -251,7 +250,6 @@ public class ScreenShoot extends BasicGameState {
             }
         }
     }
-
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {

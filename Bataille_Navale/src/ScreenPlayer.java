@@ -91,7 +91,7 @@ public class ScreenPlayer extends BasicGameState{
         gameContainer.setDefaultMouseCursor();
 
 //        grille=new Image("res/Images/900.jpg");
-        ctrl=new Image("res/Images/540.jpg");
+        ctrl=new Image("res/Images/marin.png");
         map = new TiledMap("res/Map/Map900x900.tmx");
 
         croiseurView = new Image("res/Images/croiseur.png");
