@@ -161,6 +161,7 @@ public class ScreenShoot extends BasicGameState {
 
     private void afficherAnimationExplosion(int x, int y) {
         //Animation de l'explosion
+        explosionAnimation.setSpeed(27);
         explosionAnimation.draw(x,y);
 
 //        //Animation de l'eau
@@ -221,7 +222,7 @@ public class ScreenShoot extends BasicGameState {
                         System.out.println("Il y a un bateau en : " + j + ";" + i + " -> coulé");
                         changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
 
-                        afficherAnimationExplosion(x,y);
+                        afficherAnimationExplosion(j * 90, i * 90);
 
                         // METTRE SON EXPLOSION
                         return true;
@@ -272,7 +273,8 @@ public class ScreenShoot extends BasicGameState {
         if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100)) {
             if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
-                //saverReader.saveEcranTir(1, plateauEcranTir);
+                //saverReader.saveEcranTir(1, plateau);
+                //saverReader.initEcranTir(1);
                 //stateBasedGame.enterState(2);
             }
         }

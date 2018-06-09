@@ -28,7 +28,6 @@ public class SaverReader {
             addArrayToFile(plateau, writer);
 
             //on ferme le writer
-            writer.close();
         } catch (IOException e) {
             System.out.println("ERREUR le fichier ne peut être lu");
             e.printStackTrace();
@@ -43,6 +42,7 @@ public class SaverReader {
             }
             writer.newLine();
         }
+        writer.close();
     }
 
     public int[][] readPlateau(int idJoueur){
@@ -94,7 +94,6 @@ public class SaverReader {
                 }
                 writer.newLine();
             }
-
             //on ferme le writer
             writer.close();
         } catch (IOException e) {
@@ -132,7 +131,6 @@ public class SaverReader {
             addArrayToFile(ecranTir, writer);
 
             //on ferme le writer
-            writer.close();
         } catch (IOException e) {
             System.out.println("ERREUR le fichier ne peut être lu");
             e.printStackTrace();
