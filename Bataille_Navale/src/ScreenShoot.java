@@ -1,7 +1,6 @@
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.*;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -11,6 +10,13 @@ public class ScreenShoot extends BasicGameState {
     SaverReader  saverReader = new SaverReader();
 
     int[][] plateau;
+
+    //Animation de l'explosion
+    SpriteSheet explosionSheet;
+    Animation explosionAnimation;
+
+    SpriteSheet waterSheet;
+    Animation waterAnimation;
 
     public ScreenShoot(int state){
     }
@@ -23,12 +29,39 @@ public class ScreenShoot extends BasicGameState {
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 //           map = new TiledMap("res/Map/Map900x900.tmx");
         plateau = saverReader.readPlateau(1);
+
+        //Affichage du curseur en mire
+        gameContainer.setMouseCursor("res/Images/mire.png", 0, 0);
+
+        //Animation de l'explosion
+        explosionSheet = new SpriteSheet("res/Images/explosion.png", 90,90);
+        explosionAnimation = new Animation(explosionSheet, 42);
+        waterSheet = new SpriteSheet("res/Images/water.png", 90,90);
+        waterAnimation = new Animation(waterSheet, 100);
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 //        map.render(0,0,0,0,900,900);
         afficherMap(plateau, graphics);
+
+        afficherAnimation();
+    }
+
+    private void afficherAnimation() {
+        //Animation de l'explosion
+        explosionAnimation.draw(10,10);
+
+        //Animation de l'eau
+        waterAnimation.draw(110,110);
+//        waterAnimation.stop();
+//        if(waterAnimation.isStopped()){
+//            waterAnimation.restart();
+//        }
+
+
+
+
     }
 
     private void afficherMap(int[][] plateau, Graphics graphics) throws SlickException {
@@ -68,6 +101,6 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-
+            waterAnimation.update(100);
     }
 }
