@@ -126,7 +126,7 @@ public class ScreenShoot extends BasicGameState {
 
         afficherAnimation();
 
-        comparePlateauAndShoot(colonne,ligne);
+        comparePlateauAndShoot(ligne,colonne);
     }
 
     public void choixDeTire(int posX, int posY){
