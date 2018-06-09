@@ -36,7 +36,7 @@ public class ScreenShoot extends BasicGameState {
     private Image tire;
     private Image passe;
 
-            // popup
+    // popup
 
     private Image dialogueTouche;
     private Image couleCorvette;
@@ -50,9 +50,6 @@ public class ScreenShoot extends BasicGameState {
     private int[] space = {90,180,270,360,450,540,630,720,810,900};
     private boolean dejaTire=false;
     private String choix="";
-
-    boolean EcranTirDejaCharge = false;
-
 
 
     public ScreenShoot(int state){
@@ -97,13 +94,7 @@ public class ScreenShoot extends BasicGameState {
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException{
-        if (!EcranTirDejaCharge) {
-            plateauEcranTir = saverReader.readEcranTir(1);
-            EcranTirDejaCharge = true;
-        }
-
-
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         afficherMap(graphics);
 
         int colonne = 0;
@@ -134,7 +125,6 @@ public class ScreenShoot extends BasicGameState {
                     ligne = caseSup[1]/90-1;
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
                     comparePlateauAndShoot(ligne,colonne);
-                    saverReader.saveEcranTir(1, plateauEcranTir);
                     dejaTire=false;
                 }
             }
@@ -147,7 +137,7 @@ public class ScreenShoot extends BasicGameState {
             if (Mouse.isButtonDown(0)){
                 System.out.println("vous avez choisit le tire normal");
                 choix="tire normal";
-                }
+            }
         }
     }
 
@@ -164,12 +154,12 @@ public class ScreenShoot extends BasicGameState {
                 }
             }
         }
-            return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
+        return coord; //retourne un tableau avec x et y correspondant au point en haut a gauche de la case ou on clic
     }
 
     private void afficherAnimationExplosion(int x, int y) {
         //Animation de l'explosion
-        explosionAnimation.setSpeed(33);
+        explosionAnimation.setSpeed(27);
         explosionAnimation.draw(x,y);
 
 //        //Animation de l'eau
@@ -223,46 +213,58 @@ public class ScreenShoot extends BasicGameState {
             removeElement(plateauPlacement[i],1);
         }
 
-        if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] != COULE){
-            System.out.println("Il y a un bateau en : " + y + ";" + x + " -> coulé");
-            changerEtatCaseEcranTir(x,y,COULE);
+        for (int i = 0; i < plateauPlacement.length; i++) {
+            for (int j = 0; j < plateauPlacement.length; j++) {
+                if (x==i && y==j) {
+                    if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] != COULE){
+                        System.out.println("Il y a un bateau en : " + j + ";" + i + " -> coulé");
+                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
 
-            afficherAnimationExplosion(y * 90, x * 90);
+                        afficherAnimationExplosion(j * 90, i * 90);
 
-            // METTRE SON EXPLOSION
-            return true;
-        }
-        if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] == COULE){
-            System.out.println("Il y a un bateau en : " + y + ";" + x
-                    + " -> mais déxà coulé donc impossible");
-            changerEtatCaseEcranTir(x,y,COULE);
-            return false;
-        }
-        if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] != RATE  ){
-            System.out.println("Il n'y a rien en : " + y + ";" + x
-                    + " -> donc coup raté ");
-            changerEtatCaseEcranTir(x,y,RATE);
-            return true;
-        }
-        if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] == RATE  ){
-            System.out.println("Vous avez déxà essayé et il n'y a touxours rien en : " + y + ";" + x
-                    + " -> donc impossible");
-            changerEtatCaseEcranTir(x,y,RATE);
-            return false;
+                        // METTRE SON EXPLOSION
+                        return true;
+                    }
+                    if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] == COULE){
+                        System.out.println("Il y a un bateau en : " + j + ";" + i
+                                + " -> mais déjà coulé donc impossible");
+                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
+                        return false;
+                    }
+                    if (plateauPlacement[j][i]  == 0 && plateauEcranTir[j][i] != RATE  ){
+                        System.out.println("Il n'y a rien en : " + j + ";" + i
+                                + " -> donc coup raté ");
+                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTir);
+                        return true;
+                    }
+                    if (plateauPlacement[j][i]  == 0 && plateauEcranTir[j][i] == RATE  ){
+                        System.out.println("Vous avez déjà essayé et il n'y a toujours rien en : " + j + ";" + i
+                                + " -> donc impossible");
+                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTir);
+                        return false;
+                    }
+                }
+            }
         }
         return false;
     }
 
-    private void changerEtatCaseEcranTir(int x, int y, int nouvelEtat){
-        plateauEcranTir[x][y] = nouvelEtat;
+    private void changerEtatCaseEcranTir(int x, int y, int nouvelEtat, int[][] plateauEcranTir){
+        for (int i = 0; i < plateauEcranTir.length; i++) {
+            for (int j = 0; j < plateauEcranTir.length; j++) {
+                if (j==x && i==y){
+                    plateauEcranTir[j][i] = nouvelEtat;
+                }
+            }
+        }
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        plateauPlacement = saverReader.readPlateau(1);
-
-
         waterAnimation.update(100);
+        plateauPlacement = saverReader.readPlateau(1);
+        plateauEcranTir = saverReader.readEcranTir(1);
+
         passerTour(stateBasedGame);
     }
 
