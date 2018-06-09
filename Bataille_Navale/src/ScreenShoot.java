@@ -1,4 +1,3 @@
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
@@ -9,7 +8,8 @@ public class ScreenShoot extends BasicGameState {
 
     SaverReader  saverReader = new SaverReader();
 
-    int[][] plateau;
+    //tableau 2D avec le placement des bateaux
+    int[][] plateauPlacement;
 
     //Animation de l'explosion
     SpriteSheet explosionSheet;
@@ -28,7 +28,7 @@ public class ScreenShoot extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 //           map = new TiledMap("res/Map/Map900x900.tmx");
-        plateau = saverReader.readPlateau(1);
+        plateauPlacement = saverReader.readPlateau(1);
 
         //Affichage du curseur en mire
         gameContainer.setMouseCursor("res/Images/mire.png", 0, 0);
@@ -43,8 +43,7 @@ public class ScreenShoot extends BasicGameState {
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 //        map.render(0,0,0,0,900,900);
-        afficherMap(plateau, graphics);
-
+        afficherMap(graphics);
         afficherAnimation();
     }
 
@@ -54,22 +53,9 @@ public class ScreenShoot extends BasicGameState {
 
         //Animation de l'eau
         waterAnimation.draw(110,110);
-//        waterAnimation.stop();
-//        if(waterAnimation.isStopped()){
-//            waterAnimation.restart();
-//        }
-
-
-
-
     }
 
-    private void afficherMap(int[][] plateau, Graphics graphics) throws SlickException {
-        //On enleve les 1 du plateau
-        for(int i = 0; i<plateau.length; i++){
-            removeElement(plateau[i],1);
-        }
-
+    private void afficherMap(Graphics graphics) throws SlickException {
         for (int i = 0; i<10; i++){
             for (int j = 0; j<10; j++){
                 //Inversion de i et de j afin d'avoir la meme reprensation que dans le tableau
@@ -98,6 +84,21 @@ public class ScreenShoot extends BasicGameState {
         }
         if(i<length) A[i]='\0';
     }
+
+    private boolean comparePlateauAndShoot(int x, int y){
+        //On enleve les 1 du plateauPlacement
+        for(int i = 0; i< plateauPlacement.length; i++){
+            removeElement(plateauPlacement[i],1);
+        }
+
+//        for (int i = 0; i < ; i++) {
+//
+//        }
+
+
+        return false;
+    }
+
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {

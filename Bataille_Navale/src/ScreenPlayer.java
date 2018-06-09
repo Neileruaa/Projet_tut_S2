@@ -88,6 +88,8 @@ public class ScreenPlayer extends BasicGameState{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        gameContainer.setDefaultMouseCursor();
+
 //        grille=new Image("res/Images/900.jpg");
         ctrl=new Image("res/Images/540.jpg");
         map = new TiledMap("res/Map/Map900x900.tmx");
@@ -368,25 +370,25 @@ public class ScreenPlayer extends BasicGameState{
             case 0: // vertical vers le bas
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne][ligne+i]=bateau.getType();
-//                    System.out.println(plateau[colonne][ligne+i]);
+//                    System.out.println(plateauPlacement[colonne][ligne+i]);
                 }
                 break;
             case 1: // horizontal vers la gauche
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne-i][ligne]=bateau.getType();
-//                    System.out.println(plateau[colonne-i][ligne]);
+//                    System.out.println(plateauPlacement[colonne-i][ligne]);
                 }
                 break;
             case 2: // vertical vers le haut
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne][ligne-i]=bateau.getType();
-//                    System.out.println(plateau[colonne][ligne-i]);
+//                    System.out.println(plateauPlacement[colonne][ligne-i]);
                 }
                 break;
             case 3: // vertical vers la droite
                 for(int i=0; i<bateau.getTaille();i++){
                     plateau[colonne+i][ligne]=bateau.getType();
-//                    System.out.println(plateau[colonne+i][ligne]);
+//                    System.out.println(plateauPlacement[colonne+i][ligne]);
                 }
                 break;
         }
@@ -401,7 +403,7 @@ public class ScreenPlayer extends BasicGameState{
     public void pose(Graphics graphics) { // pour POSER LE BATEAU EN FIXE
         int idSauv=0;
         java.util.List<Integer> sauv = new ArrayList<>(); //sauvegarde les bateaux déjà mis sur le plateu
-        for(int i=0; i<plateau.length;i++){ // on parcours le plateau
+        for(int i=0; i<plateau.length;i++){ // on parcours le plateauPlacement
             for(int j=0; j<plateau[i].length;j++) {
                 if (plateau[i][j]!=0 && plateau[i][j]!=1 && testPlateau(sauv,plateau[i][j])){ // si on trouve un bateau (different des precedents)
                     idSauv=plateau[i][j]; // on sauvegarde l'id du bateau trouvé
@@ -421,7 +423,7 @@ public class ScreenPlayer extends BasicGameState{
     }
 
     /* Cette fonction parcours la list de int (qui sont les getType(x) et regarde si le bateau
-     * avec un identifiant id à été posé sur le plateau ou non
+     * avec un identifiant id à été posé sur le plateauPlacement ou non
      * si deja posé retourne FALSE car deja dans la liste
      * si non posé retourne TRUE
      * */
@@ -441,8 +443,8 @@ public class ScreenPlayer extends BasicGameState{
 
                 // POUR COMPRENDRE LA SUITE FAITE LE PLATEAU EN DESSIN
                 // ici A est le premier "morceau" de bateau et B le deuxieme
-                // il faut bien avoir en tête que l'on parcours le plateau de GAUCHE à DROITE
-                // le plateau est en "miroir" car j'avais eue un problème que j'ai expliquer
+                // il faut bien avoir en tête que l'on parcours le plateauPlacement de GAUCHE à DROITE
+                // le plateauPlacement est en "miroir" car j'avais eue un problème que j'ai expliquer
                 // plus haut pour le switchRempli (j'avais inverser les colonnes et les lignes)
                 // --- donc :
                 // if(l==j)  si B se trouve sur une colonne d'indice different de celle de A
@@ -452,7 +454,7 @@ public class ScreenPlayer extends BasicGameState{
                 // SINON c'est que B se trouve sur une ligne d'indice different de celle de A donc
                 // ------------> on dessine le bateau à la vertical vers le bas
                 // ici pas besoin de placement à l'horizontal vers la gauche et de placement
-                // à la vertical vers le haut vue comme nous parcourons le plateau.
+                // à la vertical vers le haut vue comme nous parcourons le plateauPlacement.
 
                 if(l==j){  // bateau à l'horizontal vers la droite
                     corvette.rotate(270);
@@ -709,7 +711,7 @@ public class ScreenPlayer extends BasicGameState{
         boolean[] tabId=new boolean[5];
         for (int i=0; i<plateau.length;i++){
             for (int j=0;j<plateau[i].length;j++){
-                switch (plateau[i][j]){ //si dans le plateau il y a la présence d'un bateau alors on passe à true la case de tabId
+                switch (plateau[i][j]){ //si dans le plateauPlacement il y a la présence d'un bateau alors on passe à true la case de tabId
                     case 2: tabId[0]=true;
                         break;
                     case 3: tabId[1]=true;
