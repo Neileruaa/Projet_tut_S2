@@ -91,6 +91,9 @@ public class ScreenShoot extends BasicGameState {
 //        map.render(0,0,0,0,900,900);
         afficherMap(graphics);
 
+        int colonne = 0;
+        int ligne = 0;
+
         graphics.drawImage(tire,900,400);
         graphics.drawImage(passe,900,810);
 
@@ -112,8 +115,8 @@ public class ScreenShoot extends BasicGameState {
                 System.out.println(choix);
                 if(choix.equals("tire normal")){
                     // tire matrice avec en parametre posX et posY
-                    int colonne =caseSup[0]/90-1;
-                    int ligne = caseSup[1]/90-1;
+                    colonne =caseSup[0]/90-1;
+                    ligne = caseSup[1]/90-1;
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
                     dejaTire=true;
                 }
@@ -122,6 +125,8 @@ public class ScreenShoot extends BasicGameState {
         }
 
         afficherAnimation();
+
+        comparePlateauAndShoot(colonne,ligne);
     }
 
     public void choixDeTire(int posX, int posY){
@@ -176,7 +181,7 @@ public class ScreenShoot extends BasicGameState {
         }
     }
 
-    private void removeElement(int[] A, int elem) {
+    public void removeElement(int[] A, int elem) {
         int length=A.length;
         int i=0;
         for(int j=0; j<length; j++) {
@@ -189,40 +194,46 @@ public class ScreenShoot extends BasicGameState {
     }
 
     //Ajout de 2 variable pour les tests le temps que mattéo finisse
-    public boolean comparePlateauAndShoot(int x, int y, int[][] plateauPlacementTEST, int[][] plateauEcranTirTEST){
+    public boolean comparePlateauAndShoot(int x, int y ){
         //On enleve les 1 du plateauPlacement
-        //TEST : plateauPlacement -> plateauPlacementTEST
-        // plateauEcranTir -> plateauEcranTirTEST
-        for(int i = 0; i< plateauPlacementTEST.length; i++){
-            removeElement(plateauPlacementTEST[i],1);
+        // plateauEcranTir -> plateauEcranTir
+        for(int i = 0; i< plateauPlacement.length; i++){
+            removeElement(plateauPlacement[i],1);
         }
 
-        for (int i = 0; i < plateauPlacementTEST.length; i++) {
-            for (int j = 0; j < plateauPlacementTEST.length; j++) {
+        for (int i = 0; i < plateauPlacement.length; i++) {
+            for (int j = 0; j < plateauPlacement.length; j++) {
+                System.out.print(plateauPlacement[j][i]);
+            }
+            System.out.println();
+        }
+
+        for (int i = 0; i < plateauPlacement.length; i++) {
+            for (int j = 0; j < plateauPlacement.length; j++) {
                 if (x==i && y==j) {
-                    if (plateauPlacementTEST[j][i] > 1 && plateauPlacementTEST[j][i] < 7 && plateauEcranTirTEST[j][i] != COULE){
+                    if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] != COULE){
                         System.out.println("Il y a un bateau en : " + j + ";" + i + " -> coulé");
-                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTirTEST);
+                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
                         // METTRE ANIMATION EXPLOSION
                         // METTRE SON EXPLOSION
                         return true;
                     }
-                    if (plateauPlacementTEST[j][i] > 1 && plateauPlacementTEST[j][i] < 7 && plateauEcranTirTEST[j][i] == COULE){
+                    if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] == COULE){
                         System.out.println("Il y a un bateau en : " + j + ";" + i
                                 + " -> mais déjà coulé donc impossible");
-                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTirTEST);
+                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
                         return false;
                     }
-                    if (plateauPlacementTEST[j][i]  == 0 && plateauEcranTirTEST[j][i] != RATE  ){
+                    if (plateauPlacement[j][i]  == 0 && plateauEcranTir[j][i] != RATE  ){
                         System.out.println("Il n'y a rien en : " + j + ";" + i
                                 + " -> donc coup raté ");
-                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTirTEST);
+                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTir);
                         return true;
                     }
-                    if (plateauPlacementTEST[j][i]  == 0 && plateauEcranTirTEST[j][i] == RATE  ){
+                    if (plateauPlacement[j][i]  == 0 && plateauEcranTir[j][i] == RATE  ){
                         System.out.println("Vous avez déjà essayé et il n'y a toujours rien en : " + j + ";" + i
                                 + " -> donc impossible");
-                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTirTEST);
+                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTir);
                         return false;
                     }
                 }
@@ -231,11 +242,11 @@ public class ScreenShoot extends BasicGameState {
         return false;
     }
 
-    private void changerEtatCaseEcranTir(int x, int y, int nouvelEtat, int[][] plateauEcranTirTEST){
-        for (int i = 0; i < plateauEcranTirTEST.length; i++) {
-            for (int j = 0; j < plateauEcranTirTEST.length; j++) {
+    private void changerEtatCaseEcranTir(int x, int y, int nouvelEtat, int[][] plateauEcranTir){
+        for (int i = 0; i < plateauEcranTir.length; i++) {
+            for (int j = 0; j < plateauEcranTir.length; j++) {
                 if (j==x && i==y){
-                    plateauEcranTirTEST[j][i] = nouvelEtat;
+                    plateauEcranTir[j][i] = nouvelEtat;
                 }
             }
         }
