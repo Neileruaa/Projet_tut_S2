@@ -141,13 +141,6 @@ public class ScreenPlayer extends BasicGameState{
         int posY=900-Mouse.getY();
 
 
-
-        /* ------------------------------- IMPORTANT ---------------------------- */
-        // je met une valeur par default a bateau qd on a pas choisit un bateau (evite les nullpointerexception)
-        // les coord nous servent A RIEN dans les CLASSES (du moins pour le placement)
-        // ils nous serviront PEUT ETRE pour le touché coulé (qu'on pourra init en regardant dans la matrice)
-        // on initera d'ailleurs tout le bateau BEAUCOUP plus simple
-
         if(depose.equals("") && modif==false){ //si on a pas cliquer sur un bouton pour changer les bateaux on prend le croiseur par defaut
             bateau=new Bateau(4,3,0,0,croiseur);
         }
@@ -184,12 +177,7 @@ public class ScreenPlayer extends BasicGameState{
             renderBateau = switchDepose(depose);
             drawImageViewHorizGauche(renderBateau,graphics,caseSup);
             affiche=false;
-            /* acienne methode avt chgt bateau */
-//            Image bateauIm;
-//            bateauIm=switchDepose(depose).getImgAvant();
-//            bateauIm.rotate(90);
-//            graphics.drawImage(bateauIm,caseSup[0]-180, caseSup[1]-180);
-//            bateauIm.rotate(-90); // retour à la normal comme ca CORRIGE le BOGUE
+
 
         }
 
