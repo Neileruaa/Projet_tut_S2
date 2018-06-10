@@ -70,7 +70,32 @@ public class ScreenShootEnemy extends ScreenShoot {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        super.init(gameContainer,stateBasedGame);
+        //Affichage du curseur en mire
+        gameContainer.setMouseCursor("res/Images/mire.png", 0, 0);
+
+        //Animation de l'explosion
+        explosionSheet = new SpriteSheet("res/Images/explosion.png", 90,90);
+        explosionAnimation = new Animation(explosionSheet,42);
+        //Animation de la fumée
+        fumeeSheet = new SpriteSheet("res/Images/fumee.png", 90,90);
+        fumeeAnimation = new Animation(fumeeSheet, 160);
+
+
+        // image bouton
+        tire=new Image("res/Images/tire.png");
+        passe=new Image("res/Images/passe.png");
+        // popup de dialogue du commandant
+        couleCorvette=new Image("res/Images/couleCorvette.png");
+        couleCroiseur=new Image("res/Images/couleCroiseur.png");
+        couleSousMarin=new Image("res/Images/couleSousmarin.png");
+        couleCuirasse=new Image("res/Images/couleCuirasse.png");
+        coulePorteAvion=new Image("res/Images/coulePorteAvion.png");
+        dialogueVictoire=new Image("res/Images/dialogueVictoire.png");
+        dialogueTouche=new Image("res/Images/dialogueTouche.png");
+        rate=new Image("res/Images/rate.png");
+
+        ctrl = new Image("res/Images/captain.png");
+
     }
 
     @Override

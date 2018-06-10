@@ -297,7 +297,7 @@ public class ScreenPlayer extends BasicGameState{
             stateBasedGame.enterState(4);
         }
         timer-=i;
-        passerTour(stateBasedGame,timer);
+        passerTour(stateBasedGame,i);
     }
 
     @Override
@@ -744,8 +744,8 @@ public class ScreenPlayer extends BasicGameState{
         int posX = Mouse.getX();
         int posY = Mouse.getY();
         timer-=i;
-        if(bateauxPoses && (posX>900 && posX<1170) && (posY>0 && posY<100 ||timer<=0) ){
-            if (Mouse.isButtonDown(0)  ||timer<=0 ){
+        if(bateauxPoses && ((posX>900 && posX<1170) && (posY>0 && posY<100) || timer<=0) ){
+            if (Mouse.isButtonDown(0)  || timer<=0 ){
                 saverReader.savePlateau(1, plateau);
                 saverReader.initEcranTir(1);
                 stateBasedGame.enterState(2);
