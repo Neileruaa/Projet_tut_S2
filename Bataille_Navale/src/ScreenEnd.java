@@ -18,6 +18,7 @@ public class ScreenEnd extends BasicGameState{
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 //        graphics.drawImage(imageFin);
+        System.out.println("fail");
     }
 
     @Override

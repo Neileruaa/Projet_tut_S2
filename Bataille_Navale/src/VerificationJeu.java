@@ -29,7 +29,7 @@ public class VerificationJeu {
                 }
             }
         }
-        if (sommeDe8  == 7 ){
+        if (sommeDe8  == 17 ){
             return true;
         }
         return false;
