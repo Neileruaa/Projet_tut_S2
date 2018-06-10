@@ -16,40 +16,40 @@ import java.util.List;
 
 
 public class ScreenPlayer extends BasicGameState{
-    private int timer=30000;
+    public int timer=30000;
 
 
 
-    private boolean bateauxPoses=false;
-    private boolean finPartie;
-    private Image ctrl;
-    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private TiledMap map;
-//    private ArrayList<Tile> tiles;
+    public boolean bateauxPoses=false;
+    public boolean finPartie;
+    public Image ctrl;
+    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public TiledMap map;
+//    public ArrayList<Tile> tiles;
 
-    private Bateau bateau;
-    private Image croiseur;
-    private Image sousMarin;
-    private Image porteAvion;
-    private Image cuirasse;
-    private Image corvette;
-    private Image passeT;
+    public Bateau bateau;
+    public Image croiseur;
+    public Image sousMarin;
+    public Image porteAvion;
+    public Image cuirasse;
+    public Image corvette;
+    public Image passeT;
 
     SaverReader saverReader;
 
-    private int posX;
-    private int posY;
+    public int posX;
+    public int posY;
 
 
-    private int[] space = {90,180,270,360,450,540,630,720,810,900};
+    public int[] space = {90,180,270,360,450,540,630,720,810,900};
 
-    private String depose;
+    public String depose;
     /* variable depose (pour les changement de bateaux : PA = porte avion ; Cu = cuirassé ;
         SM = sous-marin ; Co = corvette
         changera en fonction du bouton sélectionné
     */
 
-    private Image imgDefaut;
+    public Image imgDefaut;
 
     /* matrice vide ou l'on met les bateaux */
     int plateau[][] = {     // j'ai rajouter des 1 pour l'utilisation du switchLook
@@ -72,20 +72,20 @@ public class ScreenPlayer extends BasicGameState{
     int nbClicDroit;
 
     // test
-    private Image croiseurView;
-    private Image sousMarinView;
-    private Image porteAvionView;
-    private Image cuirasseView;
-    private Image corvetteView;
+    public Image croiseurView;
+    public Image sousMarinView;
+    public Image porteAvionView;
+    public Image cuirasseView;
+    public Image corvetteView;
 
     // popup
-    private Image gene;
-    private Image dejaPose;
-    private boolean affiche;
-    private Image infoPlace;
+    public Image gene;
+    public Image dejaPose;
+    public boolean affiche;
+    public Image infoPlace;
 
 
-    private boolean modif=false;
+    public boolean modif=false;
 
     public ScreenPlayer(int state){
     }
