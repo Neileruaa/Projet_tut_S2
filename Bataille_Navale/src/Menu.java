@@ -23,8 +23,8 @@ public class Menu extends BasicGameState{
 
         imgMenu=new Image("res/Images/imgMenu.png"); // Affiche l'image
         survolBouton=new Sound("res/Musique/survolBouton1.wav"); // Affecte un nouveau son à la variable
-        musiqueJeu=new Music("res/Musique/lancementMissile1.wav"); // Affecte une nouvelle musique à la variable
-        //musiqueJeu.loop(); // Boucle la musique
+        musiqueJeu=new Music("res/Musique/musiqueJeu.ogg"); // Affecte une nouvelle musique à la variable
+        musiqueJeu.loop(); // Boucle la musique
         nbFoisSurBoutonJouer=0; // Initialise le compteur à 0
         nbFoisSurBoutonQuitter=0; // Initialise le compteur à 0
     }
