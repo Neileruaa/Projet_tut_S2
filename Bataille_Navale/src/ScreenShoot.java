@@ -83,7 +83,7 @@ public class ScreenShoot extends BasicGameState {
 
         // image bouton
         tire=new Image("res/Images/tire.png");
-        passe=new Image("res/Images/passe.png");
+        passe=new Image("res/Images/BoutonOn.png");
         // popup de dialogue du commandant
         couleCorvette=new Image("res/Images/couleCorvette.png");
         couleCroiseur=new Image("res/Images/couleCroiseur.png");
@@ -108,10 +108,11 @@ public class ScreenShoot extends BasicGameState {
 
         graphics.drawImage(ctrl,900,0);
 
+
         graphics.drawImage(new Image("res/Images/"+ String.valueOf(timer/1000)+".png"), 1220,50);
 
         graphics.drawImage(tire,900,400);
-        graphics.drawImage(passe,900,810);
+        graphics.drawImage(passe,1000,810);
 
         Point tirChoisi = tirer(gameContainer, graphics);
 
@@ -241,7 +242,7 @@ public class ScreenShoot extends BasicGameState {
         if (plateauPlacement[y+1][x+1] > 1 && plateauPlacement[y+1][x+1] < 7 && plateauEcranTir[y][x] != COULE){
             System.out.println("Il y a un bateau en y: " + y + ";i " + x + " -> coulé");
             changerEtatCaseEcranTir(x,y,COULE);
-            jouerSon("res/Musique/explosion.wav");
+//            jouerSon("res/Musique/explosion.wav");
 
             afficherAnimationExplosion(y * 90, x * 90);
 
@@ -252,7 +253,7 @@ public class ScreenShoot extends BasicGameState {
             System.out.println("Il y a un bateau en y : " + y + "; i " + x
                     + " -> mais déjà coulé donc impossible");
             changerEtatCaseEcranTir(x,y,COULE);
-            jouerSon("res/Musique/explosion.wav");
+//            jouerSon("res/Musique/explosion.wav");
             return false;
         }
         if (plateauPlacement[y+1][x+1]  == 0 && plateauEcranTir[y][x] != RATE  ){
@@ -286,7 +287,7 @@ public class ScreenShoot extends BasicGameState {
         int posX = Mouse.getX();
         int posY = Mouse.getY();
         timer -= i;
-        if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100) || timer<=0) {
+        if (dejaTire && (posX > 1000 && posX < 1090) && (posY > 0 && posY < 100) || timer<=0) {
             if (Mouse.isButtonDown(0) || timer<=0) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
                 VerificationJeu verificationJeu = new VerificationJeu();

@@ -131,8 +131,8 @@ public class ScreenPlayer extends BasicGameState{
 
         graphics.drawImage(new Image("res/Images/"+ String.valueOf(timer/1000)+".png"), 1220,50);
 
-        graphics.drawImage(passeT, 900,810);
-        graphics.drawImage(infoPlace,900,50);
+        graphics.drawImage(passeT, 900,795);
+        graphics.drawImage(infoPlace,900,38);
 
         Input input = gameContainer.getInput(); // pour le clic
 
