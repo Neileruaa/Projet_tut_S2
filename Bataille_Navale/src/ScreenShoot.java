@@ -222,35 +222,6 @@ public class ScreenShoot extends BasicGameState {
         }
     }
 
-    public int[][] removeElement(int[][] A, int elem) {
-        int[][] tabSansElem = new int[12][12];
-        int[][] finalTab = new int[10][10];
-
-        for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < A.length; j++) {
-                if (A[i][j] != elem){
-                    tabSansElem[i][j] = A[i][j];
-                }
-            }
-        }
-
-        System.out.println("Valeur de plateau placement : "+tabSansElem.length);
-        for (int i = 0; i < tabSansElem.length; i++) {
-            for (int j = 0; j < tabSansElem.length; j++) {
-                System.out.print(tabSansElem[j][i]);
-            }
-            System.out.println();
-        }
-        System.out.println(" ============================================ ");
-
-        for (int i = 0; i < finalTab.length; i++) {
-            for (int j = 0; j < finalTab.length; j++) {
-               finalTab[i][j] = tabSansElem[i][j];
-            }
-        }
-        return finalTab;
-    }
-
     //Ajout de 2 variable pour les tests le temps que mattéo finisse
     public boolean comparePlateauAndShoot(Point point) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         int x = 0;
@@ -261,19 +232,6 @@ public class ScreenShoot extends BasicGameState {
         } else {
             System.out.println("POINT INVALIDE");
         }
-        //On enleve les 1 du plateauPlacement
-//        plateauPlacement = removeElement(plateauPlacement, 1);
-
-
-        /*System.out.println("Valeur de plateau placement : "+plateauPlacement.length);
-        for (int i = 0; i < plateauPlacement.length; i++) {
-            for (int j = 0; j < plateauPlacement.length; j++) {
-                System.out.print(plateauPlacement[j][i]);
-            }
-            System.out.println();
-        }
-        System.out.println(" ============================================ ");*/
-
 
         if (plateauPlacement[y+1][x+1] > 1 && plateauPlacement[y+1][x+1] < 7 && plateauEcranTir[y][x] != COULE){
             System.out.println("Il y a un bateau en y: " + y + ";i " + x + " -> coulé");
@@ -315,7 +273,7 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        plateauPlacement = saverReader.readPlateau(1);
+        plateauPlacement = saverReader.readPlateau(2);
         passerTour(stateBasedGame);
     }
 
