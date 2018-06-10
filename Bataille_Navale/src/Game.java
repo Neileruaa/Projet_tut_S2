@@ -1,6 +1,10 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
+import Reseau.*;
+
+import java.io.IOException;
+
 public class Game extends StateBasedGame {
     public static final String gameName="Bataille Navale";
     public static final int menu=0;
@@ -35,6 +39,15 @@ public class Game extends StateBasedGame {
     public static void main(String[] args) {
         AppGameContainer appgc; //le conteneur à qui on va dire affiche tel ou tel affichage dans la fenêtre en l'occurrence ici notre jeu
         try{
+            //Test chat
+            try {
+                new ChatServer();
+                new ClientProg();
+                new ClientProg();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             appgc=new AppGameContainer(new Game(gameName));
             appgc.setDisplayMode(1440,900, false);
 //            appgc.setIcon(icon);

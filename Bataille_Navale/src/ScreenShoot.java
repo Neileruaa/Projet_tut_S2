@@ -224,6 +224,15 @@ public class ScreenShoot extends BasicGameState {
             }
         }
 
+        System.out.println("Valeur de plateau placement : "+tabSansElem.length);
+        for (int i = 0; i < tabSansElem.length; i++) {
+            for (int j = 0; j < tabSansElem.length; j++) {
+                System.out.print(tabSansElem[j][i]);
+            }
+            System.out.println();
+        }
+        System.out.println(" ============================================ ");
+
         for (int i = 0; i < finalTab.length; i++) {
             for (int j = 0; j < finalTab.length; j++) {
                finalTab[i][j] = tabSansElem[i][j];
@@ -247,14 +256,14 @@ public class ScreenShoot extends BasicGameState {
         plateauPlacement = removeElement(plateauPlacement, 1);
 
 
-        System.out.println("Valeur de plateau placement : "+plateauPlacement.length);
+        /*System.out.println("Valeur de plateau placement : "+plateauPlacement.length);
         for (int i = 0; i < plateauPlacement.length; i++) {
             for (int j = 0; j < plateauPlacement.length; j++) {
                 System.out.print(plateauPlacement[j][i]);
             }
             System.out.println();
         }
-        System.out.println(" ============================================ ");
+        System.out.println(" ============================================ ");*/
 
 
         if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] != COULE){
