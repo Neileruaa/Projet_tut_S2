@@ -120,6 +120,7 @@ public class ScreenShootEnemy extends ScreenShoot {
 
     }
 
+
     private Point tirer(GameContainer gameContainer, Graphics graphics) {
         int colonne = 0;
         int ligne = 0;
@@ -278,7 +279,7 @@ public class ScreenShootEnemy extends ScreenShoot {
         if (dejaTire && (posX > 1170 && posX < 1400) && (posY > 0 && posY < 100)) {
             if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
-                stateBasedGame.enterState(6);
+                stateBasedGame.enterState(5);
                 dejaTire = false;
             }
         }
