@@ -10,10 +10,6 @@ import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 public class ScreenShoot extends BasicGameState {
 
@@ -236,7 +232,7 @@ public class ScreenShoot extends BasicGameState {
         if (plateauPlacement[y+1][x+1] > 1 && plateauPlacement[y+1][x+1] < 7 && plateauEcranTir[y][x] != COULE){
             System.out.println("Il y a un bateau en y: " + y + ";i " + x + " -> coulé");
             changerEtatCaseEcranTir(x,y,COULE);
-            jouerSon("res/Musique/explosion.wav");
+//            jouerSon("res/Musique/explosion.wav");
 
             afficherAnimationExplosion(y * 90, x * 90);
 
@@ -247,7 +243,7 @@ public class ScreenShoot extends BasicGameState {
             System.out.println("Il y a un bateau en y : " + y + "; i " + x
                     + " -> mais déjà coulé donc impossible");
             changerEtatCaseEcranTir(x,y,COULE);
-            jouerSon("res/Musique/explosion.wav");
+//            jouerSon("res/Musique/explosion.wav");
             return false;
         }
         if (plateauPlacement[y+1][x+1]  == 0 && plateauEcranTir[y][x] != RATE  ){
@@ -284,6 +280,7 @@ public class ScreenShoot extends BasicGameState {
             if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
                 stateBasedGame.enterState(6);
+                dejaTire = false;
             }
         }
     }

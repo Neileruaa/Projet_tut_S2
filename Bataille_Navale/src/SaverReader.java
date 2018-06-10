@@ -129,8 +129,8 @@ public class SaverReader {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-            for(int i = 0 ; i<ecranTir.length-2; i++){
-                for(int j=0; j<ecranTir.length-2; j++){
+            for(int i = 0 ; i<ecranTir.length; i++){
+                for(int j=0; j<ecranTir.length; j++){
                     writer.append(""+ecranTir[i][j]);
                 }
                 writer.newLine();
