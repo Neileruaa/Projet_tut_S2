@@ -22,7 +22,7 @@ public class Menu extends BasicGameState{
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 
         imgMenu=new Image("res/Images/imgMenu.png"); // Affiche l'image
-        survolBouton=new Sound("res/Musique/survolBouton1.wav"); // Affecte un nouveau son à la variable
+        survolBouton=new Sound("res/Musique/survolBouton.wav"); // Affecte un nouveau son à la variable
         musiqueJeu=new Music("res/Musique/musiqueJeu.ogg"); // Affecte une nouvelle musique à la variable
         musiqueJeu.loop(); // Boucle la musique
         nbFoisSurBoutonJouer=0; // Initialise le compteur à 0

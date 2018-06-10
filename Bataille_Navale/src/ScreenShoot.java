@@ -6,7 +6,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.lwjgl.input.Mouse;
 
+import javax.sound.sampled.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -108,7 +111,15 @@ public class ScreenShoot extends BasicGameState {
 
         Point tirChoisi = tirer(gameContainer, graphics);
 
-        comparePlateauAndShoot(tirChoisi);
+        try {
+            comparePlateauAndShoot(tirChoisi);
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
 
         //save ecranTir
         saverReader.saveEcranTir(1, plateauEcranTir);
@@ -242,7 +253,7 @@ public class ScreenShoot extends BasicGameState {
     }
 
     //Ajout de 2 variable pour les tests le temps que mattéo finisse
-    public boolean comparePlateauAndShoot(Point point){
+    public boolean comparePlateauAndShoot(Point point) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         int x = 0;
         int y= 0;
         if (point != null) {
@@ -269,6 +280,7 @@ public class ScreenShoot extends BasicGameState {
         if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] != COULE){
             System.out.println("Il y a un bateau en y: " + y + ";i " + x + " -> coulé");
             changerEtatCaseEcranTir(x,y,COULE);
+            jouerSon("res/Musique/explosion1.wav");
 
             afficherAnimationExplosion(y * 90, x * 90);
 
@@ -279,6 +291,7 @@ public class ScreenShoot extends BasicGameState {
             System.out.println("Il y a un bateau en y : " + y + "; i " + x
                     + " -> mais déjà coulé donc impossible");
             changerEtatCaseEcranTir(x,y,COULE);
+            jouerSon("res/Musique/explosion1.wav");
             return false;
         }
         if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] != RATE  ){
@@ -319,6 +332,16 @@ public class ScreenShoot extends BasicGameState {
                 //stateBasedGame.enterState(2);
             }
         }
+    }
+    public void jouerSon(String path) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                new File(path));
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-14.0f); // Reduce volume by 10 decibels.
+        clip.start();
     }
 
 }
