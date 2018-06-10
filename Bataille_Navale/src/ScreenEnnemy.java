@@ -4,22 +4,36 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class ScreenEnnemy extends ScreenPlayer{
+    private int timer=30000;
 
     public ScreenEnnemy(int state) {
         super(state);
     }
+
     @Override
-    public void passerTour(StateBasedGame stateBasedGame){
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+        super.render(gameContainer, stateBasedGame, graphics);
+    }
+
+    @Override
+    public void passerTour(StateBasedGame stateBasedGame, int i){
         int posX = Mouse.getX();
         int posY = Mouse.getY();
-        if(isBateauxPoses() && (posX>1170 && posX<1440) && (posY>0 && posY<100) ){
-            if (Mouse.isButtonDown(0)){
+        timer-=i;
+        if(isBateauxPoses() && (posX>1170 && posX<1440) && (posY>0 && posY<100) || timer<= 0){
+            if (Mouse.isButtonDown(0) || timer<= 0){
                 saverReader.savePlateau(2, plateau);
                 saverReader.initEcranTir(2);
                 stateBasedGame.enterState(5);
             }
         }
     }
+
+    @Override
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+        super.update(gameContainer, stateBasedGame, i);
+    }
+
     @Override
     public int getID() {
         return 2;

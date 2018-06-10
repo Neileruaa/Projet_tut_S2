@@ -16,6 +16,10 @@ import java.util.List;
 
 
 public class ScreenPlayer extends BasicGameState{
+    private int timer=30000;
+
+
+
     private boolean bateauxPoses=false;
     private boolean finPartie;
     private Image ctrl;
@@ -124,6 +128,8 @@ public class ScreenPlayer extends BasicGameState{
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 //        graphics.drawImage(grille, 0,0);
         graphics.drawImage(ctrl,900,0);
+
+        graphics.drawString("Time : " + timer/1000, 1300,50);
 
         graphics.drawImage(passeT, 900,810);
         graphics.drawImage(infoPlace,900,50);
@@ -290,7 +296,7 @@ public class ScreenPlayer extends BasicGameState{
             //besoin de créer une méthode pour savoir si le joueur à gagner ou non (pour l'écran de fin
             stateBasedGame.enterState(4);
         }
-        passerTour(stateBasedGame);
+        passerTour(stateBasedGame,i);
     }
 
     @Override
@@ -733,11 +739,12 @@ public class ScreenPlayer extends BasicGameState{
         tousBateauxPoses=true;
         return tousBateauxPoses;
     }
-    public void passerTour(StateBasedGame stateBasedGame){
+    public void passerTour(StateBasedGame stateBasedGame, int i){
         int posX = Mouse.getX();
         int posY = Mouse.getY();
-        if(bateauxPoses && (posX>900 && posX<1170) && (posY>0 && posY<100) ){
-            if (Mouse.isButtonDown(0)){
+        timer-=i;
+        if(bateauxPoses && (posX>900 && posX<1170) && (posY>0 && posY<100 ||timer<=0) ){
+            if (Mouse.isButtonDown(0)  ||timer<=0 ){
                 saverReader.savePlateau(1, plateau);
                 saverReader.initEcranTir(1);
                 stateBasedGame.enterState(2);

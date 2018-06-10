@@ -15,6 +15,9 @@ public class ScreenShootEnemy extends ScreenShoot {
         super(state);
     }
 
+    private int timer=30000;
+
+
     final int CASE_NON_CHECK = 9;
     final int COULE = 8;
     final int RATE = 7;
@@ -270,14 +273,15 @@ public class ScreenShootEnemy extends ScreenShoot {
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         plateauPlacement = saverReader.readPlateau(1);
-        passerTour(stateBasedGame);
+        passerTour(stateBasedGame, i);
     }
 
-    public void passerTour(StateBasedGame stateBasedGame) {
+    public void passerTour(StateBasedGame stateBasedGame , int i) {
         int posX = Mouse.getX();
         int posY = Mouse.getY();
-        if (dejaTire && (posX > 1170 && posX < 1400) && (posY > 0 && posY < 100)) {
-            if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
+        timer -= i;
+        if (dejaTire && (posX > 1170 && posX < 1400) && (posY > 0 && posY < 100) || timer<=0) {
+            if (Mouse.isButtonDown(0) || timer<=0) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
                 stateBasedGame.enterState(5);
                 dejaTire = false;

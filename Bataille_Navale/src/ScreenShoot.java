@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class ScreenShoot extends BasicGameState {
 
+    int timer = 30000;
+
     final int CASE_NON_CHECK = 9;
     final int COULE = 8;
     final int RATE = 7;
@@ -100,6 +102,9 @@ public class ScreenShoot extends BasicGameState {
         }
 
         afficherMap(graphics);
+
+        graphics.drawString("Time : " + timer/1000, 1300,50);
+
 
         graphics.drawImage(tire,900,400);
         graphics.drawImage(passe,900,810);
@@ -270,14 +275,15 @@ public class ScreenShoot extends BasicGameState {
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         plateauPlacement = saverReader.readPlateau(2);
-        passerTour(stateBasedGame);
+        passerTour(stateBasedGame, i);
     }
 
-    public void passerTour(StateBasedGame stateBasedGame) {
+    public void passerTour(StateBasedGame stateBasedGame, int i) {
         int posX = Mouse.getX();
         int posY = Mouse.getY();
-        if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100)) {
-            if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
+        timer -= i;
+        if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100) || timer<=0) {
+            if (Mouse.isButtonDown(0) || timer<=0) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
                 stateBasedGame.enterState(6);
                 dejaTire = false;
