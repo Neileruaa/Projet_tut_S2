@@ -19,11 +19,12 @@ public class Game extends StateBasedGame {
     public Game(String gameName){
         super(gameName); //définition du titre
         //ici définition de tous les différents écrans du jeux
-        this.addState(new Menu(menu));
+        Menu m=new Menu(menu);
+        this.addState(m);
         this.addState(new ScreenPlayer(screenPlayer));
         this.addState(new ScreenEnnemy(screenEnemy));
         this.addState(new ScreenRules(screenRules));
-        this.addState(new ScreenEnd(screenEnd));
+        this.addState(new ScreenEnd(screenEnd, m));
         this.addState(new ScreenShoot(screenShoot));
         this.addState(new ScreenShootEnemy(screenShootEnemy));
     }

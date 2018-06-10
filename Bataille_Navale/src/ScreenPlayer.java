@@ -95,7 +95,7 @@ public class ScreenPlayer extends BasicGameState{
         gameContainer.setDefaultMouseCursor();
 
 //        grille=new Image("res/Images/900.jpg");
-        ctrl=new Image("res/Images/captain.png");
+        ctrl=new Image("res/Images/marin.png");
         map = new TiledMap("res/Map/Map900x900.tmx");
 
         croiseurView = new Image("res/Images/croiseur.png");
@@ -104,11 +104,11 @@ public class ScreenPlayer extends BasicGameState{
         cuirasseView=new Image("res/Images/cuirasse.png");
         corvetteView=new Image("res/Images/corvette.png");
 
-        passeT=new Image("res/Images/Suivant.png");
+        passeT=new Image("res/Images/passerTour.png");
 
         // popup
-        gene=new Image("res/Images/Bulle1.png");
-        dejaPose=new Image("res/Images/Bulle1.png");
+        gene=new Image("res/Images/Gene.png");
+        dejaPose=new Image("res/Images/DejaPose.png");
         infoPlace=new Image("res/Images/infoPlace.png");
 
         croiseurView.rotate(90);
