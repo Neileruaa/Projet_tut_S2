@@ -10,11 +10,14 @@ import javax.swing.*;
 public class Menu extends BasicGameState{
 
     private Image imgMenu; // Crée une instance de Menu de type Image
+    private Image imgSound; // Crée une instance de son off de type Image
     public Music musiqueJeu; // Crée une instance de Menu de type Music
     public Sound survolBouton; // Crée une instance de Menu de type Sound
     int nbFoisSurBoutonJouer; // Crée une variable qui compte le nombre de fois que l'on est sur le bouton JOUER
     int nbFoisSurBoutonQuitter; // Crée une variable qui compte le nombre de fois que l'on est sur le bouton QUITTER
-
+     int nbFoisSurBoutonSon; // Crée une variable qui compte le nombre de fois que l'on est sur le bouton Son
+     boolean estAppuie=false;
+    
     public Menu(int state){
     }
 
@@ -22,17 +25,20 @@ public class Menu extends BasicGameState{
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 
         imgMenu=new Image("res/Images/imgMenu.png"); // Affiche l'image
+        imgSound=new Image("res/Images/SoundOn.png"); // Affiche l'image
         survolBouton=new Sound("res/Musique/survolBouton.wav"); // Affecte un nouveau son à la variable
         musiqueJeu=new Music("res/Musique/musiqueJeu.ogg"); // Affecte une nouvelle musique à la variable
         musiqueJeu.loop(); // Boucle la musique
         nbFoisSurBoutonJouer=0; // Initialise le compteur à 0
         nbFoisSurBoutonQuitter=0; // Initialise le compteur à 0
+        nbFoisSurBoutonSon=0; // Initialise le compteur à 0
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException { //vous pouvez pour vous rappelez de ce qu'est render, en vous disant que render=afficher
 
         graphics.drawImage(imgMenu, 0, 0); // "dessine" l'image
+        graphics.drawImage(imgSound, 1300, 800); // "dessine" l'image
 
     }
 
@@ -71,6 +77,29 @@ public class Menu extends BasicGameState{
         }else {
             if (nbFoisSurBoutonQuitter>0){
                 nbFoisSurBoutonQuitter=0;
+            }
+        }
+    }
+          //SON
+        if((posX>1300 && posX<1332) && (posY<900-780 && posY>900-820) ){ // Verifie que l'on est sur l'image SON
+            nbFoisSurBoutonSon=1; // On incrémente le compteur
+          if (Mouse.isButtonDown(0)){ // Si on appuie sur SON
+                if (nbFoisSurBoutonSon==1 && !estAppuie) { // Si on est pour la première fois sur SON
+                    musiqueJeu.stop(); // On met sur pause le son
+                    imgSound=new Image("res/Images/SoundOff.png"); // Affiche l'image
+                    estAppuie=true;
+
+
+               }else {
+                    musiqueJeu.play(); // On joue le son
+                    imgSound=new Image("res/Images/SoundOn.png"); // Affiche l'image
+                    estAppuie=false;
+
+                }
+            }
+       }else {
+            if (nbFoisSurBoutonSon>0){ // Si on est plus sur SON et que notre compteur n'est pas à 0
+                nbFoisSurBoutonSon=0; // On le remet à 0
             }
         }
     }
