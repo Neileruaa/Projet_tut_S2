@@ -129,8 +129,9 @@ public class ScreenPlayer extends BasicGameState{
 //        graphics.drawImage(grille, 0,0);
         graphics.drawImage(ctrl,900,0);
 
-        graphics.drawImage(new Image("res/Images/"+ String.valueOf(timer/1000)+".png"), 1220,50);
-
+        if(timer/1000>=0) {
+            graphics.drawImage(new Image("res/Images/" + String.valueOf(timer / 1000) + ".png"), 1220, 50);
+        }
         graphics.drawImage(passeT, 900,795);
         graphics.drawImage(infoPlace,900,38);
 
@@ -745,10 +746,12 @@ public class ScreenPlayer extends BasicGameState{
         int posY = Mouse.getY();
         timer-=i;
         if(bateauxPoses && ((posX>900 && posX<1170) && (posY>0 && posY<100) || timer<=0) ){
-            if (Mouse.isButtonDown(0)  || timer<=0 ){
+            if (Mouse.isButtonDown(0) && timer > 0){
                 saverReader.savePlateau(1, plateau);
                 saverReader.initEcranTir(1);
                 stateBasedGame.enterState(2);
+            }else if(timer<=0){
+                stateBasedGame.enterState(4);
             }
         }
     }

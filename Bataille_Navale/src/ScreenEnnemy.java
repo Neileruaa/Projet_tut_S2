@@ -21,10 +21,12 @@ public class ScreenEnnemy extends ScreenPlayer{
         int posY = Mouse.getY();
         timer-=i;
         if(isBateauxPoses() && (posX>1170 && posX<1440) && (posY>0 && posY<100) || timer<= 0){
-            if (Mouse.isButtonDown(0) || timer<= 0){
-                saverReader.savePlateau(2, plateau);
-                saverReader.initEcranTir(2);
-                stateBasedGame.enterState(5);
+            if (Mouse.isButtonDown(0) && timer > 0){
+                saverReader.savePlateau(1, plateau);
+                saverReader.initEcranTir(1);
+                stateBasedGame.enterState(2);
+            }else if(timer<=0){
+                stateBasedGame.enterState(4);
             }
         }
     }
