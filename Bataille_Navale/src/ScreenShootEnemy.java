@@ -54,6 +54,7 @@ public class ScreenShootEnemy extends ScreenShoot {
     private Image coulePorteAvion;
     private Image dialogueVictoire;
     private Image rate;
+    private Image ctrl;
 
     private int[] space = {90,180,270,360,450,540,630,720,810,900};
     private boolean dejaTire=false;
@@ -69,29 +70,7 @@ public class ScreenShootEnemy extends ScreenShoot {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        //Affichage du curseur en mire
-        gameContainer.setMouseCursor("res/Images/mire.png", 0, 0);
-
-        //Animation de l'explosion
-        explosionSheet = new SpriteSheet("res/Images/explosion.png", 90,90);
-        explosionAnimation = new Animation(explosionSheet,42);
-        //Animation de la fumée
-        fumeeSheet = new SpriteSheet("res/Images/fumee.png", 90,90);
-        fumeeAnimation = new Animation(fumeeSheet, 160);
-
-
-        // image bouton
-        tire=new Image("res/Images/tire.png");
-        passe=new Image("res/Images/passe.png");
-        // popup de dialogue du commandant
-        couleCorvette=new Image("res/Images/couleCorvette.png");
-        couleCroiseur=new Image("res/Images/couleCroiseur.png");
-        couleSousMarin=new Image("res/Images/couleSousmarin.png");
-        couleCuirasse=new Image("res/Images/couleCuirasse.png");
-        coulePorteAvion=new Image("res/Images/coulePorteAvion.png");
-        dialogueVictoire=new Image("res/Images/dialogueVictoire.png");
-        dialogueTouche=new Image("res/Images/dialogueTouche.png");
-        rate=new Image("res/Images/rate.png");
+        super.init(gameContainer,stateBasedGame);
     }
 
     @Override
@@ -102,6 +81,8 @@ public class ScreenShootEnemy extends ScreenShoot {
         }
 
         afficherMap(graphics);
+
+        graphics.drawImage(ctrl,900,0);
 
         graphics.drawImage(tire,900,400);
         graphics.drawImage(passe,900,810);

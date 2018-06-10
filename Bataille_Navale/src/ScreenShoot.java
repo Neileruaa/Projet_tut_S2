@@ -51,6 +51,7 @@ public class ScreenShoot extends BasicGameState {
     private Image coulePorteAvion;
     private Image dialogueVictoire;
     private Image rate;
+    private Image ctrl;
 
     private int[] space = {90,180,270,360,450,540,630,720,810,900};
     private boolean dejaTire=false;
@@ -92,6 +93,8 @@ public class ScreenShoot extends BasicGameState {
         dialogueVictoire=new Image("res/Images/dialogueVictoire.png");
         dialogueTouche=new Image("res/Images/dialogueTouche.png");
         rate=new Image("res/Images/rate.png");
+
+        ctrl = new Image("res/Images/captain.png");
     }
 
     @Override
@@ -102,6 +105,8 @@ public class ScreenShoot extends BasicGameState {
         }
 
         afficherMap(graphics);
+
+        graphics.drawImage(ctrl,900,0);
 
         graphics.drawString("Time : " + timer/1000, 1300,50);
 
