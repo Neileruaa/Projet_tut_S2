@@ -154,7 +154,7 @@ public class ScreenShoot extends BasicGameState {
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
                     p = new Point(ligne, colonne);
                     //CHANGER POUR LA PHASE DE TESTS
-                    dejaTire=false;
+                    dejaTire=true;
                 }
             }
         }
@@ -283,9 +283,7 @@ public class ScreenShoot extends BasicGameState {
         if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100)) {
             if (Mouse.isButtonDown(0)) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
-                //saverReader.saveEcranTir(1, plateau);
-                //saverReader.initEcranTir(1);
-                //stateBasedGame.enterState(2);
+                stateBasedGame.enterState(6);
             }
         }
     }
@@ -300,4 +298,7 @@ public class ScreenShoot extends BasicGameState {
         clip.start();
     }
 
+    public boolean isDejaTire() {
+        return dejaTire;
+    }
 }
