@@ -103,7 +103,7 @@ public class SaverReader {
     }
 
     public int[][] readEcranTir(int idJoueur){
-        int[][] plateauRead = new int[TAILLEPLATEAU][TAILLEPLATEAU];
+        int[][] plateauRead = new int[TAILLEPLATEAU-2][TAILLEPLATEAU-2];
         File file = (idJoueur==1) ? ecranTirJoueur1 : ecranTirJoueur2;
 
         try {
@@ -124,12 +124,13 @@ public class SaverReader {
         //Si idJoueur == 1 -> plateauJoueur1 sinon plateauJoueur2
         File file = (idJoueur==1) ? ecranTirJoueur1 : ecranTirJoueur2;
 
+
         try {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-            for(int i = 0 ; i<ecranTir.length; i++){
-                for(int j=0; j<ecranTir.length; j++){
+            for(int i = 0 ; i<ecranTir.length-2; i++){
+                for(int j=0; j<ecranTir.length-2; j++){
                     writer.append(""+ecranTir[j][i]);
                 }
                 writer.newLine();

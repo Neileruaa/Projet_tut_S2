@@ -7,6 +7,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class ScreenShoot extends BasicGameState {
 
@@ -143,7 +147,6 @@ public class ScreenShoot extends BasicGameState {
                     dejaTire=false;
                 }
             }
-            System.out.println("X : "+posX+", Y : "+posY);
         }
         return p;
     }
@@ -209,16 +212,24 @@ public class ScreenShoot extends BasicGameState {
         }
     }
 
-    public void removeElement(int[] A, int elem) {
-        int length=A.length;
-        int i=0;
-        for(int j=0; j<length; j++) {
-            if(A[j]!= elem){
-                A[i]=A[j];
-                i++;
+    public int[][] removeElement(int[][] A, int elem) {
+        int[][] tabSansElem = new int[12][12];
+        int[][] finalTab = new int[10][10];
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A.length; j++) {
+                if (A[i][j] != elem){
+                    tabSansElem[i][j] = A[i][j];
+                }
             }
         }
-        if(i<length) A[i]='\0';
+
+        for (int i = 0; i < finalTab.length; i++) {
+            for (int j = 0; j < finalTab.length; j++) {
+               finalTab[i][j] = tabSansElem[i][j];
+            }
+        }
+        return finalTab;
     }
 
     //Ajout de 2 variable pour les tests le temps que mattéo finisse
@@ -231,56 +242,55 @@ public class ScreenShoot extends BasicGameState {
         } else {
             System.out.println("POINT INVALIDE");
         }
-        //On enleve les 1 du plateauPlacement
-        // plateauEcranTir -> plateauEcranTir
-        for(int i = 0; i< plateauPlacement.length; i++){
-            removeElement(plateauPlacement[i],1);
-        }
 
+        //On enleve les 1 du plateauPlacement
+        plateauPlacement = removeElement(plateauPlacement, 1);
+
+
+        System.out.println("Valeur de plateau placement : "+plateauPlacement.length);
         for (int i = 0; i < plateauPlacement.length; i++) {
             for (int j = 0; j < plateauPlacement.length; j++) {
-                if (x==i && y==j) {
-                    if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] != COULE){
-                        System.out.println("Il y a un bateau en : " + j + ";" + i + " -> coulé");
-                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
-
-                        afficherAnimationExplosion(j * 90, i * 90);
-
-                        // METTRE SON EXPLOSION
-                        return true;
-                    }
-                    if (plateauPlacement[j][i] > 1 && plateauPlacement[j][i] < 7 && plateauEcranTir[j][i] == COULE){
-                        System.out.println("Il y a un bateau en : " + j + ";" + i
-                                + " -> mais déjà coulé donc impossible");
-                        changerEtatCaseEcranTir(x,y,COULE, plateauEcranTir);
-                        return false;
-                    }
-                    if (plateauPlacement[j][i]  == 0 && plateauEcranTir[j][i] != RATE  ){
-                        System.out.println("Il n'y a rien en : " + j + ";" + i
-                                + " -> donc coup raté ");
-                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTir);
-                        return true;
-                    }
-                    if (plateauPlacement[j][i]  == 0 && plateauEcranTir[j][i] == RATE  ){
-                        System.out.println("Vous avez déjà essayé et il n'y a toujours rien en : " + j + ";" + i
-                                + " -> donc impossible");
-                        changerEtatCaseEcranTir(x,y,RATE, plateauEcranTir);
-                        return false;
-                    }
-                }
+                System.out.print(plateauPlacement[j][i]);
             }
+            System.out.println();
         }
+        System.out.println(" ============================================ ");
+
+
+        if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] != COULE){
+            System.out.println("Il y a un bateau en y: " + y + ";i " + x + " -> coulé");
+            changerEtatCaseEcranTir(x,y,COULE);
+
+            afficherAnimationExplosion(y * 90, x * 90);
+
+            // METTRE SON EXPLOSION
+            return true;
+        }
+        if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] == COULE){
+            System.out.println("Il y a un bateau en y : " + y + "; i " + x
+                    + " -> mais déjà coulé donc impossible");
+            changerEtatCaseEcranTir(x,y,COULE);
+            return false;
+        }
+        if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] != RATE  ){
+            System.out.println("Il n'y a rien en y : " + y + "; x " + x
+                    + " -> donc coup raté ");
+            changerEtatCaseEcranTir(x,y,RATE);
+            return true;
+        }
+        if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] == RATE  ){
+            System.out.println("Vous avez déjà essayé et il n'y a toujours rien en y : " + y + ";" + x
+                    + " -> donc impossible");
+            changerEtatCaseEcranTir(x,y,RATE);
+            return false;
+        }
+
         return false;
     }
 
-    private void changerEtatCaseEcranTir(int x, int y, int nouvelEtat, int[][] plateauEcranTir){
-        for (int i = 0; i < plateauEcranTir.length; i++) {
-            for (int j = 0; j < plateauEcranTir.length; j++) {
-                if (j==x && i==y){
-                    plateauEcranTir[j][i] = nouvelEtat;
-                }
-            }
-        }
+    private void changerEtatCaseEcranTir(int x, int y, int nouvelEtat){
+        plateauEcranTir[x][y] = nouvelEtat;
+
     }
 
     @Override
