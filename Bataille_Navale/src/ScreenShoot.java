@@ -108,8 +108,7 @@ public class ScreenShoot extends BasicGameState {
 
         graphics.drawImage(ctrl,900,0);
 
-        graphics.drawString("Time : " + timer/1000, 1300,50);
-
+        graphics.drawImage(new Image("res/Images/"+ String.valueOf(timer/1000)+".png"), 1220,50);
 
         graphics.drawImage(tire,900,400);
         graphics.drawImage(passe,900,810);
