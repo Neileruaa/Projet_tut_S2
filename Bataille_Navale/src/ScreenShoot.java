@@ -1,8 +1,12 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.lwjgl.input.Mouse;
+
+import java.awt.*;
 
 public class ScreenShoot extends BasicGameState {
 
@@ -23,10 +27,6 @@ public class ScreenShoot extends BasicGameState {
     //Animation de l'explosion
     SpriteSheet explosionSheet;
     Animation explosionAnimation;
-
-    //Animation de l'eau
-    SpriteSheet waterSheet;
-    Animation waterAnimation;
 
     //Animation de la fumee
     SpriteSheet fumeeSheet;
@@ -64,18 +64,12 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-//           map = new TiledMap("res/Map/Map900x900.tmx");
-
-
         //Affichage du curseur en mire
         gameContainer.setMouseCursor("res/Images/mire.png", 0, 0);
 
         //Animation de l'explosion
         explosionSheet = new SpriteSheet("res/Images/explosion.png", 90,90);
         explosionAnimation = new Animation(explosionSheet,42);
-        //Animation de l'eau
-        waterSheet = new SpriteSheet("res/Images/water.png", 90,90);
-        waterAnimation = new Animation(waterSheet, 100);
         //Animation de la fumée
         fumeeSheet = new SpriteSheet("res/Images/fumee.png", 90,90);
         fumeeAnimation = new Animation(fumeeSheet, 160);
@@ -98,15 +92,29 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        afficherMap(graphics);
+        if(!EcranTirDejaCharge){
+            plateauEcranTir = saverReader.readEcranTir(1);
+            EcranTirDejaCharge = true;
+        }
 
-        int colonne = 0;
-        int ligne = 0;
+        afficherMap(graphics);
 
         graphics.drawImage(tire,900,400);
         graphics.drawImage(passe,900,810);
 
-        Input input = gameContainer.getInput(); // pour le clic
+        Point tirChoisi = tirer(gameContainer, graphics);
+
+        comparePlateauAndShoot(tirChoisi);
+
+        //save ecranTir
+        saverReader.saveEcranTir(1, plateauEcranTir);
+
+    }
+
+    private Point tirer(GameContainer gameContainer, Graphics graphics) {
+        int colonne = 0;
+        int ligne = 0;
+
         int posX= Mouse.getX();
         int posY=900- Mouse.getY();
         int[] caseSup = findIdTile(posX, posY);
@@ -115,7 +123,10 @@ public class ScreenShoot extends BasicGameState {
             graphics.setColor(new Color(255,0,255,0.5f));
             graphics.fillRect(caseSup[0]-90, caseSup[1]-90, 90, 90);
         }
+
         choixDeTire(Mouse.getX(),900-Mouse.getY());
+
+        Point p = null;
 
         if(Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) { // clic gauche
             if ((posX>0 && posX<900) && (posY>0 && posY<900) && !dejaTire){ // si il clic dans la grille
@@ -127,12 +138,14 @@ public class ScreenShoot extends BasicGameState {
                     colonne =caseSup[0]/90-1;
                     ligne = caseSup[1]/90-1;
                     System.out.println("vous effectuez un tire normal à la position X : "+colonne+", Y : "+ligne);
-                    comparePlateauAndShoot(ligne,colonne);
+                    p = new Point(ligne, colonne);
+                    //CHANGER POUR LA PHASE DE TESTS
                     dejaTire=false;
                 }
             }
             System.out.println("X : "+posX+", Y : "+posY);
         }
+        return p;
     }
 
     public void choixDeTire(int posX, int posY){
@@ -209,7 +222,15 @@ public class ScreenShoot extends BasicGameState {
     }
 
     //Ajout de 2 variable pour les tests le temps que mattéo finisse
-    public boolean comparePlateauAndShoot(int x, int y ){
+    public boolean comparePlateauAndShoot(Point point){
+        int x = 0;
+        int y= 0;
+        if (point != null) {
+            x = (int)point.getX();
+            y = (int) point.getY();
+        } else {
+            System.out.println("POINT INVALIDE");
+        }
         //On enleve les 1 du plateauPlacement
         // plateauEcranTir -> plateauEcranTir
         for(int i = 0; i< plateauPlacement.length; i++){
@@ -264,10 +285,7 @@ public class ScreenShoot extends BasicGameState {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        waterAnimation.update(100);
         plateauPlacement = saverReader.readPlateau(1);
-        plateauEcranTir = saverReader.readEcranTir(1);
-
         passerTour(stateBasedGame);
     }
 
