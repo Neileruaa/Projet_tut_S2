@@ -79,30 +79,31 @@ public class Menu extends BasicGameState{
                 nbFoisSurBoutonQuitter=0;
             }
         }
-    }
-          //SON
+
+        //SON
         if((posX>1300 && posX<1332) && (posY<900-780 && posY>900-820) ){ // Verifie que l'on est sur l'image SON
             nbFoisSurBoutonSon=1; // On incrémente le compteur
-          if (Mouse.isButtonDown(0)){ // Si on appuie sur SON
+            if (Mouse.isButtonDown(0)){ // Si on appuie sur SON
                 if (nbFoisSurBoutonSon==1 && !estAppuie) { // Si on est pour la première fois sur SON
                     musiqueJeu.stop(); // On met sur pause le son
                     imgSound=new Image("res/Images/SoundOff.png"); // Affiche l'image
                     estAppuie=true;
 
 
-               }else {
+                }else {
                     musiqueJeu.play(); // On joue le son
                     imgSound=new Image("res/Images/SoundOn.png"); // Affiche l'image
                     estAppuie=false;
 
                 }
             }
-       }else {
+        }else {
             if (nbFoisSurBoutonSon>0){ // Si on est plus sur SON et que notre compteur n'est pas à 0
                 nbFoisSurBoutonSon=0; // On le remet à 0
             }
         }
     }
+
 
     @Override
     public int getID() {

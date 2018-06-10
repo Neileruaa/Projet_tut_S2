@@ -19,7 +19,7 @@ public class ScreenEnd extends BasicGameState{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        imageFin=new Image("res/Images/win.png");
+        imageFin=new Image("res/Images/dialogueVictoire.png");
     }
 
     @Override
