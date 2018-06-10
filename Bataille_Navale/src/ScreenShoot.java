@@ -37,6 +37,10 @@ public class ScreenShoot extends BasicGameState {
     SpriteSheet fumeeSheet;
     Animation fumeeAnimation;
 
+    //Animation de l'eau
+    SpriteSheet waterSheet;
+    Animation waterAnimation;
+
     // image
     private Image tire;
     private Image passe;
@@ -79,6 +83,9 @@ public class ScreenShoot extends BasicGameState {
         //Animation de la fumée
         fumeeSheet = new SpriteSheet("res/Images/fumee.png", 90,90);
         fumeeAnimation = new Animation(fumeeSheet, 160);
+        //Animation de l'eau
+        waterSheet = new SpriteSheet("res/Images/Vague.png", 90,90);
+        waterAnimation = new Animation(waterSheet, 160);
 
 
         // image bouton
@@ -201,6 +208,11 @@ public class ScreenShoot extends BasicGameState {
 //        waterAnimation.draw(110,110);
     }
 
+    private void afficherAnimationEau(int x, int y) {
+        //Animation de l'explosion
+        waterAnimation.draw(x,y);
+    }
+
     private void afficherAnimationfumee(int x, int y) {
         //Animation de l'explosion
         fumeeAnimation.draw(x,y);
@@ -215,14 +227,16 @@ public class ScreenShoot extends BasicGameState {
                 //Inversion de i et de j afin d'avoir la meme reprensation que dans le tableau
                 // ecranTirJ(1 ou 2), sans l'effet de miroir.
                 if (plateauEcranTir[j][i] == 8){
-                    graphics.drawImage(new Image("res/Images/tile#1.png"),i*90,j*90);
+                    graphics.drawImage(new Image("res/Images/water.png"),i*90,j*90);
+                    afficherAnimationEau(i*90, j*90);
                     afficherAnimationfumee(i*90, j*90);
                 }
                 if (plateauEcranTir[j][i] == 9){
                     graphics.drawImage(new Image("res/Images/guess.jpeg"),i*90,j*90);
                 }
                 if (plateauEcranTir[j][i] == 7){
-                    graphics.drawImage(new Image("res/Images/tile#1.png"),i*90,j*90);
+                    graphics.drawImage(new Image("res/Images/water.png"),i*90,j*90);
+                    afficherAnimationEau(i*90, j*90);
                 }
             }
         }
