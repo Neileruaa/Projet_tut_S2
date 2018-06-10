@@ -5,14 +5,23 @@ import java.awt.*;
 public class Bateau {
     private int type;
     private int taille;
-    private String nom;
-    private boolean[] vie; // peut-être une liste
-    private Bonus bonus;
     private int xPosB;
     private int yPosB;
+    
+    /*
+        première idée :
+
+        checker la rotation du bateau true ou false;
+        le nom sera mis dans screen player, détail d'amélioration
+        un tableau de vie qui devait checker si le bateau est encore en vie ou pas
+        Un bonus, devait être dévoilé un bonus si on détruisait un bateau
+     */
     private Image imgAvant;
     private Image imgApres;
     private boolean rotation;
+    private String nom;
+    private boolean[] vie; // peut-être une liste
+    private Bonus bonus;
 
     public Bateau(int type, int taille, int x, int y, Image img1) { //String nom, boolean[] vie, Bonus bonus, ... , Image img2 ICI TOUT EST A REMETTRE DANS LA SIGNATURE DE LA METHODE APRES QUE TOUS LES ELEMENTS MARCHENT
         this.type = type;
