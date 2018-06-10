@@ -129,6 +129,8 @@ public class ScreenPlayer extends BasicGameState{
 //        graphics.drawImage(grille, 0,0);
         graphics.drawImage(ctrl,900,0);
 
+        graphics.drawImage(new Image("res/Images/"+ String.valueOf(timer/1000)+".png"), 1220,50);
+
         graphics.drawString("Time : " + timer/1000, 1300,50);
 
         graphics.drawImage(passeT, 900,810);
@@ -296,7 +298,8 @@ public class ScreenPlayer extends BasicGameState{
             //besoin de créer une méthode pour savoir si le joueur à gagner ou non (pour l'écran de fin
             stateBasedGame.enterState(4);
         }
-        passerTour(stateBasedGame,i);
+        timer-=i;
+        passerTour(stateBasedGame,timer);
     }
 
     @Override
