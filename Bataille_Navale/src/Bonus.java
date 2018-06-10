@@ -1,4 +1,10 @@
 import javax.swing.*;
+import org.newdawn.slick.Image;
+
+/*
+    Nous n'avons pas eu le temps d'intégrer les bonus
+    Les classes sont crées dans le dossier "ClasseAnnexe"
+ */
 
 public class Bonus {
     private String specialite;

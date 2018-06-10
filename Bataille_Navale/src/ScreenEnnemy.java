@@ -188,6 +188,7 @@ public class ScreenEnnemy extends ScreenPlayer{
                 saverReader.savePlateau(1, plateau);
                 saverReader.initEcranTir(2);//1
                 stateBasedGame.enterState(5);//2
+
             }else if(timer<=0){
                 stateBasedGame.enterState(4);
             }
