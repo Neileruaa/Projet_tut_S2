@@ -198,13 +198,7 @@ public class ScreenPlayer extends BasicGameState{
             posY = 900 - Mouse.getY();
             switchDepose(depose);
             affiche=false;
-            //Image bateauIm=imgDefaut;
-            //bateauIm=switchDepose(depose).getImgAvant(); // pb affiche que le croiseur
 
-            //bateau = new Bateau(4,3,caseSup[0]-90,caseSup[1]-90,croiseur);
-            //graphics.drawImage(bateauIm,caseSup[0]-90, caseSup[1]-90);   // bateau fixed
-//            System.out.println(bateau.toString());
-            //System.out.println("X : "+posX+", Y : "+posY);
         }
 
         if (doubleClic) { // si on fait un double clic
@@ -243,51 +237,6 @@ public class ScreenPlayer extends BasicGameState{
         pose(graphics); // pose les bateaux
 
 
-        /* Pour apres il faudrait cliquer (gauche) ensuite l'image reste a la case que l'on veut puis avec le clique droit changer
-         * de direction. Ou alors on garde le glissement et lors du premier clique Gauche on "valide" la case de depart.
-         *
-         * DANS TT LES CAS :
-         * -------> utilisation des modulo avec une variable qui compte le nombre de clique droit :
-         * par ex: au depart on a :
-         *             int nbClicD=0;
-         *             si on a un nb impaire (modulo 2 different de 0) on aura forcement une position horizontal
-         *             on suppose que la pos de depart c'est la vertical vers le bas (celle faite par aurel)
-         *             et que le bateau tourne dans le sens des aiguilles d'une montre
-         *
-         *             on part de ce principe donc :
-         *             ++
-         *             nbClicD=1 --> position horizontal : 1[2] != 0
-         *             en revanche avec modulo 2 on a que 2 valeur possible : 0 (vertical) et 1 (horizontal)
-         *             ds le mm principe : x modulo 3 --> modulo 3 = 3 valeur possible 0 , 1 , 2
-         *             or nous a 4 position possible donc :
-         *             x[4] --> 4 valeur possibles --> 0, 1, 2, 3
-         *             si 0 = position de base (vertical vers le bas)
-         *             si 1 = position horizontal vers la gauche
-         *             si 2 = position vertical vers le haut
-         *             si 3 = position horizontal vers la droite
-         *             apres retour à 0 donc position de base et ainsi de suite
-         *
-         *             -----------------------------------------------------------------------
-         *             il reste à savoir la modification des coordonnées (en terme de grille) :
-         *
-         *             pos de base = (baseX , baseY) (ici c'est uniquement le "deuxieme" points qui nous interesse
-         *                                          car le premier point (ou case) c'est celle ou clique l'utilisateur
-         *                                          "l'origine" )
-         *             getTaille() = c'est la taille du bateau en nb de cases
-         *             tCase = 90 ici, UTILISE UNIQUEMENT POUR LES COORD PAS DANS LA MATRICE CAR INUTILE
-         *
-         *             -> pour la matrice c'est le mm principe sans les *tCase)
-         *             -> pour les coord pas besoin de for donc on remplace le i par le getTaille() mais on garde le *tCase
-         *                     comme ca on obtient uniquement le "deuxieme" point
-         *
-         *             switch {
-         *                 case 0 : (for i allant de 0 à getTaille()) : baseX=baseX         ; baseY=baseY+i*tCase
-         *                 case 1 : (for i allant de 0 à getTaille()) : baseX=baseX-i*tCase ; baseY=baseY
-         *                 case 2 : (for i allant de 0 à getTaille()) : baseX=baseX         ; baseY=baseY-i*tCase
-         *                 case 3 : (for i allant de 0 à getTaille()) : baseX=baseX+i*tCase ; baseY=baseY
-         *             }
-         */
-
     }
 
     @Override
@@ -305,12 +254,7 @@ public class ScreenPlayer extends BasicGameState{
     public int getID() {
         return 1;
     }
-    //    public boolean verifGagne(){
-//        if (/** ici : si il un des joueurs n'a plus de bateaux alors true**/){
-//            return true;
-//        }
-//        else return false;
-//    }
+
     /* regarde dans la matrice si le bateau est déjà dans la matrice ou non si il est DEJA DEDANS renvoie FALSE*/
     public boolean look(Bateau bateau) {
         for(int i=0; i<plateau.length;i++){
@@ -364,11 +308,7 @@ public class ScreenPlayer extends BasicGameState{
        id sous marin = 3
        id Corvette = 2
     */
-    // IMPORTANT
-    // ICI JE M ETAIS TROMPE
-    // j'ai inverser colonne et ligne et ne trouvant pas d'ou venais mes problèmes j'avais fait
-    // tout le code comme cela. Le remarquant trop tard je laisse comme ceci et quand on lira la matrice
-    // pour le mettre dans le fichier on a inverser les colonnes et lignes et le tour est joué.
+   
     public void switchRempli(int modulo, Bateau bateau, int[] caseSup ) { // mise dans la matrice du bateau qui vient d'etre posé
         int colonne=caseSup[0]/90; // ici on calcule les indices en fct des coordonnées pour pouvoir les réutilisés dans la matrice
         int ligne=caseSup[1]/90;
@@ -449,20 +389,6 @@ public class ScreenPlayer extends BasicGameState{
             case 2: //corvette
                 // en fct de ou ce situais le 2e morceau du bateau on met l'image dans la position adéquate
 
-                // POUR COMPRENDRE LA SUITE FAITE LE PLATEAU EN DESSIN
-                // ici A est le premier "morceau" de bateau et B le deuxieme
-                // il faut bien avoir en tête que l'on parcours le plateauPlacement de GAUCHE à DROITE
-                // le plateauPlacement est en "miroir" car j'avais eue un problème que j'ai expliquer
-                // plus haut pour le switchRempli (j'avais inverser les colonnes et les lignes)
-                // --- donc :
-                // if(l==j)  si B se trouve sur une colonne d'indice different de celle de A
-                //              j'ai du mettre == au lieu de !=
-                //              car j'ai inverser colonne et ligne mais le principe reste le meme
-                // ------------> on dessine le bateau à l'horizontal vers la droite
-                // SINON c'est que B se trouve sur une ligne d'indice different de celle de A donc
-                // ------------> on dessine le bateau à la vertical vers le bas
-                // ici pas besoin de placement à l'horizontal vers la gauche et de placement
-                // à la vertical vers le haut vue comme nous parcourons le plateauPlacement.
 
                 if(l==j){  // bateau à l'horizontal vers la droite
                     corvette.rotate(270);
