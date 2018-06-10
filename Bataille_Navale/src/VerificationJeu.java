@@ -20,19 +20,17 @@ public class VerificationJeu {
         return !checkForShips(plateauJ2);
     }
 
-    public boolean checkForShips(int[][] plateau) {
-        for(int i = 0; i<plateau.length; i++){
-            ArrayList<Integer> tabTest = new ArrayList<Integer>();
-            for (int j = 0 ; j<plateau.length; j++){
-                tabTest.add(plateau[i][j]);
+    public boolean checkForShips(int[][] plateauEcranTir) {
+        int sommeDe8 = 0;
+        for(int i = 0; i<plateauEcranTir.length; i++){
+            for (int j = 0 ; j<plateauEcranTir.length; j++){
+                if (plateauEcranTir[i][j] ==8 ) {
+                    sommeDe8++;
+                }
             }
-            if(tabTest.contains(2) ||
-                    tabTest.contains(3) ||
-                    tabTest.contains(4) ||
-                    tabTest.contains(5) ||
-                    tabTest.contains(6) ){
-                return true;
-            }
+        }
+        if (sommeDe8  == 7 ){
+            return true;
         }
         return false;
     }

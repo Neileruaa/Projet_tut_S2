@@ -106,6 +106,9 @@ public class ScreenShootEnemy extends ScreenShoot {
         graphics.drawImage(tire,900,400);
         graphics.drawImage(passe,900,810);
 
+        graphics.drawString("Time : " + timer/1000, 1300,50);
+
+
         Point tirChoisi = tirer(gameContainer, graphics);
 
         try {
@@ -283,8 +286,13 @@ public class ScreenShootEnemy extends ScreenShoot {
         if (dejaTire && (posX > 1170 && posX < 1400) && (posY > 0 && posY < 100) || timer<=0) {
             if (Mouse.isButtonDown(0) || timer<=0) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
-                stateBasedGame.enterState(5);
+                VerificationJeu verificationJeu = new VerificationJeu();
+                if (verificationJeu.checkForShips(plateauEcranTir)){
+                    stateBasedGame.enterState(4);
+                }
+                timer = 30000;
                 dejaTire = false;
+                stateBasedGame.enterState(5);
             }
         }
     }

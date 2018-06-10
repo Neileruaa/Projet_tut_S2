@@ -285,8 +285,13 @@ public class ScreenShoot extends BasicGameState {
         if (dejaTire && (posX > 900 && posX < 1170) && (posY > 0 && posY < 100) || timer<=0) {
             if (Mouse.isButtonDown(0) || timer<=0) { // on sauvegarde les changements et on passe à l'autre joueur
                 System.out.println("on sauvegarde les changements et on passe à l'autre joueur");
-                stateBasedGame.enterState(6);
+                VerificationJeu verificationJeu = new VerificationJeu();
+                if (verificationJeu.checkForShips(plateauEcranTir)){
+                    stateBasedGame.enterState(4);
+                }
+                timer = 30000;
                 dejaTire = false;
+                stateBasedGame.enterState(6);
             }
         }
     }
