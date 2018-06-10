@@ -85,7 +85,6 @@ public class ScreenShoot extends BasicGameState {
         // image bouton
         tire=new Image("res/Images/tire.png");
         passe=new Image("res/Images/passe.png");
-
         // popup de dialogue du commandant
         couleCorvette=new Image("res/Images/couleCorvette.png");
         couleCroiseur=new Image("res/Images/couleCroiseur.png");
@@ -255,16 +254,15 @@ public class ScreenShoot extends BasicGameState {
     //Ajout de 2 variable pour les tests le temps que mattéo finisse
     public boolean comparePlateauAndShoot(Point point) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         int x = 0;
-        int y= 0;
+        int y=  0;
         if (point != null) {
             x = (int)point.getX();
             y = (int) point.getY();
         } else {
             System.out.println("POINT INVALIDE");
         }
-
         //On enleve les 1 du plateauPlacement
-        plateauPlacement = removeElement(plateauPlacement, 1);
+//        plateauPlacement = removeElement(plateauPlacement, 1);
 
 
         /*System.out.println("Valeur de plateau placement : "+plateauPlacement.length);
@@ -277,30 +275,30 @@ public class ScreenShoot extends BasicGameState {
         System.out.println(" ============================================ ");*/
 
 
-        if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] != COULE){
+        if (plateauPlacement[y+1][x+1] > 1 && plateauPlacement[y+1][x+1] < 7 && plateauEcranTir[y][x] != COULE){
             System.out.println("Il y a un bateau en y: " + y + ";i " + x + " -> coulé");
             changerEtatCaseEcranTir(x,y,COULE);
-            jouerSon("res/Musique/explosion1.wav");
+            jouerSon("res/Musique/explosion.wav");
 
             afficherAnimationExplosion(y * 90, x * 90);
 
             // METTRE SON EXPLOSION
             return true;
         }
-        if (plateauPlacement[y][x] > 1 && plateauPlacement[y][x] < 7 && plateauEcranTir[y][x] == COULE){
+        if (plateauPlacement[y+1][x+1] > 1 && plateauPlacement[y+1][x+1] < 7 && plateauEcranTir[y][x] == COULE){
             System.out.println("Il y a un bateau en y : " + y + "; i " + x
                     + " -> mais déjà coulé donc impossible");
             changerEtatCaseEcranTir(x,y,COULE);
-            jouerSon("res/Musique/explosion1.wav");
+            jouerSon("res/Musique/explosion.wav");
             return false;
         }
-        if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] != RATE  ){
+        if (plateauPlacement[y+1][x+1]  == 0 && plateauEcranTir[y][x] != RATE  ){
             System.out.println("Il n'y a rien en y : " + y + "; x " + x
                     + " -> donc coup raté ");
             changerEtatCaseEcranTir(x,y,RATE);
             return true;
         }
-        if (plateauPlacement[y][x]  == 0 && plateauEcranTir[y][x] == RATE  ){
+        if (plateauPlacement[y+1][x+1]  == 0 && plateauEcranTir[y][x] == RATE  ){
             System.out.println("Vous avez déjà essayé et il n'y a toujours rien en y : " + y + ";" + x
                     + " -> donc impossible");
             changerEtatCaseEcranTir(x,y,RATE);
