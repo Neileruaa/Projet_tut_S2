@@ -28,7 +28,6 @@ public class SaverReader {
             addArrayToFile(plateau, writer);
 
             //on ferme le writer
-            writer.close();
         } catch (IOException e) {
             System.out.println("ERREUR le fichier ne peut être lu");
             e.printStackTrace();
@@ -43,6 +42,7 @@ public class SaverReader {
             }
             writer.newLine();
         }
+        writer.close();
     }
 
     public int[][] readPlateau(int idJoueur){
@@ -88,33 +88,12 @@ public class SaverReader {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-//            for(int i = 0; i<(TAILLEPLATEAU-2); i++){
-//                for(int j = 0; j<(TAILLEPLATEAU-2); j++){
-//                    writer.append(""+9);
-//                }
-//                writer.newLine();
-//            }
-
-            //Test d'un affichage à enlever une fois que ca marche
-            int plateau[][] = {
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,7,7,7,7,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,8,9,9,9,9,9,9},
-                    {9,9,9,8,9,9,9,9,9,9},
-                    {9,9,9,8,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9},
-                    {9,9,9,9,9,9,9,9,9,9}
-            };
-            for (int i = 0; i < plateau.length; i++) {
-                for (int j = 0; j < plateau.length ; j++) {
-                    writer.append(""+plateau[i][j]);
+            for(int i = 0; i<(TAILLEPLATEAU-2); i++){
+                for(int j = 0; j<(TAILLEPLATEAU-2); j++){
+                    writer.append(""+9);
                 }
                 writer.newLine();
             }
-
             //on ferme le writer
             writer.close();
         } catch (IOException e) {
@@ -124,7 +103,7 @@ public class SaverReader {
     }
 
     public int[][] readEcranTir(int idJoueur){
-        int[][] plateauRead = new int[TAILLEPLATEAU][TAILLEPLATEAU];
+        int[][] plateauRead = new int[TAILLEPLATEAU-2][TAILLEPLATEAU-2];
         File file = (idJoueur==1) ? ecranTirJoueur1 : ecranTirJoueur2;
 
         try {
@@ -145,14 +124,20 @@ public class SaverReader {
         //Si idJoueur == 1 -> plateauJoueur1 sinon plateauJoueur2
         File file = (idJoueur==1) ? ecranTirJoueur1 : ecranTirJoueur2;
 
+
         try {
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-            addArrayToFile(ecranTir, writer);
+            for(int i = 0 ; i<ecranTir.length-2; i++){
+                for(int j=0; j<ecranTir.length-2; j++){
+                    writer.append(""+ecranTir[j][i]);
+                }
+                writer.newLine();
+            }
+            writer.close();
 
             //on ferme le writer
-            writer.close();
         } catch (IOException e) {
             System.out.println("ERREUR le fichier ne peut être lu");
             e.printStackTrace();
